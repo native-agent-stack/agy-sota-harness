@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "2.0.0",
+  "manifestVersion": "2.1.0",
   "verifiedAt": "2026-11-17",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -10,19 +10,19 @@
   },
   "peerHarnessesConverged": {
     "P0_antigravity_app_and_cli": "agy@1.5.3 + Antigravity 2.0 + google-antigravity SDK",
-    "P1_claude_code": "claude@2.1.326 + ~/Documents/cc-sota-harness",
-    "P2_openai_codex": "codex@0.167.1 + oh-my-codex@0.22.10",
+    "P1_claude_code": "claude@2.1.326 + ~/Documents/cc-sota-harness + global user MCPs & peer_hook_adapter",
+    "P2_openai_codex": "codex@0.167.1 + oh-my-codex@0.22.10 + global MCPs & peer_hook_adapter",
     "P3_deepseek_harness": "dsh@0.2.2-rc.2 + ~/Documents/dsh-sota-harness",
     "P4_orca_fleet_cockpit": "stablyai/orca@1.4.255 + orca.yaml",
-    "P5_shared_peer_bus": "~/.agents/bus/peer_bus.db (SQLite WAL) + ~/.agents/wiki/*.md"
+    "P5_shared_peer_bus_and_hcom": "~/.agents/bus/peer_bus.db (SQLite WAL) + ~/.agents/wiki/*.md + aannoo/hcom@0.7.31"
   },
   "layers": {
-    "L0_provisioning": ["mise@2026.11.6", "uv@0.13.7", "python@3.14.10", "node@24.22.2", "bun@1.4.4", "ruff@0.17.5", "ty@0.0.105", "ast-grep@0.51.3", "ripgrep@15.2.0", "fd@10.5.2", "duckdb@2.0.0"],
-    "L1_lifecycle_hooks": ["PreToolUse (live-firewall + gitleaks + peer_bus lease collision check)", "PostToolUse (sub-50ms ruff syntax/F821 tracker)", "Stop (self-healing turn gate + 200/min paper goal guard)", "SessionStart (peer_session_brief + goal telemetry)"],
-    "L2_lean_mcp_mesh": ["agy-sota-core (7 tools)", "sota-peer-bus (6 tools)", "sota-mover-ranker-stdio (13 tools)", "alpaca-sota-watchlists (paper-only)"],
+    "L0_provisioning": ["mise@2026.11.6", "uv@0.13.7", "python@3.14.10", "node@24.22.2", "bun@1.4.4", "ruff@0.17.5", "ty@0.0.105", "ast-grep@0.51.3", "ripgrep@15.2.0", "fd@10.5.2", "duckdb@2.0.0", "hcom@0.7.31"],
+    "L1_lifecycle_hooks": ["PreToolUse (live-firewall + gitleaks + peer_bus lease collision check across AGY/Claude/Codex)", "PostToolUse (sub-50ms ruff syntax/F821 tracker)", "Stop (self-healing turn gate + 200/min paper goal guard)", "SessionStart + PreInvocation/UserPromptSubmit (peer_session_brief + peer_hook_adapter inbox auto-inject)"],
+    "L2_lean_mcp_mesh": ["agy-sota-core (7 tools, AGY+Claude+Codex)", "sota-peer-bus (7 tools, AGY+Claude+Codex)", "sota-mover-ranker-stdio (13 tools, AGY+Claude+Codex)", "alpaca-sota-watchlists (paper-only, AGY)"],
     "L3_code_graph_and_shelf_fts5": ["sota_symbol_lookup", "sota_ast_search", "sota_ast_lint_audit", "sota_shelf_search (3,110+ docs SQLite FTS5 BM25)", "DeusData/codebase-memory-mcp@0.12.1", "@colbymchenry/codegraph@1.6.3"],
-    "L4_skills_and_spec_governance": ["14 canonical ~/.agents/skills mounted across AGY + Claude + Codex", "8 pinned vendored scientific & security-audit skills", "10 bridged repos (~/Documents/* + ~/canon)"],
-    "L5_typed_workflows_and_swarm": ["ecosystem_convergence_workflow.py", "rd_agent_hypothesis_bus_workflow.py", "cross_peer_orca_review_workflow.py", "skillopt_gepa_evolution_workflow.py", "AGY Native Swarm (workspace:share + 1:3 verifiers)"],
+    "L4_skills_and_spec_governance": ["15 canonical ~/.agents/skills mounted across AGY + Claude + Codex", "8 pinned vendored scientific & security-audit skills", "10 bridged repos (~/Documents/* + ~/canon)"],
+    "L5_typed_workflows_and_swarm": ["8 self-bootstrapping REGISTRY.json workflows (_sota_kit.py)", "AGY Native Swarm (workspace:share + 1:3 verifiers)", "aannoo/hcom@0.7.31 real-time cross-terminal push"],
     "L6_ui_taste_and_devtools": ["sota-taste-anti-slop (impeccable + taste-skill + hallmark)", "chrome-devtools-plugin@1.10.1", "finos/perspective@5.9.2", "lightweight-charts"],
     "L7_context_compression_and_memory": ["sota_compressed_exec (SQLite FTS5 output sandbox, >90% byte savings)", "gastownhall/beads@1.3.4", "volcengine/OpenViking@0.5.5", "~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md"],
     "L8_formal_invariants_and_ast_rules": ["agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)", "Hypothesis@6.170.15 property tests", "rules/ast-grep/sgconfig.yml (4 rules)"],

@@ -273,6 +273,8 @@ def probe_l11() -> str:
 
 
 def probe_l12() -> str:
+    import shutil
+
     resps = call_mcp(
         [
             {"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "sota_ecosystem_convergence", "arguments": {}}},
@@ -284,6 +286,78 @@ def probe_l12() -> str:
     assert all(conv["harnesses"].values()), f"Missing sibling harness: {conv['harnesses']}"
     assert conv["peer_bus"]["online"] is True
 
+    # Verify hcom, Claude/Codex global MCP registrations, and peer_hook_adapter.py
+    assert (HOME / ".local" / "bin" / "hcom").is_file() or shutil.which("hcom"), "Missing aannoo/hcom CLI"
+    req_mcps = {"sota-peer-bus", "agy-sota-core", "sota-mover-ranker"}
+    c_servers = set((json.loads((HOME / ".claude.json").read_text(encoding="utf-8")).get("mcpServers") or {}).keys())
+    assert req_mcps.issubset(c_servers), f"Claude missing MCPs: {sorted(req_mcps - c_servers)}"
+    cx_txt = (HOME / ".codex" / "config.toml").read_text(encoding="utf-8", errors="ignore")
+    for m in req_mcps:
+        assert re.search(rf"^\[mcp_servers\.{re.escape(m)}\]", cx_txt, re.MULTILINE), f"Codex missing MCP {m}"
+
+    adapter = AGENTS_ROOT / "bus" / "peer_hook_adapter.py"
+    assert adapter.is_file(), f"Missing {adapter}"
+    sys_py = "/usr/bin/python3" if Path("/usr/bin/python3").is_file() else sys.executable
+    with tempfile.TemporaryDirectory() as tmpd:
+        t_agents = Path(tmpd)
+        t_bus = t_agents / "bus"
+        t_bus.mkdir(parents=True)
+        t_db = t_bus / "peer_bus.db"
+        env_tmp = {**os.environ, "SOTA_AGENTS_ROOT": str(t_agents), "SOTA_PEER_BUS_DB": str(t_db)}
+        sota_bus = str(AGENTS_ROOT / "bin" / "sota-bus")
+        subprocess.run(
+            [sota_bus, "claim", "--repo", "meridian", "--agent", "codex", "--session", "cx-99", "--paths", "*", "--intent", "editing"],
+            env=env_tmp,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+        subprocess.run(
+            [sota_bus, "msg", "--from", "agy-coord", "--to", "claude", "--repo", "agy-sota-harness", "sync check"],
+            env=env_tmp,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+
+        p_in = subprocess.run(
+            [sys_py, str(adapter), "--agent", "claude", "--event", "UserPromptSubmit"],
+            input=json.dumps({"session_id": "cc-1", "cwd": str(HARNESS_ROOT)}),
+            capture_output=True,
+            text=True,
+            env=env_tmp,
+            timeout=5,
+            check=True,
+        )
+        assert "[SOTA Peer Message" in p_in.stdout
+
+        p_deny = subprocess.run(
+            [sys_py, str(adapter), "--agent", "codex", "--event", "PreToolUse"],
+            input=json.dumps({"tool_name": "Bash", "tool_input": {"command": "curl https://" + "api." + "alpaca.markets/v2/account"}}),
+            capture_output=True,
+            text=True,
+            env=env_tmp,
+            timeout=5,
+            check=True,
+        )
+        assert '"permissionDecision": "deny"' in p_deny.stdout
+
+        p_ask = subprocess.run(
+            [sys_py, str(adapter), "--agent", "claude", "--event", "PreToolUse"],
+            input=json.dumps({"session_id": "cc-1", "tool_name": "Edit", "tool_input": {"file_path": str(DOCS / "meridian" / "AGENTS.md")}}),
+            capture_output=True,
+            text=True,
+            env=env_tmp,
+            timeout=5,
+            check=True,
+        )
+        assert '"permissionDecision": "ask"' in p_ask.stdout
+
+    reg = json.loads((AGENTS_ROOT / "workflows" / "REGISTRY.json").read_text(encoding="utf-8"))
+    assert len(reg.get("workflows") or []) >= 8, "Expected >=8 workflows in REGISTRY.json"
+
     cache_dir = HARNESS_ROOT / "cache"
     cache_dir.mkdir(exist_ok=True)
     (cache_dir / "session_brief.json").write_text(
@@ -291,8 +365,8 @@ def probe_l12() -> str:
         encoding="utf-8",
     )
     return (
-        f"3/3 harnesses (AGY+CC+DSH) + {len(conv['agy_plugins'])} AGY plugins + "
-        f"peer_bus online ({conv['mise_installed_families']} mise tool families)"
+        f"3/3 harnesses + {len(conv['agy_plugins'])} AGY plugins + Claude/Codex 3/3 MCPs + "
+        f"peer_hook_adapter + hcom + 8/8 workflows ({conv['mise_installed_families']} mise tool families)"
     )
 
 

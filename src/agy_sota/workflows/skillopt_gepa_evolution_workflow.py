@@ -1,5 +1,14 @@
-# ruff: noqa: F704, F821, PLE1142
+# ruff: noqa: E402, F704, F821, PLE1142
 """AGY SOTA Schema-Typed `run_workflow`: SkillOpt + Hermes GEPA Trajectory Self-Evolution Pipeline."""
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path.home() / ".agents" / "workflows"))
+import _sota_kit as kit
+
+peer_brief = kit.load_peer_brief("agy-sota-harness")
+log(peer_brief)
 
 phase("1. Zero-Copy In-Session Trajectory & Historical Friction Scan")
 
@@ -31,12 +40,24 @@ CURATION_SCHEMA = {
 phase("2. SkillOpt & GEPA Curation (`sota-skillopt-curator`)")
 
 plan = await agent(
+    f"{peer_brief}\n\n"
     f"Run `~/.agents/bin/sota-core friction` and inspect `~/.agents/wiki/LESSONS.md` alongside current session "
     f"errors={error_slices} (cleared={cleared_cnt}). Propose minimal, validation-gated hook/AST-rule or SKILL.md "
-    f"improvements (executable guards over prose).",
+    "improvements (executable guards over prose).",
     schema=CURATION_SCHEMA,
     role="SkillOpt Meta-Harness Curator",
     type_name="sota-skillopt-curator",
+)
+
+kit.record_workflow_run(
+    repo="agy-sota-harness",
+    workflow_id="skillopt-gepa-evolution",
+    done_summary=f"Friction Grade={plan['friction_grade']} | Lesson: {plan['lesson_to_record'][:320]}",
+    verified_by="trajectory() + ~/.agents/bin/sota-core friction",
+    open_risks="none",
+    next_priority=plan["executable_hook_or_ast_candidates"][0]
+    if plan["executable_hook_or_ast_candidates"]
+    else "Monitor trajectory friction",
 )
 
 log(f"Friction Grade={plan['friction_grade']} | Hook/AST candidates={len(plan['executable_hook_or_ast_candidates'])}")
