@@ -21,14 +21,14 @@
     "L1_lifecycle_hooks": ["PreToolUse (live-firewall + gitleaks + peer_bus lease collision check across AGY/Claude/Codex)", "PostToolUse (sub-50ms ruff syntax/F821 tracker)", "Stop (self-healing turn gate + 200/min paper goal guard)", "SessionStart + PreInvocation/UserPromptSubmit (peer_session_brief + peer_hook_adapter inbox auto-inject)"],
     "L2_lean_mcp_mesh": ["agy-sota-core (7 tools, AGY+Claude+Codex)", "sota-peer-bus (7 tools, AGY+Claude+Codex)", "sota-mover-ranker-stdio (13 tools, AGY+Claude+Codex)", "alpaca-sota-watchlists (paper-only, AGY)"],
     "L3_code_graph_and_shelf_fts5": ["sota_symbol_lookup", "sota_ast_search", "sota_ast_lint_audit", "sota_shelf_search (3,110+ docs SQLite FTS5 BM25)", "DeusData/codebase-memory-mcp@0.12.1", "@colbymchenry/codegraph@1.6.3"],
-    "L4_skills_and_spec_governance": ["15 canonical ~/.agents/skills mounted across AGY + Claude + Codex", "8 pinned vendored scientific & security-audit skills", "10 bridged repos (~/Documents/* + ~/canon)"],
-    "L5_typed_workflows_and_swarm": ["8 self-bootstrapping REGISTRY.json workflows (_sota_kit.py)", "AGY Native Swarm (workspace:share + 1:3 verifiers)", "aannoo/hcom@0.7.31 real-time cross-terminal push"],
+    "L4_skills_and_spec_governance": ["16 canonical ~/.agents/skills mounted across AGY + Claude + Codex", "8 pinned vendored scientific & security-audit skills", "10 bridged repos (~/Documents/* + ~/canon)"],
+    "L5_typed_workflows_and_swarm": ["9 self-bootstrapping REGISTRY.json workflows (_sota_kit.py)", "AGY Native Swarm (workspace:share + 1:3 verifiers)", "aannoo/hcom@0.7.31 real-time cross-terminal push"],
     "L6_ui_taste_and_devtools": ["sota-taste-anti-slop (impeccable + taste-skill + hallmark)", "chrome-devtools-plugin@1.10.1", "finos/perspective@5.9.2", "lightweight-charts"],
     "L7_context_compression_and_memory": ["sota_compressed_exec (SQLite FTS5 output sandbox, >90% byte savings)", "gastownhall/beads@1.3.4", "volcengine/OpenViking@0.5.5", "~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md"],
-    "L8_formal_invariants_and_ast_rules": ["agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)", "Hypothesis@6.170.15 property tests", "rules/ast-grep/sgconfig.yml (4 rules)"],
+    "L8_formal_invariants_and_ast_rules": ["agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)", "agy_sota.prewall_study (native DSR, CPCV, clustered SE, PIT SEC dilution asof join)", "Hypothesis@6.170.15 property tests", "rules/ast-grep/sgconfig.yml (4 rules)"],
     "L9_os_sandbox_and_secret_firewall": ["@anthropic-ai/sandbox-runtime@0.0.83 (policies/srt-agy-worker.json)", "gitleaks@8.30.1 (.gitleaks.toml)", "scripts/merge_gate.py"],
     "L10_observability_and_sidecars": ["sota-early-mover-paper-goal scheduled sidecar (*/20 market hours)", "kenn-io/agentsview@0.47.0", "cache/session_brief.json"],
     "L11_trading_and_computer_use": ["18 pinned ~/Documents/upstream clones", "vercel-labs/agent-desktop@1.3.1", "vercel-labs/agent-browser@0.43.0"],
-    "L12_skillopt_and_cross_peer_evolution": ["sota_trajectory_friction", "sota-skillopt-curator", "sota-falsifier", "sota-rd-proposer", "sota-code-verifier", "sota-deep-synthesizer"]
+    "L12_skillopt_and_cross_peer_evolution": ["sota_trajectory_friction", "sota-skillopt-curator", "sota-falsifier", "sota-rd-proposer", "sota-code-verifier", "sota-deep-synthesizer", "sota-subsession-orchestrator"]
   }
 }
