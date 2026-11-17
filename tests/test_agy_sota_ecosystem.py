@@ -14,6 +14,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
+from agy_sota.intraday_prewall_study import evaluate_intraday_1030_ignition_panel
 from agy_sota.invariants import (
     STUDY_WALL_DATE,
     bps_to_ratio,
@@ -173,6 +174,71 @@ def test_prewall_study_pit_sec_dilution_and_wall_invariants() -> None:
     )
     with pytest.raises(ValueError, match="Study-Wall Violation"):
         evaluate_prewall_volshock_sec_shield(post_wall, sec_symbols, sec_filings, cumulative_trials_n=3)
+
+
+def test_intraday_1030_prewall_study_split_unit_invariance_and_wall() -> None:
+    start = date(2026, 2, 1)
+    days = [start + timedelta(days=i) for i in range(135)]
+    rows: list[dict[str, object]] = []
+    for idx, d in enumerate(days):
+        for sym in ("NVDS", "DILU", "BASE", "PEER"):
+            # Simulate a 10:1 post-sample forward split on NVDS (raw ~500, split ~50; split_vol = 10 * raw_vol)
+            is_split_sym = sym == "NVDS"
+            raw_px = (500.0 if is_split_sym else 50.0) * (1.0 + 0.002 * idx)
+            adj = 0.10 if is_split_sym else 1.0
+            raw_vol = 100_000.0 if is_split_sym else 1_000_000.0
+            open_0930 = raw_px * 1.002
+            close_1029 = raw_px * 1.008
+            high_fh = close_1029 * 1.002
+            low_fh = raw_px * 0.999
+            vol_fh = raw_vol * 0.20
+            open_1030 = close_1029
+            if sym in ("NVDS", "DILU") and idx in (65, 80):
+                open_0930 = raw_px * 1.005
+                close_1029 = open_0930 * 1.032
+                high_fh = close_1029 * 1.004
+                low_fh = open_0930 * 0.998
+                vol_fh = raw_vol * 0.85  # 0.85x of raw daily vol == 0.85x of (split_vol * adj_factor)!
+                open_1030 = close_1029
+                raw_px = close_1029 * 1.025
+            rows.append(
+                {
+                    "symbol": sym,
+                    "trade_date": d,
+                    "raw_open": open_0930,
+                    "raw_close": raw_px,
+                    "raw_volume": raw_vol,
+                    "open": open_0930 * adj,
+                    "close": raw_px * adj,
+                    "volume": raw_vol / adj,
+                    "open_0930": open_0930,
+                    "high_0930_1029": high_fh,
+                    "low_0930_1029": low_fh,
+                    "close_1029": close_1029,
+                    "vol_0930_1029": vol_fh,
+                    "open_1030": open_1030,
+                }
+            )
+    joined_df = pl.DataFrame(rows)
+    sec_symbols = pl.DataFrame(
+        {
+            "cik": [2001, 2002, 2003, 2004],
+            "symbol": ["NVDS", "DILU", "BASE", "PEER"],
+            "entity_type": ["operating", "operating", "operating", "operating"],
+        }
+    )
+    sec_filings = pl.DataFrame(
+        {
+            "cik": [2002, 2001],
+            "filed": [days[60].isoformat(), days[90].isoformat()],
+            "form": ["424B5", "S-3"],
+        }
+    )
+    res = evaluate_intraday_1030_ignition_panel(joined_df, sec_symbols, sec_filings, cumulative_trials_n=78)
+    assert res.events_count == 2
+    assert res.exposed_events_count == 2
+    assert res.cpcv_n_paths == 5
+    assert res.rth_1030_to_close_excess_bps > 0.0
 
 
 def test_full_l0_to_l12_probes_and_merge_gate() -> None:

@@ -72,7 +72,14 @@ def call_mcp(requests: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def probe_l0() -> str:
-    for req in ("mise.toml", "pyproject.toml", "orca.yaml", "UPSTREAM.md", "upstream-map.toml", "SOTA_ECOSYSTEM_MANIFEST.json"):
+    for req in (
+        "mise.toml",
+        "pyproject.toml",
+        "orca.yaml",
+        "UPSTREAM.md",
+        "upstream-map.toml",
+        "SOTA_ECOSYSTEM_MANIFEST.json",
+    ):
         assert (HARNESS_ROOT / req).is_file(), f"Missing {req}"
     for r in BRIDGED_DOCS_REPOS:
         sj = DOCS / r / ".agents" / "skills.json"
@@ -87,10 +94,37 @@ def probe_l1() -> str:
     post = PLUGIN_DIR / "hooks" / "post_tool_lint.py"
     stop = PLUGIN_DIR / "hooks" / "stop_quality_gate.py"
 
-    assert run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "~/.claude/bin/live status"}}})["decision"] == "deny"
-    assert run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "curl https://api.alpaca.markets/v2/account"}}})["decision"] == "deny"
-    assert run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "nc -z 127.0.0.1 4001"}}})["decision"] == "deny"
-    assert run_hook(pre, {"toolCall": {"name": "write_file", "args": {"Path": str(SHELF_DIR / "polars" / "X.md"), "Content": "x"}}})["decision"] == "deny"
+    assert (
+        run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "~/.claude/bin/live status"}}})[
+            "decision"
+        ]
+        == "deny"
+    )
+    assert (
+        run_hook(
+            pre,
+            {
+                "toolCall": {
+                    "name": "run_command",
+                    "args": {"CommandLine": "curl https://api.alpaca.markets/v2/account"},
+                }
+            },
+        )["decision"]
+        == "deny"
+    )
+    assert (
+        run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "nc -z 127.0.0.1 4001"}}})[
+            "decision"
+        ]
+        == "deny"
+    )
+    assert (
+        run_hook(
+            pre,
+            {"toolCall": {"name": "write_file", "args": {"Path": str(SHELF_DIR / "polars" / "X.md"), "Content": "x"}}},
+        )["decision"]
+        == "deny"
+    )
 
     # Verify cross-peer SQLite WAL lease collision guard inside PreToolUse
     with tempfile.TemporaryDirectory() as tmpd:
@@ -110,7 +144,10 @@ def probe_l1() -> str:
             pre,
             {
                 "conversationId": "my-agy-session",
-                "toolCall": {"name": "edit_file", "args": {"Path": str(DOCS / "meridian" / "AGENTS.md"), "Replacement": "x"}},
+                "toolCall": {
+                    "name": "edit_file",
+                    "args": {"Path": str(DOCS / "meridian" / "AGENTS.md"), "Replacement": "x"},
+                },
             },
             env_extra={"SOTA_PEER_BUS_DB": str(fake_bus)},
         )
@@ -120,8 +157,19 @@ def probe_l1() -> str:
         bad_py = Path(tmpd) / "broken_probe.py"
         bad_py.write_text("def f() -> int:\n    return undefined_var_xyz + 1\n", encoding="utf-8")
         env = {"PLUGIN_DATA": tmpd}
-        run_hook(post, {"conversationId": "c1", "toolCall": {"name": "write_file", "args": {"Path": str(bad_py)}}}, env_extra=env)
-        assert run_hook(stop, {"conversationId": "c1", "continuationActive": False, "terminationReason": "NO_TOOL_CALL"}, env_extra=env)["decision"] == "continue"
+        run_hook(
+            post,
+            {"conversationId": "c1", "toolCall": {"name": "write_file", "args": {"Path": str(bad_py)}}},
+            env_extra=env,
+        )
+        assert (
+            run_hook(
+                stop,
+                {"conversationId": "c1", "continuationActive": False, "terminationReason": "NO_TOOL_CALL"},
+                env_extra=env,
+            )["decision"]
+            == "continue"
+        )
 
     return "PreToolUse (live-bin, api.alpaca.markets, :4001, shelf, peer-lease ask) & PostToolUse->Stop verified"
 
@@ -138,7 +186,9 @@ def probe_l2() -> str:
     assert len(tools) == 7, f"Expected 7 tools in agy-sota-core MCP, found {len(tools)}"
 
     global_mcp = HOME / ".gemini" / "config" / "mcp_config.json"
-    g_count = len(json.loads(global_mcp.read_text(encoding="utf-8")).get("mcpServers") or {}) if global_mcp.is_file() else 0
+    g_count = (
+        len(json.loads(global_mcp.read_text(encoding="utf-8")).get("mcpServers") or {}) if global_mcp.is_file() else 0
+    )
     # 2 in mcp_config.json + agy-sota-core + sota-peer-bus = 4 active MCP servers (<= 6 Lean budget)
     total_active = g_count + 2
     assert total_active <= 6, f"Lean MCP violation: {total_active} > 6"
@@ -152,13 +202,19 @@ def probe_l3() -> str:
                 "jsonrpc": "2.0",
                 "id": 1,
                 "method": "tools/call",
-                "params": {"name": "sota_symbol_lookup", "arguments": {"symbol": "validate_adr0022_stop", "repo": "agy-sota-harness", "include_body": False}},
+                "params": {
+                    "name": "sota_symbol_lookup",
+                    "arguments": {"symbol": "validate_adr0022_stop", "repo": "agy-sota-harness", "include_body": False},
+                },
             },
             {
                 "jsonrpc": "2.0",
                 "id": 2,
                 "method": "tools/call",
-                "params": {"name": "sota_shelf_search", "arguments": {"query": "ADR-0022 CombinatorialPurgedCV", "scope": "all", "limit": 5}},
+                "params": {
+                    "name": "sota_shelf_search",
+                    "arguments": {"query": "ADR-0022 CombinatorialPurgedCV", "scope": "all", "limit": 5},
+                },
             },
         ]
     )
@@ -171,12 +227,14 @@ def probe_l3() -> str:
 
 def probe_l4() -> str:
     canonical = sorted(p.name for p in (AGENTS_ROOT / "skills").iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
-    assert len(canonical) >= 14, f"Expected >=14 canonical ~/.agents/skills, found {len(canonical)}"
+    assert len(canonical) >= 16, f"Expected >=16 canonical ~/.agents/skills, found {len(canonical)}"
     for peer_dir in (HOME / ".gemini" / "config" / "skills", HOME / ".claude" / "skills", HOME / ".codex" / "skills"):
         mounted = sum(1 for s in canonical if (peer_dir / s).exists())
         assert mounted == len(canonical), f"Peer {peer_dir} only mounted {mounted}/{len(canonical)} canonical skills"
 
-    vendored = sorted(p.name for p in (HARNESS_ROOT / ".agents" / "skills").iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
+    vendored = sorted(
+        p.name for p in (HARNESS_ROOT / ".agents" / "skills").iterdir() if p.is_dir() and (p / "SKILL.md").is_file()
+    )
     assert len(vendored) >= 8, f"Expected >=8 vendored scientific/security skills, found {len(vendored)}"
     return f"{len(canonical)} canonical skills converged across AGY+Claude+Codex + {len(vendored)} vendored skills"
 
@@ -202,7 +260,14 @@ def probe_l6() -> str:
 def probe_l7() -> str:
     cmd = f"{sys.executable} -c \"for i in range(250): print('INFO line', i); print('PASSED summary check')\""
     resps = call_mcp(
-        [{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "sota_compressed_exec", "arguments": {"command": cmd, "max_summary_chars": 600}}}]
+        [
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "tools/call",
+                "params": {"name": "sota_compressed_exec", "arguments": {"command": cmd, "max_summary_chars": 600}},
+            }
+        ]
     )
     out = resps[0]["result"]["structuredContent"]
     assert out["exit_code"] == 0 and out["context_saved_pct"] >= 50.0
@@ -220,14 +285,26 @@ def probe_l8() -> str:
         )
         resps = call_mcp(
             [
-                {"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "sota_ast_lint_audit", "arguments": {"target": str(bad)}}},
-                {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "sota_ast_lint_audit", "arguments": {"target": str(HARNESS_ROOT / "src")}}},
+                {
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "tools/call",
+                    "params": {"name": "sota_ast_lint_audit", "arguments": {"target": str(bad)}},
+                },
+                {
+                    "jsonrpc": "2.0",
+                    "id": 2,
+                    "method": "tools/call",
+                    "params": {"name": "sota_ast_lint_audit", "arguments": {"target": str(HARNESS_ROOT / "src")}},
+                },
             ]
         )
         bad_audit = resps[0]["result"]["structuredContent"]
         clean_audit = resps[1]["result"]["structuredContent"]
         rule_ids = {f["rule_id"] for f in bad_audit["findings"]}
-        assert {"no-live-alpaca-trading-import", "no-live-ibkr-port", "no-naive-datetime-now"}.issubset(rule_ids), f"Missed AST rules: {rule_ids}"
+        assert {"no-live-alpaca-trading-import", "no-live-ibkr-port", "no-naive-datetime-now"}.issubset(rule_ids), (
+            f"Missed AST rules: {rule_ids}"
+        )
         assert clean_audit["clean"] is True, f"Unexpected AST findings in src/: {clean_audit}"
     return "4 ast-grep YAML rules caught synthetic live/datetime violations & passed src/ cleanly"
 
@@ -265,7 +342,9 @@ def probe_l11() -> str:
     for udir in sorted(SHELF_DIR.iterdir()):
         if (udir / ".git").exists():
             count += 1
-            st = subprocess.run(["git", "-C", str(udir), "status", "--short"], capture_output=True, text=True, check=True)
+            st = subprocess.run(
+                ["git", "-C", str(udir), "status", "--short"], capture_output=True, text=True, check=True
+            )
             if st.stdout.strip():
                 dirty.append(udir.name)
     assert count == 18 and not dirty, f"Expected 18 clean upstream clones, got count={count} dirty={dirty}"
@@ -277,8 +356,18 @@ def probe_l12() -> str:
 
     resps = call_mcp(
         [
-            {"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "sota_ecosystem_convergence", "arguments": {}}},
-            {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "sota_trajectory_friction", "arguments": {"max_sessions": 12}}},
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "tools/call",
+                "params": {"name": "sota_ecosystem_convergence", "arguments": {}},
+            },
+            {
+                "jsonrpc": "2.0",
+                "id": 2,
+                "method": "tools/call",
+                "params": {"name": "sota_trajectory_friction", "arguments": {"max_sessions": 12}},
+            },
         ]
     )
     conv = resps[0]["result"]["structuredContent"]
@@ -306,7 +395,20 @@ def probe_l12() -> str:
         env_tmp = {**os.environ, "SOTA_AGENTS_ROOT": str(t_agents), "SOTA_PEER_BUS_DB": str(t_db)}
         sota_bus = str(AGENTS_ROOT / "bin" / "sota-bus")
         subprocess.run(
-            [sota_bus, "claim", "--repo", "meridian", "--agent", "codex", "--session", "cx-99", "--paths", "*", "--intent", "editing"],
+            [
+                sota_bus,
+                "claim",
+                "--repo",
+                "meridian",
+                "--agent",
+                "codex",
+                "--session",
+                "cx-99",
+                "--paths",
+                "*",
+                "--intent",
+                "editing",
+            ],
             env=env_tmp,
             capture_output=True,
             text=True,
@@ -335,7 +437,9 @@ def probe_l12() -> str:
 
         p_deny = subprocess.run(
             [sys_py, str(adapter), "--agent", "codex", "--event", "PreToolUse"],
-            input=json.dumps({"tool_name": "Bash", "tool_input": {"command": "curl https://" + "api." + "alpaca.markets/v2/account"}}),
+            input=json.dumps(
+                {"tool_name": "Bash", "tool_input": {"command": "curl https://" + "api." + "alpaca.markets/v2/account"}}
+            ),
             capture_output=True,
             text=True,
             env=env_tmp,
@@ -346,7 +450,13 @@ def probe_l12() -> str:
 
         p_ask = subprocess.run(
             [sys_py, str(adapter), "--agent", "claude", "--event", "PreToolUse"],
-            input=json.dumps({"session_id": "cc-1", "tool_name": "Edit", "tool_input": {"file_path": str(DOCS / "meridian" / "AGENTS.md")}}),
+            input=json.dumps(
+                {
+                    "session_id": "cc-1",
+                    "tool_name": "Edit",
+                    "tool_input": {"file_path": str(DOCS / "meridian" / "AGENTS.md")},
+                }
+            ),
             capture_output=True,
             text=True,
             env=env_tmp,
@@ -356,7 +466,8 @@ def probe_l12() -> str:
         assert '"permissionDecision": "ask"' in p_ask.stdout
 
     reg = json.loads((AGENTS_ROOT / "workflows" / "REGISTRY.json").read_text(encoding="utf-8"))
-    assert len(reg.get("workflows") or []) >= 8, "Expected >=8 workflows in REGISTRY.json"
+    wf_total = len(reg.get("workflows") or [])
+    assert wf_total >= 9, f"Expected >=9 workflows in REGISTRY.json, found {wf_total}"
 
     cache_dir = HARNESS_ROOT / "cache"
     cache_dir.mkdir(exist_ok=True)
@@ -366,7 +477,7 @@ def probe_l12() -> str:
     )
     return (
         f"3/3 harnesses + {len(conv['agy_plugins'])} AGY plugins + Claude/Codex 3/3 MCPs + "
-        f"peer_hook_adapter + hcom + 8/8 workflows ({conv['mise_installed_families']} mise tool families)"
+        f"peer_hook_adapter + hcom + {wf_total}/{wf_total} workflows ({conv['mise_installed_families']} mise tool families)"
     )
 
 
@@ -375,7 +486,7 @@ PROBES: tuple[tuple[str, str, Callable[[], str]], ...] = (
     ("L1", "Lifecycle Hooks & Peer-Lease Collision Guard", probe_l1),
     ("L2", "Lean 7-Tool Core MCP & 4-Server Mesh", probe_l2),
     ("L3", "AST Symbol Graph & 18-Repo Shelf FTS5", probe_l3),
-    ("L4", "14 Cross-Peer Skills + 8 Vendored Skills", probe_l4),
+    ("L4", "16 Cross-Peer Skills + 8 Vendored Skills", probe_l4),
     ("L5", "Schema-Typed run_workflow Python DAGs", probe_l5),
     ("L6", "Anti-Slop Taste & Chrome DevTools", probe_l6),
     ("L7", "FTS5 Output Compression & Peer Bus CLIs", probe_l7),
