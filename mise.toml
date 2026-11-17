@@ -1,0 +1,40 @@
+# L0 — Reproducible SOTA Provisioning & Polyglot Agent Toolchain (jdx/mise)
+# Pinned across Antigravity (agy), Claude Code, Codex, DeepSeek Harness (dsh), and Orca on 2026-11-17.
+[settings]
+lockfile = true
+
+[tools]
+# Core agent CLI & runtimes
+agy = "1.5.3"
+node = "24.22.2"
+pnpm = "10.34.9"
+bun = "1.4.4"
+python = "3.14.10"
+uv = "0.13.7"
+
+# L0 / L5 / L8 Search, AST intelligence, Rust type checking, linting & columnar SQL
+ripgrep = "15.2.0"
+fd = "10.5.2"
+ast-grep = "0.51.3"
+ruff = "0.17.5"
+ty = "0.0.104"
+duckdb = "2.0.0"
+
+# L3 / L4 Cross-family orchestration CLIs
+"npm:oh-my-claude-sisyphus" = "5.8.4"
+"npm:oh-my-codex" = "0.22.10"
+
+# L5 / L7 / L9 / L10 / L11 Code graph, task memory, OS Seatbelt sandbox, observability & GUI/browser CLIs
+"npm:@colbymchenry/codegraph" = "1.6.3"
+"github:DeusData/codebase-memory-mcp" = "0.12.1"
+"github:gastownhall/beads" = "1.3.4"
+"npm:@anthropic-ai/sandbox-runtime" = "0.0.83"
+"github:kenn-io/agentsview" = "0.47.0"
+"npm:agent-desktop" = "1.3.1"
+"npm:agent-browser" = "0.43.0"
+
+# L8 / L9 Secret scanning & static CI gates
+gitleaks = "8.30.1"
+shellcheck = "0.11.0"
+actionlint = "1.7.12"
+gh = "2.103.3"

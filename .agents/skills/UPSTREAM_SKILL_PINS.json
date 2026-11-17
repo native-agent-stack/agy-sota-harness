@@ -1,0 +1,27 @@
+{
+  "verifiedAt": "2026-11-17",
+  "sources": [
+    {
+      "repo": "cloudflare/security-audit-skill",
+      "license": "MIT",
+      "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+      "skills": [
+        "security-audit"
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "license": "MIT",
+      "commit": "ec59a29a03d5c40f73ab40878df04860bc00e876",
+      "skills": [
+        "aeon",
+        "exploratory-data-analysis",
+        "hypothesis-generation",
+        "polars",
+        "scikit-learn",
+        "statistical-analysis",
+        "statsmodels"
+      ]
+    }
+  ]
+}

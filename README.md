@@ -1,26 +1,31 @@
-# AGY SOTA Practice & Verification Harness (`L0–L9`)
+# AGY Full-Landscape SOTA Harness Framework (`L0–L12` × `T0–T8` × `P0–P5` Peers)
 
-Runnable offline verification harness for the Antigravity (`AGY`) multi-repo workflow stack — the AGY counterpart to `~/Documents/dsh-sota-harness`.
+The machine-wide Antigravity (`AGY`) SOTA Harness & Multi-Peer Convergence repository — completing the ecosystem triad alongside `~/Documents/cc-sota-harness` (Claude Code) and `~/Documents/dsh-sota-harness` (DeepSeek Harness) over a single shared SQLite WAL peer bus (`~/.agents/bus/peer_bus.db`) and 18-repo pinned upstream shelf (`~/Documents/upstream/PINS.md`).
 
-## Quick Start
+## Quick Verification (`Done` Bar)
 
 ```sh
-python3 harness/run_probes.py
+mise exec -- uv run python scripts/sync_vendored_skills.py
+mise exec -- uv run python scripts/merge_gate.py
+mise exec -- uv run python harness/run_probes.py
+mise exec -- uv run pytest
+mise exec -- ruff check .
 ```
 
-Runs all 10 layer probes (`L0–L9`), warms/verifies the read-only SQLite FTS5 index over all 18 pinned upstream clones (`~/Documents/upstream/PINS.md`) + cross-repo ADRs, exercises `PreToolUse` / `PostToolUse` / `Stop` hooks against adversarial payloads, checks `sota-mover-ranker/scripts/merge_gate.py`, and writes `cache/session_brief.json` + `cache/SKILLOPT_DIGEST.md`.
+## Full-Landscape Architecture (`L0–L12` × `P0–P5`)
 
-## Probe Matrix (`L0–L9`)
-
-| Layer | Target Surface | Contract Verified |
+| Layer | Surface | Enforced SOTA Capability |
 | :--- | :--- | :--- |
-| **L0** | Packaging & Cross-Repo Bridges | `agy-sota-core` plugin manifest, `~/Documents/.agents-core/skills.json`, and all 9 bridged repos resolve cleanly |
-| **L1** | Lifecycle Hooks (`hooks.json`) | `PreToolUse` hard-denies `.claude/bin/live`, `:4001`/`:7496`, `upstream/` writes & raw API keys; `PostToolUse` + `Stop` catch & clear Python `F821` errors |
-| **L2** | Lean MCP JSON-RPC `2025-03-26` | `sota_core_mcp.py` boots over stdio, exposes 5 typed tools, and keeps global MCP server count within the Lean `<= 6` budget |
-| **L3** | AST Graph & Pinned-Shelf FTS5 | `sota_symbol_lookup`, `sota_ast_search` (`sg`), and `sota_shelf_search` resolve exact symbols/ADRs/`upstream/` pins with zero dirty shelf files |
-| **L4** | Progressive-Disclosure Skills | Valid YAML frontmatter (`name`, `description`), `<24 KB` rule cap, and 37 `.claude/skills` mounted across `claude-trading-skills` & `edge` |
-| **L5** | Typed `run_workflow` DAGs | AST validity, `phase()` + typed `schema` contracts, and zero hardcoded local home-path leaks across shared workflows |
-| **L6** | Design Taste & DevTools | `sota-taste-anti-slop` skill + `chrome-devtools-plugin` registration |
-| **L7** | Context-Mode Output Sandbox | `sota_compressed_exec` indexes full output into SQLite FTS5 and achieves compressed salient slices |
-| **L8** | Security, Binaries & Merge Gate | Verifies `ruff`, `ty`, `sg`, `gitleaks`, sidecar `access_grants`, public-tree privacy regexes, and `sota-mover-ranker` merge gate |
-| **L9** | `SkillOpt` Trajectory Readiness | Runs redacted `sota_trajectory_friction` over AGY `transcript.jsonl` logs and emits `cache/SKILLOPT_DIGEST.md` |
+| **L0** | Provisioning | `mise.toml` (`mise.lock`, 22 CLI pins incl. `agy 1.5.3`) + `pyproject.toml` (`uv.lock`) + `orca.yaml` |
+| **L1** | Lifecycle Hooks | `PreToolUse` (live-broker/port/host deny + `gitleaks` + **live `peer_bus.db` lease collision guard**), `PostToolUse` + `Stop` (`ruff` `E9`/`F821` self-healing) |
+| **L2** | Lean MCP Mesh | 4 active servers (`<= 6` Lean budget): `agy-sota-core` (7 tools), `sota-peer-bus` (6 tools), `sota-mover-ranker-stdio` (13 tools), `alpaca-sota-watchlists` |
+| **L3** | Code Graph & Shelf | `sota_symbol_lookup`, `sota_ast_search`, `sota_ast_lint_audit`, `sota_shelf_search` (`3,110+` docs SQLite FTS5 BM25), `codebase-memory-mcp`, `codegraph` |
+| **L4** | Converged Skills | **14** canonical `~/.agents/skills/*` mounted across **AGY + Claude + Codex** + **8** pinned scientific/security skills + **10** bridged repos (`~/Documents/*` + `~/canon`) |
+| **L5** | Typed Workflows | 4 schema-typed `run_workflow` Python DAGs (`src/agy_sota/workflows/`) + AGY Native Swarm (`workspace:"share"` + 1:3 verifiers) |
+| **L6** | UI Taste & DevTools | `sota-taste-anti-slop` (`impeccable` + `taste-skill` + `hallmark`) + `chrome-devtools-plugin` + `perspective` / `lightweight-charts` |
+| **L7** | Context & Memory | `sota_compressed_exec` (`>90%` byte reduction via SQLite FTS5), `beads` (`bd`), `OpenViking`, `~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md` |
+| **L8** | Formal Invariants | `src/agy_sota/invariants.py` (`ADR-0022 <= 2.00%` NMS tick-grid stops, dimensional `bps`/`pct`/`ratio`, `<= 2026-10-15` pre-wall, HLZ `t*(N)`, `Pandera` OHLCV) + `Hypothesis` fuzzing + 4 `ast-grep` YAML rules |
+| **L9** | OS Sandbox & Privacy | `@anthropic-ai/sandbox-runtime` (`policies/srt-agy-worker.json`), `.gitleaks.toml`, `.githooks/pre-commit`, `scripts/merge_gate.py` |
+| **L10** | Observability | Scheduled AGY Sidecar (`*/20` market hours), `agentsview`, `cache/session_brief.json` |
+| **L11** | Trading & GUI | 18/18 read-only `~/Documents/upstream/` pinned clones + `agent-desktop` (`TradingView.app`) + `agent-browser` |
+| **L12** | Self-Evolution | `sota_trajectory_friction` + `sota_ecosystem_convergence` + 5 custom AGY subagents (`sota-rd-proposer`, `sota-falsifier`, `sota-code-verifier`, `sota-deep-synthesizer`, `sota-skillopt-curator`) |

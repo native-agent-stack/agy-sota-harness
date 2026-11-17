@@ -1,0 +1,20 @@
+{
+  "profile": "formal-audit",
+  "description": "High-assurance verification profile combining ast-grep deterministic rules, Trail-of-Bits dimensional/fp/property checks, Cloudflare multi-phase security audit, and cross-family Orca review.",
+  "activePlugins": [
+    "agy-sota-core",
+    "sota-peer-memory-and-council"
+  ],
+  "requiredGates": [
+    "ruff check",
+    "ty check",
+    "sg scan --config rules/ast-grep/sgconfig.yml",
+    "gitleaks protect --staged",
+    "pytest",
+    "scripts/merge_gate.py"
+  ],
+  "crossFamilyReview": {
+    "cockpit": "stablyai/orca",
+    "reviewers": ["codex", "claude", "dsh"]
+  }
+}

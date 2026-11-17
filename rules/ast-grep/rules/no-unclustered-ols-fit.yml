@@ -1,0 +1,8 @@
+id: no-unclustered-ols-fit
+language: python
+severity: warning
+message: "Cross-sectional market regressions require date-clustered or Newey-West HAC standard errors (cov_type='cluster' or 'HAC') rather(bare .fit())."
+rule:
+  any:
+    - pattern: sm.OLS($Y, $X).fit()
+    - pattern: OLS($Y, $X).fit()

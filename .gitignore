@@ -1,4 +1,14 @@
 cache/
+.venv/
+.mise/
+.beads/
+.codegraph/
+.pytest_cache/
+.ruff_cache/
 __pycache__/
 *.pyc
 .DS_Store
+private/
+.env
+.agents/skills/*/
+!.agents/skills/UPSTREAM_SKILL_PINS.json

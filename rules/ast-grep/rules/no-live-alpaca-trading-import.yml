@@ -1,0 +1,11 @@
+id: no-live-alpaca-trading-import
+language: python
+severity: error
+message: "Direct import of alpaca.trading or alpaca.broker in research/scanner code violates the Hard Live-Capital Firewall; route paper orders exclusively through sanctioned PA... paper MCP/adapters."
+rule:
+  any:
+    - pattern: from alpaca.trading import $$$NAMES
+    - pattern: from alpaca.trading.$SUB import $$$NAMES
+    - pattern: import alpaca.trading
+    - pattern: from alpaca.broker import $$$NAMES
+    - pattern: import alpaca.broker

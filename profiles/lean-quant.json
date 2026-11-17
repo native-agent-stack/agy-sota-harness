@@ -1,0 +1,17 @@
+{
+  "profile": "lean-quant",
+  "description": "Low-token high-signal AGY quant research & paper-execution profile (4 active MCPs max, strict <=2026-10-15 pre-wall & ADR-0022 <=2.00% stop invariants).",
+  "activePlugins": [
+    "agy-sota-core",
+    "sota-peer-memory-and-council",
+    "sota-quant-alpha-lab",
+    "sota-early-mover-goal"
+  ],
+  "subagents": [
+    "sota-rd-proposer",
+    "sota-falsifier",
+    "sota-code-verifier"
+  ],
+  "studyWallDate": "2026-10-15",
+  "maxActiveMcpServers": 6
+}

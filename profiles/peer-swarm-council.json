@@ -1,0 +1,15 @@
+{
+  "profile": "peer-swarm-council",
+  "description": "3-Tier multi-agent orchestration profile: AGY run_workflow typed Python DAGs (Tier 1), AGY Native Swarm in workspace:share with 1:3 verifiers (Tier 2), and Orca cross-vendor heterogeneous fleet with sota-peer-bus WAL leases (Tier 3).",
+  "peerBus": {
+    "sqliteWalPath": "~/.agents/bus/peer_bus.db",
+    "wikiPath": "~/.agents/wiki",
+    "preToolLeaseCheck": true
+  },
+  "workflows": [
+    "src/agy_sota/workflows/ecosystem_convergence_workflow.py",
+    "src/agy_sota/workflows/rd_agent_hypothesis_bus_workflow.py",
+    "src/agy_sota/workflows/cross_peer_orca_review_workflow.py",
+    "src/agy_sota/workflows/skillopt_gepa_evolution_workflow.py"
+  ]
+}

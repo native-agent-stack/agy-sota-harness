@@ -1,0 +1,16 @@
+id: no-live-ibkr-port
+language: python
+severity: error
+message: "Live IBKR Gateway/TWS ports (4001, 7496) are 100% hard-refused; use paper port 4002 (DU... account) only."
+rule:
+  any:
+    - pattern: $OBJ.connect($HOST, 4001)
+    - pattern: $OBJ.connect($HOST, 4001, $$$ARGS)
+    - pattern: $OBJ.connect($HOST, 7496)
+    - pattern: $OBJ.connect($HOST, 7496, $$$ARGS)
+    - pattern: $OBJ.connectAsync($HOST, 4001)
+    - pattern: $OBJ.connectAsync($HOST, 4001, $$$ARGS)
+    - pattern: $OBJ.connectAsync($HOST, 7496)
+    - pattern: $OBJ.connectAsync($HOST, 7496, $$$ARGS)
+    - pattern: $OBJ.connect($$$PRE, port=4001, $$$POST)
+    - pattern: $OBJ.connect($$$PRE, port=7496, $$$POST)

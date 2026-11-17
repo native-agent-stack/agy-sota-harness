@@ -1,0 +1,46 @@
+[project]
+name = "agy-sota-harness"
+version = "2.0.0"
+description = "Full-Landscape SOTA Antigravity (AGY) & Multi-Peer Convergence Harness Framework (L0-L12 x T0-T8 x P0-P5)"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "polars==2.1.0",
+    "duckdb>=1.1.0",
+    "pyarrow==26.0.1",
+    "pandera==0.35.0",
+    "exchange-calendars==4.13.2",
+    "ml4t-diagnostic==0.2.0",
+    "skfolio==1.12.7",
+    "statsmodels==0.15.0",
+    "pyyaml==6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "ruff==0.17.4",
+    "hypothesis==6.170.15",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src"]
+addopts = "-q -p no:cacheprovider"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = [".venv", ".beads", ".codegraph", "cache", "private", ".agents/skills"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+include = ["src", "harness", "scripts", "tests"]
+exclude = [".venv", ".beads", ".codegraph", "cache", "private", ".agents/skills", "src/agy_sota/workflows"]
+
+[tool.ty.src]
+exclude = ["src/agy_sota/workflows", ".agents/skills"]
+

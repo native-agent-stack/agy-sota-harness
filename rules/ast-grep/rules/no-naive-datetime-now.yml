@@ -1,0 +1,8 @@
+id: no-naive-datetime-now
+language: python
+severity: warning
+message: "Timezone-naive datetime.now() causes point-in-time / XNYS session-boundary bugs; pass explicit UTC or ZoneInfo('America/New_York')."
+rule:
+  any:
+    - pattern: datetime.now()
+    - pattern: datetime.utcnow()

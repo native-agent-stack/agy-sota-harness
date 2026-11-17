@@ -1,0 +1,40 @@
+{
+  "description": "OS-level Seatbelt (@anthropic-ai/sandbox-runtime) confinement for autonomous AGY/Orca paper trading & quant research workers.",
+  "network": {
+    "allowedDomains": [
+      "paper-api.alpaca.markets",
+      "data.alpaca.markets",
+      "stream.data.alpaca.markets",
+      "efts.sec.gov",
+      "data.sec.gov",
+      "www.sec.gov",
+      "cdn.finra.org",
+      "api.finra.org",
+      "github.com",
+      "api.github.com",
+      "pypi.org",
+      "files.pythonhosted.org"
+    ],
+    "deniedDomains": [
+      "api.alpaca.markets"
+    ],
+    "allowLocalBinding": true
+  },
+  "filesystem": {
+    "denyRead": [
+      "~/.ssh",
+      "~/.aws"
+    ],
+    "allowWrite": [
+      ".",
+      "/tmp",
+      "~/.agents/bus",
+      "~/.agents/wiki",
+      "~/.gemini/config/data"
+    ],
+    "denyWrite": [
+      "~/Documents/upstream",
+      "~/.claude/bin"
+    ]
+  }
+}
