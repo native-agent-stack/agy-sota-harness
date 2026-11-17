@@ -1,0 +1,7 @@
+{
+  "inherits": [
+    {
+      "path": "~/Documents/.agents-core/skills.json"
+    }
+  ]
+}
