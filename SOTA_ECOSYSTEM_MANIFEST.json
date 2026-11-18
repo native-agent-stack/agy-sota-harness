@@ -1,12 +1,62 @@
 {
-  "manifestVersion": "2.3.0",
+  "manifestVersion": "2.4.0",
   "verifiedAt": "2026-11-17",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
   "paperRateLimits": {
     "alpacaPaperMaxReqPerMin": 200,
+    "alpacaProtectiveExitReservePerMin": 15,
     "ibkrPaperMaxMsgPerMin": 3000,
     "maxProtectiveStopPct": 2.0
+  },
+  "githubOrganization": "https://github.com/native-agent-stack",
+  "githubFleetRepositories": {
+    "nativeAgentStack": {
+      "url": "https://github.com/native-agent-stack/native-agent-stack",
+      "visibility": "PUBLIC",
+      "role": "Organization control-plane manifest, MADR 4.0 catalog & Sim->Backtest->Paper->Alpaca/IBKR governance"
+    },
+    "sotaMultiModelWorkflows": {
+      "url": "https://github.com/native-agent-stack/sota-multi-model-workflows",
+      "visibility": "PUBLIC",
+      "role": "Portable sota-peer-bus, sota-doctor, 9 schema-typed REGISTRY.json workflows & reusable GitHub Actions CI"
+    },
+    "ecosystemRecords": {
+      "url": "https://github.com/native-agent-stack/ecosystem-records",
+      "visibility": "PRIVATE",
+      "role": "Scrubbed HYPOTHESIS_LEDGER.md, LESSONS.md, HANDOVER.md & calibrated paper performance continuity vault"
+    },
+    "agySotaHarness": {
+      "url": "https://github.com/native-agent-stack/agy-sota-harness",
+      "visibility": "PUBLIC",
+      "role": "Machine-wide Antigravity L0-L12 harness, pre-wall studies, MADR 4.0 ADR catalog & 13-layer probe suite"
+    },
+    "dshSotaHarness": {
+      "url": "https://github.com/native-agent-stack/dsh-sota-harness",
+      "visibility": "PUBLIC",
+      "baselineCommit": "6656bb86752cbeb1b2be160a26bc5dac94c04f04",
+      "role": "DeepSeek Harness v2.2.0 cross-peer MCP preset & pre-wall trading firewall profile"
+    },
+    "sotaMoverRanker": {
+      "url": "https://github.com/native-agent-stack/sota-mover-ranker",
+      "visibility": "PRIVATE",
+      "baselineCommit": "bb1d90b10a95333975ced7e4d16c59d5e67f5e94",
+      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca Paper + 3,000/min IBKR Paper execution & Q1-Q4 statistical gates"
+    },
+    "sotaDynamicTrailC": {
+      "url": "https://github.com/native-agent-stack/sota-dynamic-trail-c",
+      "visibility": "PRIVATE",
+      "baselineTag": "v0.6.0",
+      "baselineCommit": "584f22b4dba65819c538734a5f2bdf569c900566",
+      "role": "24/5 Empirical-Bayes + RVOL Dual-Tranche Dynamic Trailing Guardian (:8799, TCC-safe ~/sota-dynamic-trail-c)"
+    },
+    "ccSotaHarness": {
+      "url": "https://github.com/native-agent-stack/cc-sota-harness",
+      "visibility": "PRIVATE",
+      "localWorkspace": "~/Documents/cc-sota-harness",
+      "baselineCommit": "570bb99a8569de08c9ad4210e53340a4b7063b5b",
+      "role": "Claude Code + OMC + 24-runtime frontier multi-model sibling harness (16+ MADR 4.0 ADRs)"
+    }
   },
   "peerHarnessesConverged": {
     "P0_antigravity_app_and_cli": "agy@1.5.3 + Antigravity 2.0 + google-antigravity SDK",
@@ -17,18 +67,403 @@
     "P5_shared_peer_bus_and_hcom": "~/.agents/bus/peer_bus.db (SQLite WAL) + ~/.agents/wiki/*.md + aannoo/hcom@0.7.31"
   },
   "layers": {
-    "L0_provisioning": ["mise@2026.11.6", "uv@0.13.7", "python@3.14.10", "node@24.22.2", "bun@1.4.4", "ruff@0.17.5", "ty@0.0.105", "ast-grep@0.51.3", "ripgrep@15.2.0", "fd@10.5.2", "duckdb@2.0.0", "hcom@0.7.31"],
-    "L1_lifecycle_hooks": ["PreToolUse (live-firewall + gitleaks + peer_bus lease collision check across AGY/Claude/Codex)", "PostToolUse (sub-50ms ruff syntax/F821 tracker)", "Stop (self-healing turn gate + 200/min paper goal guard)", "SessionStart + PreInvocation/UserPromptSubmit (peer_session_brief + peer_hook_adapter inbox auto-inject)"],
-    "L2_lean_mcp_mesh": ["agy-sota-core (7 tools, AGY+Claude+Codex)", "sota-peer-bus (7 tools, AGY+Claude+Codex)", "sota-mover-ranker-stdio (13 tools, AGY+Claude+Codex)", "alpaca-sota-watchlists (paper-only, AGY)"],
-    "L3_code_graph_and_shelf_fts5": ["sota_symbol_lookup", "sota_ast_search", "sota_ast_lint_audit", "sota_shelf_search (3,110+ docs SQLite FTS5 BM25)", "DeusData/codebase-memory-mcp@0.12.1", "@colbymchenry/codegraph@1.6.3"],
-    "L4_skills_and_spec_governance": ["16 canonical ~/.agents/skills mounted across AGY + Claude + Codex", "8 pinned vendored scientific & security-audit skills", "10 bridged repos (~/Documents/* + ~/canon)"],
-    "L5_typed_workflows_and_swarm": ["9 self-bootstrapping REGISTRY.json workflows (_sota_kit.py)", "AGY Native Swarm (workspace:share + 1:3 verifiers)", "aannoo/hcom@0.7.31 real-time cross-terminal push"],
-    "L6_ui_taste_and_devtools": ["sota-taste-anti-slop (impeccable + taste-skill + hallmark)", "chrome-devtools-plugin@1.10.1", "finos/perspective@5.9.2", "lightweight-charts"],
-    "L7_context_compression_and_memory": ["sota_compressed_exec (SQLite FTS5 output sandbox, >90% byte savings)", "gastownhall/beads@1.3.4", "volcengine/OpenViking@0.5.5", "~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md"],
-    "L8_formal_invariants_and_ast_rules": ["agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)", "agy_sota.prewall_study & agy_sota.intraday_prewall_study (DuckDB 1m SIP, native DSR, 5-path CPCV, clustered SE, PIT SEC dilution asof join)", "Hypothesis@6.170.15 property tests", "rules/ast-grep/sgconfig.yml (4 rules)"],
-    "L9_os_sandbox_and_secret_firewall": ["@anthropic-ai/sandbox-runtime@0.0.83 (policies/srt-agy-worker.json)", "gitleaks@8.30.1 (.gitleaks.toml)", "scripts/merge_gate.py"],
-    "L10_observability_and_sidecars": ["sota-early-mover-paper-goal scheduled sidecar (*/20 market hours)", "kenn-io/agentsview@0.47.0", "cache/session_brief.json"],
-    "L11_trading_and_computer_use": ["18 pinned ~/Documents/upstream clones", "vercel-labs/agent-desktop@1.3.1", "vercel-labs/agent-browser@0.43.0"],
-    "L12_skillopt_and_cross_peer_evolution": ["sota_trajectory_friction", "sota-skillopt-curator", "sota-falsifier", "sota-rd-proposer", "sota-code-verifier", "sota-deep-synthesizer", "sota-subsession-orchestrator"]
+    "L0_provisioning": [
+      "mise@2026.11.6",
+      "uv@0.13.7",
+      "python@3.14.10",
+      "node@24.22.2",
+      "bun@1.4.4",
+      "ruff@0.17.5",
+      "ty@0.0.105",
+      "ast-grep@0.51.3",
+      "ripgrep@15.2.0",
+      "fd@10.5.2",
+      "duckdb@2.0.0",
+      "hcom@0.7.31"
+    ],
+    "L1_lifecycle_hooks": [
+      "PreToolUse (live-firewall + gitleaks + peer_bus lease collision check across AGY/Claude/Codex)",
+      "PostToolUse (sub-50ms ruff syntax/F821 tracker)",
+      "Stop (self-healing turn gate + 200/min paper goal guard)",
+      "SessionStart + PreInvocation/UserPromptSubmit (peer_session_brief + peer_hook_adapter inbox auto-inject)"
+    ],
+    "L2_lean_mcp_mesh": [
+      "agy-sota-core (7 tools, AGY+Claude+Codex)",
+      "sota-peer-bus (7 tools, AGY+Claude+Codex)",
+      "sota-mover-ranker-stdio (13 tools, AGY+Claude+Codex)",
+      "alpaca-sota-watchlists (paper-only, AGY)"
+    ],
+    "L3_code_graph_and_shelf_fts5": [
+      "sota_symbol_lookup",
+      "sota_ast_search",
+      "sota_ast_lint_audit",
+      "sota_shelf_search (3,110+ docs SQLite FTS5 BM25)",
+      "DeusData/codebase-memory-mcp@0.12.1",
+      "@colbymchenry/codegraph@1.6.3"
+    ],
+    "L4_skills_and_spec_governance": [
+      "16 canonical ~/.agents/skills mounted across AGY + Claude + Codex",
+      "8 pinned vendored scientific & security-audit skills",
+      "10 bridged repos (~/Documents/* + ~/canon)",
+      "14 GitHub-evidenced MADR 4.0 ADRs (docs/adr/CATALOG.md)"
+    ],
+    "L5_typed_workflows_and_swarm": [
+      "4 repo-local schema-typed run_workflow DAGs",
+      "9 self-bootstrapping REGISTRY.json workflows (_sota_kit.py, /sota-workflow)",
+      "AGY Native Swarm (workspace:share + 1:3 verifiers)",
+      "aannoo/hcom@0.7.31 real-time cross-terminal push"
+    ],
+    "L6_ui_taste_and_devtools": [
+      "sota-taste-anti-slop (impeccable + taste-skill + hallmark)",
+      "chrome-devtools-plugin@1.10.1",
+      "finos/perspective@5.9.2",
+      "tradingview/lightweight-charts (Apache-2.0 w/ attribution)"
+    ],
+    "L7_context_compression_and_memory": [
+      "sota_compressed_exec (SQLite FTS5 output sandbox, >90% byte savings)",
+      "gastownhall/beads@1.3.4",
+      "volcengine/OpenViking@0.5.5",
+      "~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md"
+    ],
+    "L8_formal_invariants_and_ast_rules": [
+      "agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)",
+      "agy_sota.prewall_study, agy_sota.intraday_prewall_study & agy_sota.tick_orb_prewall_study (DuckDB 1m + nanosecond SIP, native DSR, 5-path CPCV, clustered SE, PIT SEC dilution asof join)",
+      "Hypothesis@6.170.15 property tests",
+      "rules/ast-grep/sgconfig.yml (4 rules)"
+    ],
+    "L9_os_sandbox_and_secret_firewall": [
+      "@anthropic-ai/sandbox-runtime@0.0.83 (policies/srt-agy-worker.json)",
+      "gitleaks@8.30.1 (.gitleaks.toml)",
+      "scripts/merge_gate.py + scripts/architecture_catalog.py --check"
+    ],
+    "L10_observability_and_sidecars": [
+      "com.sota.24x5-deadman-watch (60s launchd ~/.agents/bin/sota-deadman-check + caffeinate -dimsu)",
+      "sota-doctor (10/10 cross-peer health gate)",
+      "sota-early-mover-paper-goal scheduled sidecar (35 scoped access_grants)",
+      "kenn-io/agentsview@0.47.0"
+    ],
+    "L11_trading_and_computer_use": [
+      "18 pinned ~/Documents/upstream clones",
+      "vercel-labs/agent-desktop@1.3.1",
+      "vercel-labs/agent-browser@0.43.0"
+    ],
+    "L12_skillopt_and_cross_peer_evolution": [
+      "sota_trajectory_friction",
+      "sota_ecosystem_convergence",
+      "sota-skillopt-curator",
+      "sota-falsifier",
+      "sota-rd-proposer",
+      "sota-code-verifier",
+      "sota-deep-synthesizer",
+      "sota-subsession-orchestrator"
+    ]
+  },
+  "tradingUpstreamShelf": {
+    "alpaca-py": {
+      "github": "https://github.com/alpacahq/alpaca-py",
+      "commit": "c42add7c0a7026e2ead3ed64e76f4def2b99fda4"
+    },
+    "alpaca-mcp-server": {
+      "github": "https://github.com/alpacahq/alpaca-mcp-server",
+      "commit": "63cc4278d87b31f3ed4efcfaa55624095c6d7be8"
+    },
+    "nautilus_trader": {
+      "github": "https://github.com/nautechsystems/nautilus_trader",
+      "commit": "da6b57aefdd62b44f675e434ffcfefca7f4025dd"
+    },
+    "nautilus-alpaca": {
+      "github": "https://github.com/gmatrunich/nautilus-alpaca",
+      "commit": "59685d56631b981018a189b5ced1a7000a50bfbd"
+    },
+    "polars": {
+      "github": "https://github.com/pola-rs/polars",
+      "commit": "7f902bd3ffd27ff82d14278a09a295ff2f7aed92"
+    },
+    "duckdb": {
+      "github": "https://github.com/duckdb/duckdb",
+      "commit": "d54cbbe3df17e8e5ce68312f483b4155836112aa"
+    },
+    "edgartools": {
+      "github": "https://github.com/dgunning/edgartools",
+      "commit": "574c2bd15f6c629bceef03b6550ea8ac8abf3473"
+    },
+    "ml4t-diagnostic": {
+      "github": "https://github.com/ml4t/diagnostic",
+      "commit": "19e76072e64a18c9ba56130e4a7bcc0bc871f57e"
+    },
+    "skfolio": {
+      "github": "https://github.com/skfolio/skfolio",
+      "commit": "90e3fb907fab39d244d899f3caf4e9676889309c"
+    },
+    "hftbacktest": {
+      "github": "https://github.com/nkaz001/hftbacktest",
+      "commit": "5f3ec40b2afb764e0fea112f941ed85523ef4e88"
+    },
+    "ib_async": {
+      "github": "https://github.com/ib-api-reloaded/ib_async",
+      "commit": "ab629f34c1823ea4c1542f32f07377208a86bdfd"
+    },
+    "perspective": {
+      "github": "https://github.com/finos/perspective",
+      "commit": "0264ec13cd28ef4a2a136c8ef021c3c112bc8990"
+    },
+    "lightweight-charts": {
+      "github": "https://github.com/tradingview/lightweight-charts",
+      "commit": "c29c51e1e5bc61981da5832c97797cb8283d120f"
+    },
+    "quantstats": {
+      "github": "https://github.com/ranaroussi/quantstats",
+      "commit": "d1a214fb906e76f974f45cdccf923b601c67a756"
+    },
+    "vectorbt": {
+      "github": "https://github.com/polakowo/vectorbt",
+      "commit": "a52a984b631624bb9daf41cb19f532fe559cf0ef"
+    },
+    "pandera": {
+      "github": "https://github.com/unionai-oss/pandera",
+      "commit": "02b375ab43f39f8c5c5108695c1791fa04f99a26"
+    },
+    "exchange_calendars": {
+      "github": "https://github.com/gerrymanoim/exchange_calendars",
+      "commit": "dbe38b1f6887434bbdd1a7d2df6ff8f1742a048a"
+    },
+    "statsmodels": {
+      "github": "https://github.com/statsmodels/statsmodels",
+      "commit": "278ff9950636cdd4939b4055e339a8e681d79cab"
+    }
+  },
+  "adrGovernance": {
+    "format": "MADR-4.0-GitHub-Evidenced",
+    "catalogPath": "docs/adr/CATALOG.md",
+    "generatorScript": "scripts/architecture_catalog.py",
+    "revisitThresholdDays": 45,
+    "adrCount": 14,
+    "records": [
+      {
+        "id": "ADR-0001",
+        "layer": "Cross-Cutting (`L0\u2013L12` \u00d7 `T0\u2013T8` \u00d7 `P0\u2013P5`)",
+        "title": "AGY SOTA Harness Boundaries, Upstream-First Discipline & Runtime-Enforced Verification Bar",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Runtime-Probed Across 13 Layers & 10 `sota-doctor` Gates)",
+        "file": "docs/adr/ADR-0001-agy-sota-harness-boundaries.md",
+        "githubUrls": [
+          "https://github.com/github/spec-kit",
+          "https://github.com/google-antigravity/antigravity-sdk-python",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/dsh-sota-harness",
+          "https://github.com/native-agent-stack/native-agent-stack"
+        ]
+      },
+      {
+        "id": "ADR-0002",
+        "layer": "`L0` Provisioning & Cross-Repo Topology",
+        "title": "L0 Reproducible Polyglot Provisioning, Lockfiles & 10-Repository Skill Bridges",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Lockfile & 10-Repo Bridge Probed)",
+        "file": "docs/adr/ADR-0002-L0-reproducible-provisioning-and-ten-repo-bridges.md",
+        "githubUrls": [
+          "https://github.com/ast-grep/ast-grep",
+          "https://github.com/astral-sh/ruff",
+          "https://github.com/astral-sh/ty",
+          "https://github.com/astral-sh/uv",
+          "https://github.com/jdx/mise",
+          "https://github.com/python/cpython",
+          "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0003",
+        "layer": "`L1` Lifecycle Hooks & Multi-Peer Safety",
+        "title": "L1 Fail-Closed Lifecycle Hooks, Live-Capital Firewall & SQLite Peer-Lease Guard",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Adversarial Hook Payloads & System Python `3.9` Verified)",
+        "file": "docs/adr/ADR-0003-L1-lifecycle-hooks-and-cross-peer-lease-guard.md",
+        "githubUrls": [
+          "https://github.com/aannoo/hcom",
+          "https://github.com/gitleaks/gitleaks",
+          "https://github.com/google-antigravity/antigravity-sdk-python",
+          "https://github.com/native-agent-stack/agy-sota-harness"
+        ]
+      },
+      {
+        "id": "ADR-0004",
+        "layer": "`L2` Lean MCP Mesh & `L3` Code Intelligence / Shelf Retrieval",
+        "title": "L2\u2013L3 Lean 4-Server MCP Mesh, AST Symbol Graph & 18-Repo Read-Only Shelf FTS5",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Live `2025-03-26` JSON-RPC Handshakes & `<10ms` FTS5 Verified)",
+        "file": "docs/adr/ADR-0004-L2-L3-lean-mcp-mesh-and-ast-fts5-shelf.md",
+        "githubUrls": [
+          "https://github.com/DeusData/codebase-memory-mcp",
+          "https://github.com/alpacahq/alpaca-mcp-server",
+          "https://github.com/ast-grep/ast-grep",
+          "https://github.com/colbymchenry/codegraph",
+          "https://github.com/native-agent-stack/sota-mover-ranker"
+        ]
+      },
+      {
+        "id": "ADR-0005",
+        "layer": "`L4` Converged Skills & Progressive Disclosure",
+        "title": "L4 Converged 16 Cross-Peer Skills & 8 SHA-Pinned Vendored Scientific/Security Skills",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Zero-Broken-Symlink & SHA-Pin Sync Verified)",
+        "file": "docs/adr/ADR-0005-L4-converged-cross-peer-skills-and-vendored-pins.md",
+        "githubUrls": [
+          "https://github.com/K-Dense-AI/scientific-agent-skills",
+          "https://github.com/OthmanAdi/planning-with-files",
+          "https://github.com/cloudflare/security-audit-skill",
+          "https://github.com/karpathy/autoresearch",
+          "https://github.com/obra/superpowers"
+        ]
+      },
+      {
+        "id": "ADR-0006",
+        "layer": "`L5` Multi-Agent Workflows & Cross-Model Orchestration",
+        "title": "L5 Self-Bootstrapping `run_workflow` Pipelines, AGY Native Swarm & Heterogeneous Orca Fleet",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Live 3-Subagent `run_workflow` & Cross-Family Orca Convergence Verified)",
+        "file": "docs/adr/ADR-0006-L5-self-bootstrapping-workflows-and-orca-swarm.md",
+        "githubUrls": [
+          "https://github.com/0xNyk/council-of-high-intelligence",
+          "https://github.com/TauricResearch/TradingAgents",
+          "https://github.com/aannoo/hcom",
+          "https://github.com/google-antigravity/antigravity-sdk-python",
+          "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0007",
+        "layer": "`L6` UI Taste, DevTools & Real-Time `T8` Visualization",
+        "title": "L6 Anti-Slop Institutional UI Taste, Chrome DevTools & Dual-Plane `24/5` HUD Architecture",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (`:8787` & `:8799` HTTP 200 Live HUDs + Apache-2.0 Attribution Verified)",
+        "file": "docs/adr/ADR-0007-L6-anti-slop-ui-taste-and-dual-plane-hud.md",
+        "githubUrls": [
+          "https://github.com/Nutlope/hallmark",
+          "https://github.com/finos/perspective",
+          "https://github.com/pbakaus/impeccable",
+          "https://github.com/tradingview/lightweight-charts"
+        ]
+      },
+      {
+        "id": "ADR-0008",
+        "layer": "`L7` Context Efficiency & Cross-Peer Persistent Memory",
+        "title": "L7 SQLite FTS5 Output Compression, Shared WAL Peer Bus & Auto-Compiled LLM-Wiki",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (`93.1%` Byte Compression & `4/4` Auto-Compiled Wiki Ledgers Verified)",
+        "file": "docs/adr/ADR-0008-L7-fts5-output-compression-and-sqlite-wal-peer-bus.md",
+        "githubUrls": [
+          "https://github.com/OthmanAdi/planning-with-files",
+          "https://github.com/gastownhall/beads",
+          "https://github.com/mksglu/context-mode",
+          "https://github.com/rtk-ai/rtk",
+          "https://github.com/volcengine/OpenViking"
+        ]
+      },
+      {
+        "id": "ADR-0009",
+        "layer": "`L8` Formal Correctness, Property Fuzzing & Structural AST Rules",
+        "title": "L8 Formal Dimensional, NMS Tick-Grid (`ADR-0022 <= 2.00%`), `Pandera` & `Hypothesis` Invariants",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Property-Tested Across IEEE-754 Edge Cases & AST-Grep Audited)",
+        "file": "docs/adr/ADR-0009-L8-formal-dimensional-and-statistical-invariants.md",
+        "githubUrls": [
+          "https://github.com/HypothesisWorks/hypothesis",
+          "https://github.com/ml4t/diagnostic",
+          "https://github.com/skfolio/skfolio",
+          "https://github.com/trailofbits/skills",
+          "https://github.com/unionai-oss/pandera"
+        ]
+      },
+      {
+        "id": "ADR-0010",
+        "layer": "`L9` OS Sandbox, Secret Firewall & Repository Privacy Gate",
+        "title": "L9 OS-Level Seatbelt Kernel Confinement, `.gitleaks.toml` & Fail-Closed `merge_gate.py`",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (Seatbelt Policy, `gitleaks` & Dual-Repo Merge Gates Verified)",
+        "file": "docs/adr/ADR-0010-L9-seatbelt-sandbox-and-zero-leak-merge-gate.md",
+        "githubUrls": [
+          "https://github.com/anthropic-experimental/sandbox-runtime",
+          "https://github.com/gitleaks/gitleaks",
+          "https://github.com/native-agent-stack/agy-sota-harness"
+        ]
+      },
+      {
+        "id": "ADR-0011",
+        "layer": "`L10` Observability, Sidecars & `24/5` Daemon Supervision",
+        "title": "L10 Scoped Scheduled Sidecars, Zero-Telemetry `agentsview` & macOS TCC-Safe `24/5` Dead-Man Watchdog",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (`35` Scoped Grants + Live `60s` `launchd` Dead-Man Alert & Recovery Verified)",
+        "file": "docs/adr/ADR-0011-L10-scheduled-sidecars-and-macos-tcc-deadman-watch.md",
+        "githubUrls": [
+          "https://github.com/google-antigravity/antigravity-sdk-python",
+          "https://github.com/kenn-io/agentsview",
+          "https://github.com/native-agent-stack/sota-dynamic-trail-c"
+        ]
+      },
+      {
+        "id": "ADR-0012",
+        "layer": "`L11` Trading Upstream Shelf / Computer Use & `L12` Self-Evolution",
+        "title": "L11\u2013L12 18-Repo Read-Only Trading Shelf, On-Demand Computer Use & `SkillOpt` 6-Subagent Evolution",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (`18/18` Clean Clones, `6` Subagents & Redacted Trajectory Mining Verified)",
+        "file": "docs/adr/ADR-0012-L11-L12-pinned-trading-shelf-and-skillopt-subagents.md",
+        "githubUrls": [
+          "https://github.com/alpacahq/alpaca-py",
+          "https://github.com/dgunning/edgartools",
+          "https://github.com/duckdb/duckdb",
+          "https://github.com/microsoft/SkillOpt",
+          "https://github.com/nautechsystems/nautilus_trader",
+          "https://github.com/nkaz001/hftbacktest",
+          "https://github.com/pola-rs/polars",
+          "https://github.com/vercel-labs/agent-desktop"
+        ]
+      },
+      {
+        "id": "ADR-0013",
+        "layer": "`T1\u2013T8` Market-Data Governance, Pacer Isolation & Session Cutover",
+        "title": "Alpaca SIP/BOATS Local Lake Entitlement Boundary & Dec-6 `23/5` Cutover Governance",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E3 (Cross-Family Council Converged + Feature-Flagged & Pre-Registered as `Trial #81`)",
+        "file": "docs/adr/ADR-0013-alpaca-sip-cache-and-23x5-cutover-governance.md",
+        "githubUrls": [
+          "https://github.com/alpacahq/alpaca-py",
+          "https://github.com/gerrymanoim/exchange_calendars",
+          "https://github.com/ib-api-reloaded/ib_async",
+          "https://github.com/native-agent-stack/sota-dynamic-trail-c",
+          "https://github.com/native-agent-stack/sota-mover-ranker"
+        ]
+      },
+      {
+        "id": "ADR-0014",
+        "layer": "`T1\u2013T6` Quantitative Research Protocol & Adversarial Falsification (`Q1\u2013Q4`)",
+        "title": "Pre-Wall (`<= 2026-10-15`) Causal Microstructure Studies & Point-in-Time Statistical Promotion Gates",
+        "status": "Accepted",
+        "date": "2026-11-17",
+        "evidenceGrade": "E4 (`sota-falsifier` Red-Team Survived `P0=0..P3=0`, `15/15` + `38/38` `pytest` Verified)",
+        "file": "docs/adr/ADR-0014-prewall-causal-studies-and-point-in-time-statistical-gates.md",
+        "githubUrls": [
+          "https://github.com/dgunning/edgartools",
+          "https://github.com/ml4t/diagnostic",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-mover-ranker",
+          "https://github.com/nkaz001/hftbacktest",
+          "https://github.com/skfolio/skfolio",
+          "https://github.com/statsmodels/statsmodels"
+        ]
+      }
+    ]
   }
 }

@@ -140,13 +140,35 @@ def verify_privacy_and_commits(root: Path = ROOT) -> list[str]:
     return errors
 
 
+def verify_adr_catalog(root: Path = ROOT) -> list[str]:
+    cat_script = root / "scripts" / "architecture_catalog.py"
+    if not cat_script.is_file():
+        return ["Missing scripts/architecture_catalog.py"]
+    proc = subprocess.run(
+        [sys.executable, str(cat_script), "--check"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout).strip()
+        return [f"ADR catalog drift/validation failed: {detail}"]
+    return []
+
+
 def main() -> int:
-    problems = [*verify_upstream_map(ROOT), *verify_privacy_and_commits(ROOT)]
+    problems = [
+        *verify_upstream_map(ROOT),
+        *verify_adr_catalog(ROOT),
+        *verify_privacy_and_commits(ROOT),
+    ]
     if problems:
         for p in problems:
             print(f"[AGY-MERGE-GATE FAIL] {p}", file=sys.stderr)
         return 1
-    print("[AGY-MERGE-GATE PASS] UPSTREAM.md map, 18/18 shelf pins, noreply commits, and zero-leak privacy verified.")
+    print(
+        "[AGY-MERGE-GATE PASS] UPSTREAM.md map, 14/14 GitHub-evidenced ADRs, 18/18 shelf pins, noreply commits, and zero-leak privacy verified."
+    )
     return 0
 
 

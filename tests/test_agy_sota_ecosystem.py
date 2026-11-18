@@ -241,7 +241,18 @@ def test_intraday_1030_prewall_study_split_unit_invariance_and_wall() -> None:
     assert res.rth_1030_to_close_excess_bps > 0.0
 
 
-def test_full_l0_to_l12_probes_and_merge_gate() -> None:
+def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
+    import json
+
+    p_cat = subprocess.run(
+        [sys.executable, str(HARNESS_ROOT / "scripts" / "architecture_catalog.py"), "--check"],
+        capture_output=True,
+        text=True,
+        timeout=15,
+        check=True,
+    )
+    assert "14 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
         capture_output=True,
@@ -251,6 +262,23 @@ def test_full_l0_to_l12_probes_and_merge_gate() -> None:
     )
     assert "AGY-MERGE-GATE PASS" in p_gate.stdout
 
+    manifest = json.loads((HARNESS_ROOT / "SOTA_ECOSYSTEM_MANIFEST.json").read_text(encoding="utf-8"))
+    assert manifest["manifestVersion"] == "2.4.0"
+    assert manifest["githubOrganization"] == "https://github.com/native-agent-stack"
+    assert len(manifest["tradingUpstreamShelf"]) == 18
+    adr_gov = manifest["adrGovernance"]
+    assert adr_gov["adrCount"] == 14
+    assert len(adr_gov["records"]) == 14
+    for idx, rec in enumerate(adr_gov["records"], start=1):
+        assert rec["id"] == f"ADR-{idx:04d}"
+        assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
+
+
+@pytest.mark.skipif(
+    not (Path.home() / ".agents" / "skills").is_dir(),
+    reason="Workstation-level ~/.agents multi-peer triad probe runs on provisioned host",
+)
+def test_full_l0_to_l12_probes_and_merge_gate() -> None:
     p_probes = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "harness" / "run_probes.py")],
         capture_output=True,

@@ -6,11 +6,16 @@ The machine-wide Antigravity (`AGY`) SOTA Harness & Multi-Peer Convergence repos
 
 ```sh
 mise exec -- uv run python scripts/sync_vendored_skills.py
+mise exec -- uv run python scripts/architecture_catalog.py --check
 mise exec -- uv run python scripts/merge_gate.py
 mise exec -- uv run python harness/run_probes.py
 mise exec -- uv run pytest
 mise exec -- ruff check .
 ```
+
+## Architecture Decision Records (`docs/adr/CATALOG.md`)
+
+All `14` architecture and quantitative governance records (`ADR-0001` through `ADR-0014`) follow MADR 4.0 with mandatory GitHub `owner/repo@SHA` primary-source citations and zero-drift enforcement against `SOTA_ECOSYSTEM_MANIFEST.json` (`v2.4.0`) — see [`docs/adr/CATALOG.md`](docs/adr/CATALOG.md).
 
 ## Full-Landscape Architecture (`L0–L12` × `P0–P5`)
 

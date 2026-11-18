@@ -1,0 +1,49 @@
+name: AGY SOTA Harness Deterministic Gate & ADR Parity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify-sota-gates:
+    name: Ruff + Ty + MADR 4.0 Catalog + Merge Gate + Hypothesis + Gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync locked environment
+        run: uv sync --locked
+
+      - name: Ruff lint check
+        run: uv run ruff check .
+
+      - name: Ty static type check
+        run: uv run ty check src scripts harness
+
+      - name: Verify MADR 4.0 GitHub-evidenced ADR catalog & manifest zero drift
+        run: uv run python scripts/architecture_catalog.py --check
+
+      - name: Verify UPSTREAM.md coverage & zero-leak privacy merge gate
+        run: uv run python scripts/merge_gate.py
+
+      - name: Run Hypothesis property & pre-wall causal unit suite
+        run: uv run pytest -q
+
+      - name: Gitleaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
