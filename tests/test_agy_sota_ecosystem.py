@@ -269,12 +269,16 @@ def test_research_convergence_datafeed_and_strategy_templates() -> None:
     assert sip23["segment"] == "OVERNIGHT_23X5_SIP"
     assert sip23["alpaca_datafeed"] == "sip"
 
-    tmpl_on_disk = json.loads((HARNESS_ROOT / "templates" / "sota_converged_strategy.template.json").read_text(encoding="utf-8"))
+    tmpl_on_disk = json.loads(
+        (HARNESS_ROOT / "templates" / "sota_converged_strategy.template.json").read_text(encoding="utf-8")
+    )
     assert validate_converged_strategy_manifest(tmpl_on_disk, harness_root=HARNESS_ROOT) == []
 
     sha64 = "a" * 64
     for arch in STRATEGY_ARCHETYPES:
-        built = scaffold_converged_strategy(f"TEST_{arch}", arch, input_package_sha256=sha64, spec_sha256=sha64, harness_root=HARNESS_ROOT)
+        built = scaffold_converged_strategy(
+            f"TEST_{arch}", arch, input_package_sha256=sha64, spec_sha256=sha64, harness_root=HARNESS_ROOT
+        )
         assert validate_converged_strategy_manifest(built, harness_root=HARNESS_ROOT) == []
 
     # Rejects live execution, >2.00% stop, non-PIT raw/all, or philosophy-only violation

@@ -14,6 +14,8 @@ import _sota_kit as kit
 
 cfg = args if "args" in globals() and isinstance(args, dict) else {}
 repo_hint = str(cfg.get("repo") or "sota-mover-ranker")
+rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief(repo_hint)
 log(peer_brief)
 
@@ -44,6 +46,8 @@ phase("1. RD-Agent(Q) Factor Proposal (Pre-Wall <= 2026-10-15)")
 
 proposal = await agent(
     f"{peer_brief}\n\n"
+    f"Research-Convergence Contract (`{rc_schema}`, ADR-0004/ADR-0016 3-tier SHA-256 input + 40-hex upstream pins, "
+    "other_repos_authority == PHILOSOPHY_ONLY):\n"
     f"Search `~/.agents/bin/sota-bus search 'early mover'` and `~/Documents/upstream/PINS.md` (read-only). "
     f"Formulate one falsifiable microstructure hypothesis for `~/Documents/{repo_hint}` strictly inside `<= 2026-10-15` "
     "with `max_stop_pct <= 2.00` (ADR-0022). Return structured JSON.",

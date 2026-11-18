@@ -17,8 +17,10 @@ cfg = args if "args" in globals() and isinstance(args, dict) else {}
 strategy_id = str(cfg.get("strategy_id") or "CANDIDATE_PRE_TRAVEL_IGNITION")
 archetype = str(cfg.get("archetype") or "PRE_TRAVEL_EARLY_IGNITION")
 target_repo = str(cfg.get("repo") or "sota-mover-ranker")
+rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief(target_repo)
-log(peer_brief)
+log(f"{peer_brief}\n[RC Context: schema={rc_schema} | ADR-0004/ADR-0016 | sibling_authority=PHILOSOPHY_ONLY]")
 
 DATAFEED_RECON_SCHEMA = {
     "type": "object",

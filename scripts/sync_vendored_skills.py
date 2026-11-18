@@ -51,7 +51,9 @@ def main() -> int:
                     link.symlink_to(sdir)
                     peer_synced += 1
 
-    print(f"[SKILL-SYNC OK] Verified {synced} pinned upstream skills + converged ~/.agents/skills ({peer_synced} new links)")
+    print(
+        f"[SKILL-SYNC OK] Verified {synced} pinned upstream skills + converged ~/.agents/skills ({peer_synced} new links)"
+    )
     return 0
 
 

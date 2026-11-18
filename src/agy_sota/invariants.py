@@ -88,9 +88,7 @@ def validate_adr0022_stop(
     if e_val < 0.05:
         raise ValueError(f"entry_px must be >= $0.05 (got {entry_px!r})")
     if s_pct <= 0.0 or s_pct > ADR0022_MAX_STOP_PCT:
-        raise ValueError(
-            f"ADR-0022 violation: requested_stop_pct={s_pct} outside (0.0, {ADR0022_MAX_STOP_PCT}]%"
-        )
+        raise ValueError(f"ADR-0022 violation: requested_stop_pct={s_pct} outside (0.0, {ADR0022_MAX_STOP_PCT}]%")
     if side not in ("long", "short"):
         raise ValueError(f"Unsupported side: {side!r}")
 

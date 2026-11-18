@@ -8,6 +8,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path.home() / ".agents" / "workflows"))
 import _sota_kit as kit
 
+rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief("agy-sota-harness")
 log(peer_brief)
 
@@ -15,7 +17,10 @@ TARGETS = [
     ("agy-sota-harness", "Run `python3 harness/run_probes.py` and verify 13/13 L0-L12 probes pass."),
     ("dsh-sota-harness", "Verify README.md L0-L9 anchors and clean `git status --short`."),
     ("sota-mover-ranker", "Run `python3 scripts/merge_gate.py` and verify 18/18 shelf pins & privacy gates pass."),
-    ("peer-bus-and-skills", "Inspect `~/.agents/bin/sota-bus status`, `~/.agents/bin/sota-doctor`, and `~/.agents/bin/sota-core convergence`."),
+    (
+        "peer-bus-and-skills",
+        "Inspect `~/.agents/bin/sota-bus status`, `~/.agents/bin/sota-doctor`, and `~/.agents/bin/sota-core convergence`.",
+    ),
 ]
 
 TARGET_SCHEMA = {
@@ -35,6 +40,8 @@ results = await parallel(
     TARGETS,
     lambda item: agent(
         f"{peer_brief}\n\n"
+        f"Enforce `{rc_schema}` PIT contract & ADR-0004/ADR-0016 3-tier SHA provenance "
+        "(other_repos_authority == PHILOSOPHY_ONLY).\n"
         f"Audit surface `{item[0]}` (strictly read-only; never print keys, PA/DU IDs, or balances): {item[1]}",
         schema=TARGET_SCHEMA,
         role=f"Audit {item[0]}",

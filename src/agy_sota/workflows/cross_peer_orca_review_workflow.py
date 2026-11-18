@@ -9,6 +9,8 @@ import _sota_kit as kit
 
 cfg = args if "args" in globals() and isinstance(args, dict) else {}
 target_repo = str(cfg.get("repo") or "agy-sota-harness")
+rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief(target_repo)
 log(peer_brief)
 
@@ -27,6 +29,8 @@ phase("Two-Pass Deterministic & Security Verification")
 
 audit = await agent(
     f"{peer_brief}\n\n"
+    f"Research-Convergence Gate (`{rc_schema}`, ADR-0004/ADR-0016 3-tier SHA-256 input + 40-hex upstream pins, "
+    "other_repos_authority == PHILOSOPHY_ONLY):\n"
     f"Run the two-pass deterministic & P0-P3 self-refuting verification gate on `~/Documents/{target_repo}` "
     f"(`ruff`, `ty`, `sg scan`, `pytest`, `merge_gate.py` if present) and check `~/.agents/bin/sota-bus status --repo {target_repo}`. "
     "Never print secrets or account IDs.",

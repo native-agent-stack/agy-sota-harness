@@ -157,7 +157,16 @@ def scaffold_converged_strategy(
     pins = load_pinned_shelf_shas(harness_root)
     selected_pins = {
         k: pins[k]
-        for k in ("alpaca-py", "nautilus_trader", "polars", "duckdb", "edgartools", "ml4t-diagnostic", "skfolio", "hftbacktest")
+        for k in (
+            "alpaca-py",
+            "nautilus_trader",
+            "polars",
+            "duckdb",
+            "edgartools",
+            "ml4t-diagnostic",
+            "skfolio",
+            "hftbacktest",
+        )
         if k in pins
     }
     manifest: dict[str, Any] = {
@@ -299,7 +308,13 @@ def validate_converged_strategy_manifest(
     if ibkr_cfg.get("port") != 4002 or int(ibkr_cfg.get("max_msg_per_min") or 9999) > 3000:
         errors.append("ibkr_paper must target port 4002 with max_msg_per_min <= 3000")
     tv_cfg = ex.get("tradingview_pine_v6") or {}
-    if tv_cfg.get("version") != 6 or tv_cfg.get("calc_on_every_tick") is not False or tv_cfg.get("barstate_confirmed_only") is not True:
-        errors.append("tradingview_pine_v6 must enforce version==6, calc_on_every_tick==False, barstate_confirmed_only==True")
+    if (
+        tv_cfg.get("version") != 6
+        or tv_cfg.get("calc_on_every_tick") is not False
+        or tv_cfg.get("barstate_confirmed_only") is not True
+    ):
+        errors.append(
+            "tradingview_pine_v6 must enforce version==6, calc_on_every_tick==False, barstate_confirmed_only==True"
+        )
 
     return errors

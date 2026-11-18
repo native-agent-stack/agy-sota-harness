@@ -7,6 +7,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path.home() / ".agents" / "workflows"))
 import _sota_kit as kit
 
+rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief("agy-sota-harness")
 log(peer_brief)
 
@@ -14,9 +16,7 @@ phase("1. Zero-Copy In-Session Trajectory & Historical Friction Scan")
 
 steps = await trajectory(last=40)
 error_slices = [
-    {"index": s.index, "tool": s.tool, "head": (s.output or "")[:240]}
-    for s in steps
-    if s.status == "ERROR"
+    {"index": s.index, "tool": s.tool, "head": (s.output or "")[:240]} for s in steps if s.status == "ERROR"
 ]
 cleared_cnt = sum(1 for s in steps if s.status == "CLEARED")
 log(f"Trajectory slice: {len(steps)} steps, {len(error_slices)} errors, {cleared_cnt} cleared.")
@@ -41,6 +41,8 @@ phase("2. SkillOpt & GEPA Curation (`sota-skillopt-curator`)")
 
 plan = await agent(
     f"{peer_brief}\n\n"
+    f"Enforce `{rc_schema}` PIT contract & ADR-0004/ADR-0016 3-tier SHA provenance "
+    "(other_repos_authority == PHILOSOPHY_ONLY).\n"
     f"Run `~/.agents/bin/sota-core friction` and inspect `~/.agents/wiki/LESSONS.md` alongside current session "
     f"errors={error_slices} (cleared={cleared_cnt}). Propose minimal, validation-gated hook/AST-rule or SKILL.md "
     "improvements (executable guards over prose).",

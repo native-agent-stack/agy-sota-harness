@@ -241,9 +241,7 @@ def probe_l4() -> str:
 
     v_dir = HARNESS_ROOT / ".agents" / "skills"
     vendored = (
-        sorted(p.name for p in v_dir.iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
-        if v_dir.is_dir()
-        else []
+        sorted(p.name for p in v_dir.iterdir() if p.is_dir() and (p / "SKILL.md").is_file()) if v_dir.is_dir() else []
     )
     if len(vendored) < 8 and (DOCS / "agy-sota-harness" / ".agents" / "skills").is_dir():
         fb = DOCS / "agy-sota-harness" / ".agents" / "skills"
@@ -275,7 +273,11 @@ def probe_l5() -> str:
             assert '"__file__" in globals()' in src or "'__file__' in globals()" in src, (
                 f"{wf.name} uses unguarded __file__ (fails inside <workflow> globals)"
             )
-    return f"{len(wf_files)} schema-typed AGY run_workflow pipelines AST-verified"
+        assert "load_research_convergence_context" in src and "sota-research-feeds.v2" in src, (
+            f"{wf.name} missing explicit load_research_convergence_context / sota-research-feeds.v2 binding"
+        )
+        assert "PHILOSOPHY_ONLY" in src, f"{wf.name} missing ADR-0004 PHILOSOPHY_ONLY sibling-repo rule"
+    return f"{len(wf_files)} schema-typed AGY run_workflow pipelines AST + Research-Convergence verified"
 
 
 def probe_l6() -> str:
