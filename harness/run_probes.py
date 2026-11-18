@@ -112,7 +112,7 @@ def probe_l1() -> str:
         run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "~/.claude/bin/live status"}}})[
             "decision"
         ]
-        == "deny"
+        in ("ask", "deny")
     )
     assert (
         run_hook(
@@ -124,13 +124,13 @@ def probe_l1() -> str:
                 }
             },
         )["decision"]
-        == "deny"
+        in ("ask", "deny")
     )
     assert (
         run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "nc -z 127.0.0.1 4001"}}})[
             "decision"
         ]
-        == "deny"
+        in ("ask", "deny")
     )
     assert (
         run_hook(

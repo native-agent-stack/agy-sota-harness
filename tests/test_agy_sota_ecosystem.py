@@ -300,7 +300,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "31 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "32 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -322,8 +322,8 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 31
-    assert len(adr_gov["records"]) == 31
+    assert adr_gov["adrCount"] == 32
+    assert len(adr_gov["records"]) == 32
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
@@ -360,6 +360,66 @@ def test_tradingview_seamless_practice_workflow_dag9_fast_mode() -> None:
     assert out["workflow_id"] == "tradingview-seamless-practice-convergence"
     assert out["rc_valid"] is True
     assert out["all_gates_passed"] is True
+
+
+def test_dag10_orca_lead_fallback_is_fail_closed_and_2026_aligned() -> None:
+    import ast
+    import asyncio
+    import io
+    import json
+    import types
+    from contextlib import redirect_stdout
+    from unittest.mock import patch
+
+    wf_path = HARNESS_ROOT / "src" / "agy_sota" / "workflows" / "orca_lead_e2e_research_convergence_workflow.py"
+    src = wf_path.read_text(encoding="utf-8")
+    assert "1_792_074_600_000_000_000" in src
+
+    code = compile(src, "<workflow_dag10>", "exec", flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
+    ns: dict[str, object] = {
+        "__name__": "__main__",
+        "args": {"repo": "cc-sota-harness", "fast_deterministic_only": True},
+        "log": lambda *_a: None,
+        "phase": lambda *_a: None,
+    }
+    blocked_mods = {
+        "sota_mmw": None,
+        "sota_mmw.cc_lead_hub": None,
+        "sota_mmw.research_convergence_contract": None,
+        "sota_mmw.symbol_ranking_datafeeds": None,
+    }
+    buf = io.StringIO()
+    with patch.dict(sys.modules, blocked_mods):
+        with redirect_stdout(buf):
+            res = eval(code, ns)
+            if isinstance(res, types.CoroutineType):
+                asyncio.run(res)
+
+    out = json.loads(buf.getvalue())
+    assert out["workflow"] == "orca-lead-e2e-research-convergence"
+    assert out["all_gates_passed"] is True
+
+    fallback_fn = ns["evaluate_symbol_ranking_to_strategy_handoff"]
+    assert callable(fallback_fn)
+    bad = fallback_fn(
+        symbol="NVDA",
+        strategy_route="PRE_TRAVEL_EARLY_IGNITION",
+        study_date="2026-10-16",
+        ts_event_ns=1_792_074_600_000_000_000,
+        ts_recv_ns=1_792_074_600_005_000_000,
+        decision_ns=1_800_000_000_000_000_000,
+        rvol_tod=float("nan"),
+        vol_z_tod=float("inf"),
+        ofi=0.35,
+        dry_powder_sec=16.0,
+        spread_collar_bps=12.0,
+        hard_stop_pct=3.5,
+    )
+    assert isinstance(bad, dict)
+    assert bad["approved"] is False
+    assert "PREWALL_VIOLATION" in bad["violations"]
+    assert "FAIL_CLOSED:rvol_tod" in bad["violations"]
+    assert "FAIL_CLOSED:hard_stop_pct" in bad["violations"]
 
 
 @pytest.mark.skipif(

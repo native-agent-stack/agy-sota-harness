@@ -70,8 +70,56 @@ except ImportError:  # CI/clean-checkout fallback when sota-multi-model-workflow
     def build_symbol_ranking_foundation_manifest() -> dict[str, object]:
         return {"feed_count": 12, "strategy_route_count": 6, "schema_version": "sota-symbol-ranking-datafeeds.v3.10"}
 
-    def evaluate_symbol_ranking_to_strategy_handoff(**_kw: object) -> dict[str, object]:
-        return {"approved": True, "schema_version": "sota-symbol-ranking-datafeeds.v3.10"}
+    def evaluate_symbol_ranking_to_strategy_handoff(**kw: object) -> dict[str, object]:
+        import datetime as _dt
+        import math as _math
+
+        def _fin(v: object) -> tuple[bool, float]:
+            if isinstance(v, bool) or not isinstance(v, (int, float)):
+                return False, float("nan")
+            try:
+                f = float(v)
+            except OverflowError:
+                return False, float("inf")
+            return _math.isfinite(f), f
+
+        violations: list[str] = []
+        s_date = str(kw.get("study_date") or "")
+        try:
+            sd = _dt.date.fromisoformat(s_date)
+            if sd > _dt.date(2026, 10, 15):
+                violations.append("PREWALL_VIOLATION")
+        except ValueError:
+            sd = None
+            violations.append("BAD_STUDY_DATE")
+        ev_ns, rv_ns, dc_ns = kw.get("ts_event_ns"), kw.get("ts_recv_ns"), kw.get("decision_ns")
+        valid_ns = (
+            not any(isinstance(x, bool) for x in (ev_ns, rv_ns, dc_ns))
+            and isinstance(ev_ns, int)
+            and isinstance(rv_ns, int)
+            and isinstance(dc_ns, int)
+        )
+        if not (valid_ns and ev_ns <= rv_ns <= dc_ns):
+            violations.append("BITEMPORAL_PIT_VIOLATION")
+        elif dc_ns >= 946_684_800_000_000_000:
+            dec_d = _dt.datetime.fromtimestamp(dc_ns // 1_000_000_000, tz=_dt.UTC).date()
+            if dec_d > _dt.date(2026, 10, 15) or (sd is not None and dec_d != sd):
+                violations.append("PREWALL_DECISION_NS_VIOLATION")
+        for fld, lo in (("rvol_tod", 2.20), ("vol_z_tod", 2.30), ("ofi", 0.25), ("dry_powder_sec", 15.0)):
+            ok, fv = _fin(kw.get(fld))
+            if not ok or not (fv >= lo):
+                violations.append(f"FAIL_CLOSED:{fld}")
+        ok_sc, f_sc = _fin(kw.get("spread_collar_bps"))
+        if not ok_sc or not (0.0 < f_sc <= 10.0):
+            violations.append("FAIL_CLOSED:spread_collar_bps")
+        ok_hs, f_hs = _fin(kw.get("hard_stop_pct"))
+        if not ok_hs or not (0.05 <= f_hs <= 2.0):
+            violations.append("FAIL_CLOSED:hard_stop_pct")
+        return {
+            "approved": len(violations) == 0,
+            "violations": violations,
+            "schema_version": "sota-symbol-ranking-handoff.v3.10",
+        }
 
     def build_orca_lead_e2e_convergence_assignment(
         *, repo: str = "cc-sota-harness", goal: str = ""
@@ -106,9 +154,9 @@ handoff = evaluate_symbol_ranking_to_strategy_handoff(
     symbol="NVDA",
     strategy_route="PRE_TRAVEL_EARLY_IGNITION",
     study_date="2026-10-15",
-    ts_event_ns=1_760_500_000_000_000_000,
-    ts_recv_ns=1_760_500_000_005_000_000,
-    decision_ns=1_760_500_000_010_000_000,
+    ts_event_ns=1_792_074_600_000_000_000,
+    ts_recv_ns=1_792_074_600_005_000_000,
+    decision_ns=1_792_074_600_010_000_000,
     rvol_tod=2.45,
     vol_z_tod=2.80,
     ofi=0.35,

@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 31,
+    "adrCount": 32,
     "records": [
       {
         "id": "ADR-0001",
@@ -913,6 +913,20 @@
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0032",
+        "layer": "Antigravity `L0\u2013L13` Harness, Schema-Typed `run_workflow` DAGs (`L5`), Pre-Wall Bitemporal & IEEE-754 Fail-Closed Guards (`T1\u2013T8`)",
+        "title": "`v3.10.3` Fail-Closed DAG #10 Fallback Guard & `2026-10-15` Nanosecond Epoch Alignment",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`32` GitHub-Evidenced ADRs, `10/10` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `pytest` & `merge_gate.py` `0` Leaks Verified)",
+        "file": "docs/adr/ADR-0032-v3103-fail-closed-dag10-fallback-and-2026-epoch-alignment.md",
+        "githubUrls": [
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-compounding-lab",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows"
         ]
       }
     ]
