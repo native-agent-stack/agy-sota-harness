@@ -263,8 +263,9 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert "AGY-MERGE-GATE PASS" in p_gate.stdout
 
     manifest = json.loads((HARNESS_ROOT / "SOTA_ECOSYSTEM_MANIFEST.json").read_text(encoding="utf-8"))
-    assert manifest["manifestVersion"] == "2.4.0"
+    assert manifest["manifestVersion"] == "3.0.0"
     assert manifest["githubOrganization"] == "https://github.com/native-agent-stack"
+    assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
     assert adr_gov["adrCount"] == 14
