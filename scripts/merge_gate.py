@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import fnmatch
+import os
 import re
 import subprocess
 import sys
@@ -73,19 +74,28 @@ def verify_upstream_map(root: Path = ROOT) -> list[str]:
             errors.append(f"Unused pattern in upstream-map.toml: '{pat}'")
 
     if SHELF_DIR.is_dir():
+        clean_env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
         for repo_dir, expected_sha in shelf_pins.items():
             cpath = SHELF_DIR / repo_dir
             if not cpath.exists():
                 errors.append(f"Missing shelf clone: {repo_dir}")
                 continue
             head_r = subprocess.run(
-                ["git", "-C", str(cpath), "rev-parse", "HEAD"], capture_output=True, text=True, check=False
+                ["git", "-C", str(cpath), "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                check=False,
+                env=clean_env,
             )
             actual = head_r.stdout.strip()
             if head_r.returncode != 0 or actual != expected_sha:
                 errors.append(f"Shelf drift on {repo_dir}: expected {expected_sha}, found {actual}")
             st_r = subprocess.run(
-                ["git", "-C", str(cpath), "status", "--short"], capture_output=True, text=True, check=False
+                ["git", "-C", str(cpath), "status", "--short"],
+                capture_output=True,
+                text=True,
+                check=False,
+                env=clean_env,
             )
             if st_r.returncode == 0 and st_r.stdout.strip():
                 errors.append(f"Read-only upstream shelf {repo_dir} has dirty files")
