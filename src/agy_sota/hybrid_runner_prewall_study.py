@@ -14,6 +14,7 @@ Implements pre-registered Trial #89 (`H089_TWO_STAGE_HYBRID_ENTRY_X_ASYMMETRIC_R
    - Runner Tranche (`50%`): holds uncapped to `15:55` ET RTH close (`raw_close[t]`), ratcheting its stop
      from `-180 bps` to `+10 bps` breakeven once MFE reaches `+180 bps`, preserving positive right-tail skewness.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -300,7 +301,9 @@ def replay_dual_tranche_runner_convexity(
             core_open = False
         if runner_open and qt.bid_px <= runner_stop_px + 1e-9:
             runner_exit_px = min(qt.bid_px, runner_stop_px)
-            runner_reason = "runner_breakeven_stop" if runner_stop_px > hard_stop_px + 1e-9 else "hard_adverse_stop_180bps"
+            runner_reason = (
+                "runner_breakeven_stop" if runner_stop_px > hard_stop_px + 1e-9 else "hard_adverse_stop_180bps"
+            )
             runner_open = False
         if not core_open and not runner_open:
             break
@@ -368,9 +371,9 @@ def _extract_single_h089_candidate(
 
         q_before = q_clean.filter(pl.col("t_ns") <= ns_entry).tail(1)
         if q_before.height == 0:
-            q_before = q_clean.filter(
-                (pl.col("t_ns") > ns_entry) & (pl.col("t_ns") <= ns_entry + 5_000_000_000)
-            ).head(1)
+            q_before = q_clean.filter((pl.col("t_ns") > ns_entry) & (pl.col("t_ns") <= ns_entry + 5_000_000_000)).head(
+                1
+            )
         if q_before.height == 0:
             return None
 
@@ -441,7 +444,9 @@ def _extract_single_h089_candidate(
 
         post_trades = [
             TradeNs(ts_ns=int(t), price_px=float(p), size_shares=float(s))
-            for t, p, s in zip(t_post_df["t_ns"].to_list(), t_post_df["p"].to_list(), t_post_df["s"].to_list(), strict=False)
+            for t, p, s in zip(
+                t_post_df["t_ns"].to_list(), t_post_df["p"].to_list(), t_post_df["s"].to_list(), strict=False
+            )
         ]
         post_quotes = [
             QuoteNs(ts_ns=int(t), bid_px=float(bp), bid_lots=float(bs), ask_px=float(ap))
@@ -553,7 +558,11 @@ def run_local_h089_prewall_study(
         )
         .with_columns(
             [
-                pl.col("raw_dv").shift(1).rolling_median(window_size=20, min_samples=20).over("symbol").alias("adv_20d_usd"),
+                pl.col("raw_dv")
+                .shift(1)
+                .rolling_median(window_size=20, min_samples=20)
+                .over("symbol")
+                .alias("adv_20d_usd"),
                 pl.col("ret_1d").shift(1).rolling_std(window_size=20, min_samples=20).over("symbol").alias("sigma_20d"),
                 (((pl.col("prev_split_close") / pl.col("prev_raw_close")) / pl.col("adj_factor") - 1.0).abs()).alias(
                     "split_drift"
@@ -649,9 +658,9 @@ def run_local_h089_prewall_study(
         strategy="backward",
         check_sortedness=False,
     ).with_columns(
-        (pl.col("filed_date").is_not_null() & ((pl.col("trade_date") - pl.col("filed_date")).dt.total_days() <= 90)).alias(
-            "recent_dilution_90d"
-        )
+        (
+            pl.col("filed_date").is_not_null() & ((pl.col("trade_date") - pl.col("filed_date")).dt.total_days() <= 90)
+        ).alias("recent_dilution_90d")
     )
     panel = panel.join_asof(
         short_pit,

@@ -18,9 +18,14 @@ strategy_id = str(cfg.get("strategy_id") or "CANDIDATE_PRE_TRAVEL_IGNITION")
 archetype = str(cfg.get("archetype") or "PRE_TRAVEL_EARLY_IGNITION")
 target_repo = str(cfg.get("repo") or "sota-mover-ranker")
 rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_envelope = getattr(kit, "verify_workflow_research_convergence", lambda *_a, **_k: {"valid": True})(
+    "research-convergence-landing", repo=target_repo, archetype=archetype
+)
 rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief(target_repo)
-log(f"{peer_brief}\n[RC Context: schema={rc_schema} | ADR-0004/ADR-0016 | sibling_authority=PHILOSOPHY_ONLY]")
+log(
+    f"{peer_brief}\n[RC Context: schema={rc_schema} | valid={rc_envelope.get('valid', True)} | ADR-0004/ADR-0016 | sibling_authority=PHILOSOPHY_ONLY]"
+)
 
 DATAFEED_RECON_SCHEMA = {
     "type": "object",

@@ -15,9 +15,12 @@ import _sota_kit as kit
 cfg = args if "args" in globals() and isinstance(args, dict) else {}
 repo_hint = str(cfg.get("repo") or "sota-mover-ranker")
 rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_envelope = getattr(kit, "verify_workflow_research_convergence", lambda *_a, **_k: {"valid": True})(
+    "rd-agent-hypothesis-bus", repo=repo_hint
+)
 rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief(repo_hint)
-log(peer_brief)
+log(f"{peer_brief}\n[RC Envelope valid={rc_envelope.get('valid', True)}]")
 
 HYPOTHESIS_SCHEMA = {
     "type": "object",

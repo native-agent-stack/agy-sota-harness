@@ -9,9 +9,12 @@ sys.path.insert(0, str(Path.home() / ".agents" / "workflows"))
 import _sota_kit as kit
 
 rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_envelope = getattr(kit, "verify_workflow_research_convergence", lambda *_a, **_k: {"valid": True})(
+    "ecosystem-convergence", repo="agy-sota-harness"
+)
 rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
 peer_brief = kit.load_peer_brief("agy-sota-harness")
-log(peer_brief)
+log(f"{peer_brief}\n[RC Envelope valid={rc_envelope.get('valid', True)}]")
 
 TARGETS = [
     ("agy-sota-harness", "Run `python3 harness/run_probes.py` and verify 13/13 L0-L12 probes pass."),

@@ -1,4 +1,5 @@
 """TDD & Hypothesis property suite for H089 Two-Stage Hybrid Entry x 50/50 Runner Convexity."""
+
 from __future__ import annotations
 
 import math
@@ -96,7 +97,15 @@ def test_property_h089_cost_monotonicity_and_stop_bound(
     assert len(H089_SPEC_SHA256) == 64
 
     close_px = max(0.50, entry_px * close_mult)
-    bars = (Bar1m(ts_ns=10_000, open_px=entry_px, high_px=max(entry_px, close_px), low_px=min(entry_px, close_px), close_px=close_px),)
+    bars = (
+        Bar1m(
+            ts_ns=10_000,
+            open_px=entry_px,
+            high_px=max(entry_px, close_px),
+            low_px=min(entry_px, close_px),
+            close_px=close_px,
+        ),
+    )
     out = replay_dual_tranche_runner_convexity(
         entry_px=entry_px,
         fill_ts_ns=1_000,

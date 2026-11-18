@@ -10,9 +10,13 @@ import _sota_kit as kit
 cfg = args if "args" in globals() and isinstance(args, dict) else {}
 target_repo = str(cfg.get("repo") or "agy-sota-harness")
 rc_ctx = getattr(kit, "load_research_convergence_context", lambda: {"schema_version": "sota-research-feeds.v2"})()
+rc_envelope = getattr(kit, "verify_workflow_research_convergence", lambda *_a, **_k: {"valid": True})(
+    "cross-peer-orca-review", repo=target_repo
+)
 rc_schema = str(rc_ctx.get("schema_version") or "sota-research-feeds.v2")
+target_dir = getattr(kit, "resolve_repo_dir", lambda r: Path.home() / "Documents" / r)(target_repo)
 peer_brief = kit.load_peer_brief(target_repo)
-log(peer_brief)
+log(f"{peer_brief}\n[RC Envelope valid={rc_envelope.get('valid', True)} target={target_dir}]")
 
 GATE_SCHEMA = {
     "type": "object",
