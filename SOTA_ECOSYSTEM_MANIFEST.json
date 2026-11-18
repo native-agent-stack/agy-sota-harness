@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "3.7.0",
+  "manifestVersion": "3.8.0",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -89,7 +89,21 @@
       "MEGA_CAP_NEAR_LOSSLESS_ORB",
       "CLIMAX_VWAP_MEAN_REVERSION"
     ],
-    "dec6_2026_23x5_sip_cutover_guarded": true
+    "dec6_2026_23x5_sip_cutover_guarded": true,
+    "rankingSchema": "sota-ranking-and-datafeeds.v2",
+    "rankingPillars": [
+      "move",
+      "unusual_vol_rvol_tod",
+      "inst_dark_bjzz",
+      "iso_urgency_ofi",
+      "overnight_boats",
+      "catalyst_15m_decay"
+    ],
+    "executionQualityTiers": [
+      "TIER1_TIGHT_SPREAD_HIGH_OFI_PASSIVE (H090 <=10bps, OFI>=25%)",
+      "TIER2_TWO_STAGE_HYBRID_QUEUE (H089 <=35bps, 50/50 Core+Runner)",
+      "TIER3_WIDE_SPREAD_OR_ADVERSE_OFI_BLOCKED"
+    ]
   },
   "paperRateLimits": {
     "alpacaPaperMaxReqPerMin": 200,
@@ -387,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 20,
+    "adrCount": 21,
     "records": [
       {
         "id": "ADR-0001",
@@ -717,6 +731,24 @@
           "https://github.com/native-agent-stack/sota-mover-ranker",
           "https://github.com/native-agent-stack/sota-upstream-shelf-lock",
           "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0021",
+        "layer": "Quantitative Research Skills, 7-Feed PIT DataFeeds & 6-Pillar Trading Ranking (`L0\u2013L12` \u00d7 `P0\u2013P5` \u00d7 `T0\u2013T8`)",
+        "title": "SOTA Research Skills, 7-Feed PIT DataFeeds & 6-Pillar Trading Ranking Architecture (`v3.8.0`)",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`13/13` AGY Probes, `sota-ranking-and-datafeeds.v2` Hypothesis Suite, `90` HLZ Trials & `60` Compiled Lessons Verified)",
+        "file": "docs/adr/ADR-0021-sota-research-skills-7feed-datafeeds-and-6pillar-ranking-architecture.md",
+        "githubUrls": [
+          "https://github.com/ml4t/diagnostic",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-compounding-lab",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/native-agent-stack/sota-upstream-shelf-lock",
+          "https://github.com/nkaz001/hftbacktest",
+          "https://github.com/skfolio/skfolio"
         ]
       }
     ]
