@@ -38,6 +38,7 @@ BRIDGED_DOCS_REPOS = (
     "sota-harness-foundation",
     "sota-mover-ranker",
     "sota-multi-model-workflows",
+    "sota-private-vault",
     "sota-upstream-shelf-lock",
     "trading-sota",
     "tsl",
@@ -505,7 +506,7 @@ def probe_l12() -> str:
 
 
 PROBES: tuple[tuple[str, str, Callable[[], str]], ...] = (
-    ("L0", "Provisioning, Lockfiles & 16-Repo Bridges", probe_l0),
+    ("L0", "Provisioning, Lockfiles & 17-Repo Bridges", probe_l0),
     ("L1", "Lifecycle Hooks & Peer-Lease Collision Guard", probe_l1),
     ("L2", "Lean 7-Tool Core MCP & 4-Server Mesh", probe_l2),
     ("L3", "AST Symbol Graph & 18-Repo Shelf FTS5", probe_l3),
