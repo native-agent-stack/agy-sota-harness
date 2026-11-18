@@ -81,7 +81,7 @@ except ImportError:  # CI/clean-checkout fallback when sota-multi-model-workflow
         return {
             "repo": repo,
             "target_lead": "cc-lead",
-            "assign_sha256": hashlib.sha256(f"{repo}:{goal}".encode("utf-8")).hexdigest(),
+            "assign_sha256": hashlib.sha256(f"{repo}:{goal}".encode()).hexdigest(),
         }
 
 
