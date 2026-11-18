@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 24,
+    "adrCount": 25,
     "records": [
       {
         "id": "ADR-0001",
@@ -802,6 +802,21 @@
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/pbakaus/impeccable",
           "https://github.com/tt-a1i/archify"
+        ]
+      },
+      {
+        "id": "ADR-0025",
+        "layer": "Antigravity `L0\u2013L13` Harness, 46-Skill Triad/Orca Mesh & Schema-Typed `run_workflow` DAGs (`H2` / `H4` \u00d7 `T1\u2013T5`)",
+        "title": "v3.9.3 Unified 46-Skill Cross-Harness Convergence, 7th AGY Grand Workflow DAG & Dual-Machine Orca Automations",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`46/46` Canonical Skills Converged Across AGY+Claude+Codex+Orca, `7/7` AGY `run_workflow` DAGs, `13/13` Probes & `21/21` Pytest Verified)",
+        "file": "docs/adr/ADR-0025-v393-native-46skill-17workflow-14layer-18repo-adr-and-orca-enactment.md",
+        "githubUrls": [
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/cc-sota-harness",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows",
+          "https://github.com/stablyai/orca"
         ]
       }
     ]
