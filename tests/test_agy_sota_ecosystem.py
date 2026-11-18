@@ -336,7 +336,10 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
 
 def test_tradingview_seamless_practice_workflow_dag9_fast_mode() -> None:
     import ast
+    import asyncio
     import io
+    import json
+    import types
     from contextlib import redirect_stdout
 
     wf_path = HARNESS_ROOT / "src" / "agy_sota" / "workflows" / "tradingview_seamless_practice_convergence_workflow.py"
@@ -349,8 +352,9 @@ def test_tradingview_seamless_practice_workflow_dag9_fast_mode() -> None:
     }
     buf = io.StringIO()
     with redirect_stdout(buf):
-        eval(code, ns)
-    import json
+        res = eval(code, ns)
+        if isinstance(res, types.CoroutineType):
+            asyncio.run(res)
 
     out = json.loads(buf.getvalue())
     assert out["workflow_id"] == "tradingview-seamless-practice-convergence"
