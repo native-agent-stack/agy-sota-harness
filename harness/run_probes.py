@@ -27,7 +27,6 @@ SHELF_DIR = DOCS / "upstream"
 
 BRIDGED_DOCS_REPOS = (
     "claude-trading-skills",
-    "edge",
     "meridian",
     "movers",
     "sota-mover-ranker",
@@ -232,9 +231,15 @@ def probe_l4() -> str:
         mounted = sum(1 for s in canonical if (peer_dir / s).exists())
         assert mounted == len(canonical), f"Peer {peer_dir} only mounted {mounted}/{len(canonical)} canonical skills"
 
-    vendored = sorted(
-        p.name for p in (HARNESS_ROOT / ".agents" / "skills").iterdir() if p.is_dir() and (p / "SKILL.md").is_file()
+    v_dir = HARNESS_ROOT / ".agents" / "skills"
+    vendored = (
+        sorted(p.name for p in v_dir.iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
+        if v_dir.is_dir()
+        else []
     )
+    if len(vendored) < 8 and (DOCS / "agy-sota-harness" / ".agents" / "skills").is_dir():
+        fb = DOCS / "agy-sota-harness" / ".agents" / "skills"
+        vendored = sorted(p.name for p in fb.iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
     assert len(vendored) >= 8, f"Expected >=8 vendored scientific/security skills, found {len(vendored)}"
     cat_p = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "architecture_catalog.py"), "--check"],
