@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "3.9.9",
+  "manifestVersion": "3.10.0",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 28,
+    "adrCount": 29,
     "records": [
       {
         "id": "ADR-0001",
@@ -862,6 +862,21 @@
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/stablyai/orca",
           "https://github.com/tobi/qmd"
+        ]
+      },
+      {
+        "id": "ADR-0029",
+        "layer": "Cross-Harness Multi-Model Suitability Routing, MCP `sota_bus_assign_worker` & 3-Surface Parity (`L1` x `L3` x `L4` x `L8` x `L12`)",
+        "title": "`v3.10.0` Quality-Directive `3`-Powerhouse + `DSH` + `Pi`/`OMP` (`gpt-6.2-sol` `high`) Parity & Claude Code `~1:1` Model-Mix Integration",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`29` GitHub-Evidenced ADRs, `13/13` Live Harness Probes, `21/21` Pytest & Hypothesis Property Tests, Artificial Analysis `v5.0.1` / `v2.1` Grounded)",
+        "file": "docs/adr/ADR-0029-v3100-quality-directive-3powerhouse-dsh-pi-gpt62sol-and-claude-1to1-mix.md",
+        "githubUrls": [
+          "https://github.com/can1357/oh-my-pi",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/cc-sota-harness",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows"
         ]
       }
     ]
