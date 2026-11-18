@@ -241,6 +241,51 @@ def test_intraday_1030_prewall_study_split_unit_invariance_and_wall() -> None:
     assert res.rth_1030_to_close_excess_bps > 0.0
 
 
+def test_research_convergence_datafeed_and_strategy_templates() -> None:
+    import json
+    from datetime import UTC, datetime
+
+    from agy_sota.research_convergence import (
+        STRATEGY_ARCHETYPES,
+        resolve_session_datafeed,
+        scaffold_converged_strategy,
+        validate_converged_strategy_manifest,
+    )
+
+    # 14:30 UTC on 2026-10-14 == 10:30 EDT -> REGULAR_RTH (sip)
+    rth = resolve_session_datafeed(datetime(2026, 10, 14, 14, 30, tzinfo=UTC))
+    assert rth["segment"] == "REGULAR_RTH"
+    assert rth["alpaca_datafeed"] == "sip"
+    assert rth["ibkr_outside_rth"] is False
+
+    # 02:30 UTC on 2026-10-14 == 22:30 EDT (prior evening) -> OVERNIGHT_BOATS (boats)
+    boats = resolve_session_datafeed(datetime(2026, 10, 14, 2, 30, tzinfo=UTC))
+    assert boats["segment"] == "OVERNIGHT_BOATS"
+    assert boats["alpaca_datafeed"] == "boats"
+    assert boats["ibkr_outside_rth"] is True
+
+    # Post Dec 6, 2026 with flag enabled -> OVERNIGHT_23X5_SIP (sip)
+    sip23 = resolve_session_datafeed(datetime(2026, 12, 8, 2, 30, tzinfo=UTC), enable_dec6_23x5_sip=True)
+    assert sip23["segment"] == "OVERNIGHT_23X5_SIP"
+    assert sip23["alpaca_datafeed"] == "sip"
+
+    tmpl_on_disk = json.loads((HARNESS_ROOT / "templates" / "sota_converged_strategy.template.json").read_text(encoding="utf-8"))
+    assert validate_converged_strategy_manifest(tmpl_on_disk, harness_root=HARNESS_ROOT) == []
+
+    sha64 = "a" * 64
+    for arch in STRATEGY_ARCHETYPES:
+        built = scaffold_converged_strategy(f"TEST_{arch}", arch, input_package_sha256=sha64, spec_sha256=sha64, harness_root=HARNESS_ROOT)
+        assert validate_converged_strategy_manifest(built, harness_root=HARNESS_ROOT) == []
+
+    # Rejects live execution, >2.00% stop, non-PIT raw/all, or philosophy-only violation
+    broken = json.loads(json.dumps(tmpl_on_disk))
+    broken["execution_and_protection"]["live_execution_enabled"] = True
+    broken["execution_and_protection"]["max_initial_stop_pct"] = 5.0
+    broken["research_convergence"]["other_repos_authority"] = "COPY_ALLOWED"
+    errs = validate_converged_strategy_manifest(broken, harness_root=HARNESS_ROOT)
+    assert len(errs) >= 3
+
+
 def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     import json
 
@@ -251,7 +296,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "15 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "16 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -268,8 +313,8 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 15
-    assert len(adr_gov["records"]) == 15
+    assert adr_gov["adrCount"] == 16
+    assert len(adr_gov["records"]) == 16
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
