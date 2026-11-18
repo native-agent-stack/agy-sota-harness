@@ -36,14 +36,14 @@
     "sotaHarnessFoundation": {
       "url": "https://github.com/native-agent-stack/sota-harness-foundation",
       "visibility": "PUBLIC",
-      "baselineCommit": "6f5dfa0b8d92708d5c39362a59064c7a75badc84",
-      "role": "Open-core multi-model harness foundation, 19 MADR 4.0 ADRs & Hypothesis RuleBasedStateMachine fuzzing"
+      "baselineCommit": "1394175b7fd77c4abb4005fc6ec3834c4fc0a7a6",
+      "role": "Open-core multi-model harness foundation, 20 MADR 4.0 ADRs, dual-machine workstation lane & Hypothesis RuleBasedStateMachine fuzzing"
     },
     "sotaMultiModelWorkflows": {
       "url": "https://github.com/native-agent-stack/sota-multi-model-workflows",
       "visibility": "PUBLIC",
-      "baselineCommit": "da0f891d81dd6137cd803073b49ef956c02e33c9",
-      "role": "Portable sota-peer-bus, 9 schema-typed REGISTRY.json workflows, 6 MADR 4.0 ADRs & reusable CI"
+      "baselineCommit": "82f31a4ce67da77f6c243f8b0c2e61f643bd44f5",
+      "role": "Portable sota-peer-bus, 11 schema-typed REGISTRY.json workflows, 6 MADR 4.0 ADRs & reusable CI"
     },
     "sotaCompoundingLab": {
       "url": "https://github.com/native-agent-stack/sota-compounding-lab",
@@ -66,22 +66,22 @@
     "sotaMoverRanker": {
       "url": "https://github.com/native-agent-stack/sota-mover-ranker",
       "visibility": "PRIVATE",
-      "baselineCommit": "5192afc1ba553901df9969078914be75b39393cb",
-      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca + 3,000/min IBKR Paper, PIT first-hand feeds & 8 MADR 4.0 ADRs"
+      "baselineCommit": "c430de56b6612e1bbb6d78e635ec059f37378042",
+      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca + 3,000/min IBKR Paper, PIT first-hand feeds & 8+ MADR 4.0 ADRs"
     },
     "sotaDynamicTrailC": {
       "url": "https://github.com/native-agent-stack/sota-dynamic-trail-c",
       "visibility": "PRIVATE",
-      "baselineTag": "v0.6.0",
-      "baselineCommit": "d6e25bf82fb8963c8629f648bafbf84222441f6b",
-      "role": "24/5 Empirical-Bayes Dual-Tranche Dynamic Trailing Guardian (:8799, TCC-safe ~/sota-dynamic-trail-c, 4 MADR 4.0 ADRs)"
+      "baselineTag": "v0.7.1",
+      "baselineCommit": "ecba6b3b19df78d0db52725c0ff07a386752bfe3",
+      "role": "24/5 Per-Symbol Empirical-Bayes Near-Lossless Dynamic Trailing Guardian (:8799, TCC-safe ~/sota-dynamic-trail-c, 5 MADR 4.0 ADRs)"
     },
     "ccSotaHarness": {
       "url": "https://github.com/native-agent-stack/cc-sota-harness",
       "visibility": "PRIVATE",
       "localWorkspace": "~/Documents/cc-sota-harness",
-      "baselineCommit": "401ee5ecadd21979c975ee1ec3b6783c90899c33",
-      "role": "Claude Code + OMC + 24-runtime frontier sibling harness, 47-repo legacy harvest & 19+ MADR 4.0 ADRs"
+      "baselineCommit": "be14a83a3dcadf74c27001c592c74fcc82135168",
+      "role": "Claude Code + OMC + 24-runtime frontier sibling harness, 47-repo legacy harvest, paired Noesis lane & 20 MADR 4.0 ADRs"
     },
     "meridian": {
       "url": "https://github.com/native-agent-stack/meridian",

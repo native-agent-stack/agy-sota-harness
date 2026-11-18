@@ -26,14 +26,21 @@ PLUGIN_DIR = HOME / ".gemini" / "config" / "plugins" / "agy-sota-core"
 SHELF_DIR = DOCS / "upstream"
 
 BRIDGED_DOCS_REPOS = (
+    "astrolabe",
+    "cc-sota-harness",
     "claude-trading-skills",
-    "meridian",
-    "movers",
-    "sota-mover-ranker",
-    "trading-sota",
-    "tsl",
     "dsh",
     "dsh-sota-harness",
+    "meridian",
+    "native-agent-stack",
+    "sota-compounding-lab",
+    "sota-dynamic-trail-c",
+    "sota-harness-foundation",
+    "sota-mover-ranker",
+    "sota-multi-model-workflows",
+    "sota-upstream-shelf-lock",
+    "trading-sota",
+    "tsl",
 )
 
 HOME_LEAK_RE = re.compile(r"/" + r"Users/[A-Za-z0-9._-]+/")
@@ -498,7 +505,7 @@ def probe_l12() -> str:
 
 
 PROBES: tuple[tuple[str, str, Callable[[], str]], ...] = (
-    ("L0", "Provisioning, Lockfiles & 10-Repo Bridges", probe_l0),
+    ("L0", "Provisioning, Lockfiles & 16-Repo Bridges", probe_l0),
     ("L1", "Lifecycle Hooks & Peer-Lease Collision Guard", probe_l1),
     ("L2", "Lean 7-Tool Core MCP & 4-Server Mesh", probe_l2),
     ("L3", "AST Symbol Graph & 18-Repo Shelf FTS5", probe_l3),
