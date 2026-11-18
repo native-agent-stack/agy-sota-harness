@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "3.9.0",
+  "manifestVersion": "3.9.1",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 22,
+    "adrCount": 23,
     "records": [
       {
         "id": "ADR-0001",
@@ -763,6 +763,22 @@
           "https://github.com/ComposioHQ/agent-orchestrator",
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows",
+          "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0023",
+        "layer": "Antigravity `L0\u2013L13` Harness, MCP Reliability & Pre-Wall Microstructure (`H2` / `H4` \u00d7 `T1\u2013T5`)",
+        "title": "v3.9.1 Twin Overnight Stop-Whipsaw Shield (`H092`+`H093`), MCP Stdio Non-Blocking Reliability & 93-Trial / 69-Lesson Convergence",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`13/13` AGY Probes, `23` ADRs, `93` HLZ Trials, `69` `E1\u2013E4` Lessons & `21/21` Pytest Verified)",
+        "file": "docs/adr/ADR-0023-v391-h092-h093-overnight-whipsaw-shield-and-93trial-69lesson-convergence.md",
+        "githubUrls": [
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-compounding-lab",
+          "https://github.com/native-agent-stack/sota-mover-ranker",
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/stablyai/orca"
         ]
