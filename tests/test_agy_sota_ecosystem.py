@@ -300,7 +300,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "29 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "30 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -322,16 +322,40 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 29
-    assert len(adr_gov["records"]) == 29
+    assert adr_gov["adrCount"] == 30
+    assert len(adr_gov["records"]) == 30
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
 
     wf_files = sorted((HARNESS_ROOT / "src" / "agy_sota" / "workflows").glob("*_workflow.py"))
-    assert len(wf_files) == 8
+    assert len(wf_files) == 9
     for wf in wf_files:
         assert "verify_workflow_research_convergence" in wf.read_text(encoding="utf-8")
+
+
+def test_tradingview_seamless_practice_workflow_dag9_fast_mode() -> None:
+    import ast
+    import io
+    from contextlib import redirect_stdout
+
+    wf_path = HARNESS_ROOT / "src" / "agy_sota" / "workflows" / "tradingview_seamless_practice_convergence_workflow.py"
+    code = compile(wf_path.read_text(encoding="utf-8"), "<workflow>", "exec", flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
+    ns: dict[str, object] = {
+        "__name__": "__main__",
+        "args": {"repo": "sota-mover-ranker", "fast_deterministic_only": True},
+        "log": lambda *_a: None,
+        "phase": lambda *_a: None,
+    }
+    buf = io.StringIO()
+    with redirect_stdout(buf):
+        eval(code, ns)
+    import json
+
+    out = json.loads(buf.getvalue())
+    assert out["workflow_id"] == "tradingview-seamless-practice-convergence"
+    assert out["rc_valid"] is True
+    assert out["all_gates_passed"] is True
 
 
 @pytest.mark.skipif(

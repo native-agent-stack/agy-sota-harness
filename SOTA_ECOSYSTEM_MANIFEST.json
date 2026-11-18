@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 29,
+    "adrCount": 30,
     "records": [
       {
         "id": "ADR-0001",
@@ -877,6 +877,26 @@
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/native-agent-stack/cc-sota-harness",
           "https://github.com/native-agent-stack/sota-multi-model-workflows"
+        ]
+      },
+      {
+        "id": "ADR-0030",
+        "layer": "Antigravity `L0\u2013L13` Harness, Schema-Typed `run_workflow` DAGs (`L5`), Starred Visual/Quant Craft (`L6`/`L8`) & Dual-Workstation TradingView Practice (`T1\u2013T8`)",
+        "title": "`v3.10.0` TradingView Seamless Practice (`46` Skills + `424` Stars), `9th` AGY `run_workflow` DAG & Win32 WireGuard Bootstrap",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`30` GitHub-Evidenced ADRs, `9/9` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `pytest` & Live `Noesis` `run_workflow` Verified)",
+        "file": "docs/adr/ADR-0030-v3100-tradingview-seamless-practice-46skill-424star-9dag-convergence.md",
+        "githubUrls": [
+          "https://github.com/NVIDIA/SkillEvaluator",
+          "https://github.com/elementalsouls/Claude-BugHunter",
+          "https://github.com/finos/perspective",
+          "https://github.com/likec4/likec4",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-dynamic-trail-c",
+          "https://github.com/native-agent-stack/sota-mover-ranker",
+          "https://github.com/tradingview/lightweight-charts",
+          "https://github.com/vercel-labs/agent-desktop"
         ]
       }
     ]
