@@ -1,5 +1,13 @@
 """AGY SOTA Harness Reference Invariants, Dimensional Guards & Workflow Library."""
 
+from agy_sota.hybrid_runner_prewall_study import (
+    H089_HYPOTHESIS_ID,
+    H089_SPEC_SHA256,
+    H089_TRIAL_N,
+    H089StudyResult,
+    replay_dual_tranche_runner_convexity,
+    simulate_two_stage_hybrid_entry,
+)
 from agy_sota.invariants import (
     STUDY_WALL_DATE,
     StopPreset,
@@ -22,6 +30,10 @@ from agy_sota.research_convergence import (
 )
 
 __all__ = [
+    "H089StudyResult",
+    "H089_HYPOTHESIS_ID",
+    "H089_SPEC_SHA256",
+    "H089_TRIAL_N",
     "STRATEGY_ARCHETYPES",
     "STUDY_WALL_DATE",
     "StopPreset",
@@ -33,8 +45,10 @@ __all__ = [
     "pct_to_ratio",
     "quantize_nms_price",
     "ratio_to_bps",
+    "replay_dual_tranche_runner_convexity",
     "resolve_session_datafeed",
     "scaffold_converged_strategy",
+    "simulate_two_stage_hybrid_entry",
     "validate_adr0022_stop",
     "validate_converged_strategy_manifest",
     "validate_ohlcv_polars_frame",

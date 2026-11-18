@@ -312,7 +312,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 16,
+    "adrCount": 17,
     "records": [
       {
         "id": "ADR-0001",
@@ -571,6 +571,24 @@
           "https://github.com/native-agent-stack/sota-compounding-lab",
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/nautechsystems/nautilus_trader"
+        ]
+      },
+      {
+        "id": "ADR-0017",
+        "layer": "Quantitative Microstructure, Execution Physics & Multi-Trial Statistical Gates (`T1\u2013T4` \u00d7 `L8` \u00d7 `P0\u2013P5`)",
+        "title": "Pre-Registered Trial #89 (`H089`) Two-Stage Hybrid Entry \u00d7 50/50 Asymmetric Runner Convexity & 5-Trial ORB Execution Synthesis",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (Runtime-Verified Across `14,750` Pre-Wall Nanosecond SIP Pairs, `587` Dates `<= 2026-10-15`, `sota-bus` `Trial #89` & `Hypothesis` Property Suite)",
+        "file": "docs/adr/ADR-0017-h089-two-stage-hybrid-entry-and-asymmetric-runner-convexity.md",
+        "githubUrls": [
+          "https://github.com/dgunning/edgartools",
+          "https://github.com/ml4t/diagnostic",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/nautechsystems/nautilus_trader",
+          "https://github.com/nkaz001/hftbacktest",
+          "https://github.com/skfolio/skfolio"
         ]
       }
     ]
