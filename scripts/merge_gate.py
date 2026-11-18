@@ -166,8 +166,9 @@ def main() -> int:
         for p in problems:
             print(f"[AGY-MERGE-GATE FAIL] {p}", file=sys.stderr)
         return 1
+    adr_count = len(list((ROOT / "docs" / "adr").glob("ADR-[0-9][0-9][0-9][0-9]-*.md")))
     print(
-        "[AGY-MERGE-GATE PASS] UPSTREAM.md map, 16/16 GitHub-evidenced ADRs, 18/18 shelf pins, noreply commits, and zero-leak privacy verified."
+        f"[AGY-MERGE-GATE PASS] UPSTREAM.md map, {adr_count}/{adr_count} GitHub-evidenced ADRs, 18/18 shelf pins, noreply commits, and zero-leak privacy verified."
     )
     return 0
 

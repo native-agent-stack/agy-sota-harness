@@ -1,8 +1,83 @@
 {
-  "manifestVersion": "3.6.0",
+  "manifestVersion": "3.7.0",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
+  "dualMachineOrcaLanes": {
+    "topology": "Mac M5 Max (100.93.211.101, macOS) <-> Stationary Noesis (100.110.115.22, Windows + WSL2 Noesis-Carbon)",
+    "orcaPort": 6770,
+    "orcaYamlFleetRepositories": 11,
+    "splitBrainFirewall": "single-active-broker-host (:8787 Alpaca Paper, :8799 Dynamic Trail Guardian, :4002 IBKR Paper never duplicated across worktrees or hosts)",
+    "tradingLanes": [
+      {
+        "laneId": "T1_SIM_PREWALL_AND_SHELF_LOCK",
+        "stage": "Stage 1-2 Simulation, Pre-Wall Causal Research (<= 2026-10-15) & 18-Clone Shelf Lock",
+        "repositories": [
+          "meridian",
+          "sota-compounding-lab",
+          "sota-upstream-shelf-lock",
+          "canon",
+          "tsl",
+          "trading-sota"
+        ]
+      },
+      {
+        "laneId": "T2_AUTONOMOUS_PAPER_EXECUTION",
+        "stage": "Stage 3 Paper-Only Broker Execution (<= 200 req/min Alpaca Paper :8787 & <= 3,000 msg/min IBKR Paper :4002, ADR-0022 <= 2.00%)",
+        "repositories": [
+          "sota-mover-ranker",
+          "astrolabe"
+        ]
+      },
+      {
+        "laneId": "T3_DYNAMIC_TRAIL_GUARDIAN_AND_VAULT",
+        "stage": "Stage 4-5 24/5 Empirical-Bayes Near-Lossless Protection (:8799), 50/50 Runner Convexity & Private Vault",
+        "repositories": [
+          "sota-dynamic-trail-c",
+          "sota-compounding-lab",
+          "sota-private-vault"
+        ]
+      }
+    ],
+    "harnessLanes": [
+      {
+        "laneId": "H1_CC_LEAD_AND_FOUNDATION",
+        "role": "Claude Code (cc-lead, claude-fable-5-2 xhigh + OMC v2) Central Hub & Open-Core Multi-Runtime Foundation",
+        "repositories": [
+          "cc-sota-harness",
+          "sota-harness-foundation",
+          "native-agent-stack"
+        ]
+      },
+      {
+        "laneId": "H2_AGY_AND_MULTI_MODEL_WORKFLOWS",
+        "role": "Antigravity L0-L12 Harness (6 Local DAGs + Native Swarm) & 14 Canonical REGISTRY.json Workflows",
+        "repositories": [
+          "agy-sota-harness",
+          "sota-multi-model-workflows"
+        ]
+      },
+      {
+        "laneId": "H3_CROSS_PEER_WORKER_FLEET_AND_ORCA",
+        "role": "DeepSeek Harness, Plugin Landscape, Codex OMX, OpenCode OMO, Composio AO & Symmetric Orca :6770 Worktrees",
+        "repositories": [
+          "dsh-sota-harness",
+          "dsh-plugin-landscape",
+          ".github"
+        ]
+      }
+    ]
+  },
+  "multiModelOrchestrationFrameworks": [
+    "1_antigravity_run_workflow_and_native_swarm",
+    "2_claude_code_omc_v2_ultragoal_team_ask",
+    "3_openai_codex_omx_mission_exec",
+    "4_stablyai_orca_dual_machine_worktree_supervision_6770",
+    "5_opencode_omo_hephaestus_non_gpt_verifier",
+    "6_deepseek_harness_dsh_10layer_preset",
+    "7_composio_agent_orchestrator_ao_8slot",
+    "8_shared_sqlite_wal_sota_peer_bus_and_hcom"
+  ],
   "researchConvergenceContract": {
     "schema": "sota-research-feeds.v2",
     "provenanceRule": "ADR-0004 / ADR-0016 3-tier input SHA-256 + 40-char upstream pins + reproducible command + E0-E4",
@@ -38,13 +113,13 @@
     "agySotaHarness": {
       "url": "https://github.com/native-agent-stack/agy-sota-harness",
       "visibility": "PUBLIC",
-      "role": "Machine-wide Antigravity L0-L12 harness, H089 study, research_convergence validator, 18 MADR 4.0 ADRs & 13-layer probe suite"
+      "role": "Machine-wide Antigravity L0-L12 harness, H089 study, research_convergence validator, 20 MADR 4.0 ADRs, 6 local DAGs & 13-layer probe suite"
     },
     "dshSotaHarness": {
       "url": "https://github.com/native-agent-stack/dsh-sota-harness",
       "visibility": "PUBLIC",
-      "baselineCommit": "39c00cd63e7aedc650ba119731474a345ab12be5",
-      "role": "DeepSeek Harness v2.4 cross-peer MCP preset, 5 MADR 4.0 ADRs & pre-wall trading firewall"
+      "baselineCommit": "fb41e95dfb88ec5cfc2998124741420cd313cbac",
+      "role": "DeepSeek Harness v2.4 cross-peer MCP preset, orca.yaml lane recipe, 6 MADR 4.0 ADRs & pre-wall trading firewall"
     },
     "sotaHarnessFoundation": {
       "url": "https://github.com/native-agent-stack/sota-harness-foundation",
@@ -61,14 +136,14 @@
     "sotaCompoundingLab": {
       "url": "https://github.com/native-agent-stack/sota-compounding-lab",
       "visibility": "PUBLIC",
-      "baselineCommit": "963ac56bf2223de256b6270513c358c92734b4ba",
-      "role": "5-stage Sim->PreWall->Paper->EB->Alpaca/IBKR lifecycle engine, H088/H089 50/50 runner convexity, 8 MADR 4.0 ADRs & sota-org-doctor"
+      "baselineCommit": "b76cd272bc215c39956b4b3fb3f0103320a75620",
+      "role": "5-stage Sim->PreWall->Paper->EB->Alpaca/IBKR lifecycle engine, H088/H089 50/50 runner convexity, orca.yaml, 9 MADR 4.0 ADRs & sota-org-doctor"
     },
     "sotaUpstreamShelfLock": {
       "url": "https://github.com/native-agent-stack/sota-upstream-shelf-lock",
       "visibility": "PUBLIC",
-      "baselineCommit": "919236e98cba34329e8502237ed932e4e3b67566",
-      "role": "Immutable 40-char SHA lock, MinTRL/MDE power gate & RiskAdverseQueueModel simulator for 18 upstream clones (5 MADR 4.0 ADRs)"
+      "baselineCommit": "425e762bce910926a6d82abe06927b448bdae360",
+      "role": "Immutable 40-char SHA lock, MinTRL/MDE power gate, orca.yaml & RiskAdverseQueueModel simulator for 18 upstream clones (6 MADR 4.0 ADRs)"
     },
     "astrolabe": {
       "url": "https://github.com/native-agent-stack/astrolabe",
@@ -79,15 +154,15 @@
     "sotaMoverRanker": {
       "url": "https://github.com/native-agent-stack/sota-mover-ranker",
       "visibility": "PRIVATE",
-      "baselineCommit": "00f132cfdaf7c89cc00ff4da3016fe37ccaa7ec3",
-      "role": "Whole-market live mover ranker (:8787), 16-tool MCP, post-Gain-Lock 50/50 Core-Harvest + Runner Convexity & <=200/min Alpaca Paper (11 MADR 4.0 ADRs)"
+      "baselineCommit": "35794282d5bd7950f53308f4e7b474668e5a5828",
+      "role": "Whole-market live mover ranker (:8787), 16-tool MCP, orca.yaml, post-Gain-Lock 50/50 Core-Harvest + Runner Convexity & <=200/min Alpaca Paper (13 MADR 4.0 ADRs)"
     },
     "sotaDynamicTrailC": {
       "url": "https://github.com/native-agent-stack/sota-dynamic-trail-c",
       "visibility": "PRIVATE",
       "baselineTag": "v1.0.1",
-      "baselineCommit": "fd79ffd8b861fbb3c801eb023dbc3a696aee6e91",
-      "role": "24/5 v1.0.1 Per-Symbol Empirical-Bayes Near-Lossless Dynamic Trailing Guardian (:8799, [L]/[M]/[B] TV stager & 10 MADR 4.0 ADRs)"
+      "baselineCommit": "e6cbb8c82b66301877e63f5120b8ce6f0c4c57a2",
+      "role": "24/5 v1.0.1 Per-Symbol Empirical-Bayes Near-Lossless Dynamic Trailing Guardian (:8799, orca.yaml, [L]/[M]/[B] TV stager & 11 MADR 4.0 ADRs)"
     },
     "ccSotaHarness": {
       "url": "https://github.com/native-agent-stack/cc-sota-harness",
@@ -123,8 +198,8 @@
     "dshPluginLandscape": {
       "url": "https://github.com/native-agent-stack/dsh-plugin-landscape",
       "visibility": "PRIVATE",
-      "baselineCommit": "0703d7504731dbc36701a49c6e984e9e10722631",
-      "role": "DSH plugin landscape & 424-repo research cross-reference (4 MADR 4.0 ADRs + CATALOG.md)"
+      "baselineCommit": "45856a72a62b43dc4f6d387ae1949576dbbb25bb",
+      "role": "DSH plugin landscape, orca.yaml & 424-repo research cross-reference (4 MADR 4.0 ADRs + CATALOG.md)"
     },
     "sotaPrivateVault": {
       "url": "https://github.com/native-agent-stack/sota-private-vault",
@@ -179,11 +254,11 @@
     "L4_skills_and_spec_governance": [
       "16 canonical ~/.agents/skills mounted across AGY + Claude + Codex",
       "8 pinned vendored scientific & security-audit skills",
-      "17 bridged repos (~/Documents/* + ~/sota-dynamic-trail-c + ~/canon)",
-      "16 GitHub-evidenced MADR 4.0 ADRs (docs/adr/CATALOG.md)"
+      "17 bridged repos (~/Documents/* + ~/sota-dynamic-trail-c + ~/canon) + >=11 cross-OS orca.yaml workspace recipes",
+      "20 GitHub-evidenced MADR 4.0 ADRs (docs/adr/CATALOG.md)"
     ],
     "L5_typed_workflows_and_swarm": [
-      "5 repo-local schema-typed run_workflow DAGs (AST + __file__ guarded)",
+      "6 repo-local schema-typed run_workflow DAGs (AST + __file__ + verify_workflow_research_convergence guarded)",
       "13 self-bootstrapping v3.3.1 REGISTRY.json workflows (_sota_kit.py, /sota-workflow)",
       "AGY Native Swarm (workspace:share + 1:3 verifiers)",
       "aannoo/hcom@0.7.31 real-time cross-terminal push"
@@ -312,7 +387,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 19,
+    "adrCount": 20,
     "records": [
       {
         "id": "ADR-0001",
@@ -623,6 +698,25 @@
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/nautechsystems/nautilus_trader",
           "https://github.com/nkaz001/hftbacktest"
+        ]
+      },
+      {
+        "id": "ADR-0020",
+        "layer": "Dual-Machine Orca Fleet, Trading Execution Lanes & Multi-Runtime Harness Topology (`L0\u2013L12` \u00d7 `P0\u2013P5` \u00d7 `T0\u2013T8`)",
+        "title": "`v3.7.0` Dual-Machine (`Mac M5 Max <-> Noesis`) Orca Trading Lanes (`T1\u2013T3`), Harness Lanes (`H1\u2013H3`) & 11-Repo `orca.yaml` Fleet Convergence",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`11/11` Cross-OS `orca.yaml` Recipes, `6/6` Local AGY DAGs, `13/13` AGY Probes PASS, `4/4` Public GitHub Actions CI `completed/success`)",
+        "file": "docs/adr/ADR-0020-dual-machine-orca-trading-and-harness-lanes-convergence.md",
+        "githubUrls": [
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/dsh-plugin-landscape",
+          "https://github.com/native-agent-stack/dsh-sota-harness",
+          "https://github.com/native-agent-stack/sota-compounding-lab",
+          "https://github.com/native-agent-stack/sota-dynamic-trail-c",
+          "https://github.com/native-agent-stack/sota-mover-ranker",
+          "https://github.com/native-agent-stack/sota-upstream-shelf-lock",
+          "https://github.com/stablyai/orca"
         ]
       }
     ]

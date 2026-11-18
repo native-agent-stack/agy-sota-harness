@@ -300,7 +300,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "19 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "20 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -312,20 +312,24 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert "AGY-MERGE-GATE PASS" in p_gate.stdout
 
     manifest = json.loads((HARNESS_ROOT / "SOTA_ECOSYSTEM_MANIFEST.json").read_text(encoding="utf-8"))
-    assert manifest["manifestVersion"] == "3.6.0"
+    assert manifest["manifestVersion"] == "3.7.0"
     assert manifest["researchConvergenceContract"]["canonicalDataFeeds"] == 7
+    assert "dualMachineOrcaLanes" in manifest
+    assert len(manifest["dualMachineOrcaLanes"]["tradingLanes"]) == 3
+    assert len(manifest["dualMachineOrcaLanes"]["harnessLanes"]) == 3
+    assert len(manifest["multiModelOrchestrationFrameworks"]) == 8
     assert manifest["githubOrganization"] == "https://github.com/native-agent-stack"
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 19
-    assert len(adr_gov["records"]) == 19
+    assert adr_gov["adrCount"] == 20
+    assert len(adr_gov["records"]) == 20
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
 
     wf_files = sorted((HARNESS_ROOT / "src" / "agy_sota" / "workflows").glob("*_workflow.py"))
-    assert len(wf_files) == 5
+    assert len(wf_files) == 6
     for wf in wf_files:
         assert "verify_workflow_research_convergence" in wf.read_text(encoding="utf-8")
 

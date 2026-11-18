@@ -93,7 +93,14 @@ def probe_l0() -> str:
         assert sj.is_file(), f"Missing bridge {sj}"
     if CANON.is_dir():
         assert (CANON / ".agents" / "skills.json").is_file(), "Missing ~/canon/.agents/skills.json bridge"
-    return f"lockfiles + orca.yaml + {len(BRIDGED_DOCS_REPOS) + (1 if CANON.is_dir() else 0)} bridged repos verified"
+    orca_repos = sorted(p.name for p in DOCS.iterdir() if p.is_dir() and (p / "orca.yaml").is_file())
+    assert len(orca_repos) >= 11, (
+        f"Expected >=11 ~/Documents repos with orca.yaml, found {len(orca_repos)}: {orca_repos}"
+    )
+    return (
+        f"lockfiles + {len(orca_repos)} orca.yaml workspace recipes + "
+        f"{len(BRIDGED_DOCS_REPOS) + (1 if CANON.is_dir() else 0)} bridged repos verified"
+    )
 
 
 def probe_l1() -> str:
@@ -255,15 +262,16 @@ def probe_l4() -> str:
         check=True,
     )
     assert "0 drift" in cat_p.stdout, f"ADR catalog drift: {cat_p.stdout}"
+    adr_total = len(list((HARNESS_ROOT / "docs" / "adr").glob("ADR-[0-9][0-9][0-9][0-9]-*.md")))
     return (
         f"{len(canonical)} canonical skills converged across AGY+Claude+Codex + "
-        f"{len(vendored)} vendored skills + 16 GitHub-evidenced MADR 4.0 ADRs"
+        f"{len(vendored)} vendored skills + {adr_total} GitHub-evidenced MADR 4.0 ADRs"
     )
 
 
 def probe_l5() -> str:
     wf_files = sorted((HARNESS_ROOT / "src" / "agy_sota" / "workflows").glob("*.py"))
-    assert len(wf_files) >= 5, "Expected >=5 full-landscape run_workflow DAGs"
+    assert len(wf_files) >= 6, "Expected >=6 full-landscape run_workflow DAGs"
     for wf in wf_files:
         src = wf.read_text(encoding="utf-8")
         ast.parse(src, filename=str(wf))
@@ -275,6 +283,9 @@ def probe_l5() -> str:
             )
         assert "load_research_convergence_context" in src and "sota-research-feeds.v2" in src, (
             f"{wf.name} missing explicit load_research_convergence_context / sota-research-feeds.v2 binding"
+        )
+        assert "verify_workflow_research_convergence" in src, (
+            f"{wf.name} missing verify_workflow_research_convergence gate"
         )
         assert "PHILOSOPHY_ONLY" in src, f"{wf.name} missing ADR-0004 PHILOSOPHY_ONLY sibling-repo rule"
     return f"{len(wf_files)} schema-typed AGY run_workflow pipelines AST + Research-Convergence verified"
