@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "2.1.0",
+  "manifestVersion": "2.3.0",
   "verifiedAt": "2026-11-17",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -10,8 +10,8 @@
   },
   "peerHarnessesConverged": {
     "P0_antigravity_app_and_cli": "agy@1.5.3 + Antigravity 2.0 + google-antigravity SDK",
-    "P1_claude_code": "claude@2.1.326 + ~/Documents/cc-sota-harness + global user MCPs & peer_hook_adapter",
-    "P2_openai_codex": "codex@0.167.1 + oh-my-codex@0.22.10 + global MCPs & peer_hook_adapter",
+    "P1_claude_code": "claude@2.1.327 + ~/Documents/cc-sota-harness + global user MCPs & peer_hook_adapter",
+    "P2_openai_codex": "codex@0.169.0 + oh-my-codex@0.22.10 + global MCPs & peer_hook_adapter",
     "P3_deepseek_harness": "dsh@0.2.2-rc.2 + ~/Documents/dsh-sota-harness",
     "P4_orca_fleet_cockpit": "stablyai/orca@1.4.255 + orca.yaml",
     "P5_shared_peer_bus_and_hcom": "~/.agents/bus/peer_bus.db (SQLite WAL) + ~/.agents/wiki/*.md + aannoo/hcom@0.7.31"
