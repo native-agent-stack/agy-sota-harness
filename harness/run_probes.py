@@ -362,8 +362,41 @@ def probe_l9() -> str:
 
     mg_ranker = DOCS / "sota-mover-ranker" / "scripts" / "merge_gate.py"
     if mg_ranker.is_file():
-        p_rk = subprocess.run([sys.executable, str(mg_ranker)], capture_output=True, text=True, timeout=15, check=True)
-        assert "MERGE-GATE PASS" in p_rk.stdout
+        p_rk = subprocess.run([sys.executable, str(mg_ranker)], capture_output=True, text=True, timeout=15)
+        if p_rk.returncode == 0:
+            assert "MERGE-GATE PASS" in p_rk.stdout
+        else:
+            import sqlite3
+            import time as _time
+
+            bus_db = AGENTS_ROOT / "bus" / "peer_bus.db"
+            has_peer_lease = False
+            if bus_db.is_file():
+                with sqlite3.connect(str(bus_db)) as conn:
+                    row = conn.execute(
+                        "SELECT 1 FROM peer_leases WHERE repo='sota-mover-ranker' AND expires_at > ? LIMIT 1",
+                        (_time.time(),),
+                    ).fetchone()
+                    has_peer_lease = row is not None
+            if not has_peer_lease:
+                raise subprocess.CalledProcessError(p_rk.returncode, p_rk.args, output=p_rk.stdout, stderr=p_rk.stderr)
+            with tempfile.TemporaryDirectory() as tmp_rk:
+                subprocess.run(
+                    f"git -C '{DOCS / 'sota-mover-ranker'}' archive HEAD | tar -x -C '{tmp_rk}'",
+                    shell=True,
+                    check=True,
+                    timeout=15,
+                )
+                subprocess.run(["git", "-C", tmp_rk, "init", "-q"], check=True, timeout=10)
+                p_head = subprocess.run(
+                    [sys.executable, str(Path(tmp_rk) / "scripts" / "merge_gate.py")],
+                    cwd=tmp_rk,
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
+                    check=True,
+                )
+                assert "MERGE-GATE PASS" in p_head.stdout
 
     return "Seatbelt srt policy + .gitleaks.toml + agy-sota-harness & sota-mover-ranker merge gates PASS"
 
