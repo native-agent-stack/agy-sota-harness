@@ -1,8 +1,21 @@
 {
-  "manifestVersion": "3.0.0",
+  "manifestVersion": "3.3.0",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
+  "researchConvergenceContract": {
+    "schema": "sota-research-feeds.v2",
+    "provenanceRule": "ADR-0004 / ADR-0016 3-tier input SHA-256 + 40-char upstream pins + reproducible command + E0-E4",
+    "otherReposAuthority": "philosophy-only",
+    "canonicalDataFeeds": 7,
+    "canonicalStrategyArchetypes": [
+      "PRE_TRAVEL_EARLY_IGNITION",
+      "FIRST_HAND_SEC_EPISODIC_PIVOT",
+      "MEGA_CAP_NEAR_LOSSLESS_ORB",
+      "CLIMAX_VWAP_MEAN_REVERSION"
+    ],
+    "dec6_2026_23x5_sip_cutover_guarded": true
+  },
   "paperRateLimits": {
     "alpacaPaperMaxReqPerMin": 200,
     "alpacaProtectiveExitReservePerMin": 15,
@@ -14,74 +27,74 @@
     "dotGithubControlPlane": {
       "url": "https://github.com/native-agent-stack/.github",
       "visibility": "PUBLIC",
-      "role": "Org profile, ECOSYSTEM_ORG_MANIFEST.json, 6 MADR 4.0 ADRs & reusable SHA-pinned GitHub Actions CI"
+      "role": "Org profile, ECOSYSTEM_ORG_MANIFEST.json, MADR 4.0 ADRs & reusable SHA-pinned GitHub Actions CI"
     },
     "nativeAgentStack": {
       "url": "https://github.com/native-agent-stack/native-agent-stack",
       "visibility": "PUBLIC",
-      "baselineCommit": "5a9d93f5a8bc0c5730e99acf96130f965202bbf5",
-      "role": "v3.0.0 Umbrella Hub, ECOSYSTEM_CONVERGENCE_LOCK.json & 5 MADR 4.0 ADRs"
+      "baselineCommit": "e5eb9ba0724dfd8c70de1cda720d190775a8e75e",
+      "role": "v3.3.0 Umbrella Hub, ECOSYSTEM_CONVERGENCE_LOCK.json & MADR 4.0 ADRs"
     },
     "agySotaHarness": {
       "url": "https://github.com/native-agent-stack/agy-sota-harness",
       "visibility": "PUBLIC",
-      "role": "Machine-wide Antigravity L0-L12 harness, pre-wall studies, 14 MADR 4.0 ADRs & 13-layer probe suite"
+      "role": "Machine-wide Antigravity L0-L12 harness, pre-wall studies, research_convergence validator, 16 MADR 4.0 ADRs & 13-layer probe suite"
     },
     "dshSotaHarness": {
       "url": "https://github.com/native-agent-stack/dsh-sota-harness",
       "visibility": "PUBLIC",
-      "baselineCommit": "980d47a7703e0a1f250ef6787bea0da2d88abfe6",
+      "baselineCommit": "228ae2014a219b6b1fb3c2ac8916bf7b844e7202",
       "role": "DeepSeek Harness v2.2.0 cross-peer MCP preset, 3 MADR 4.0 ADRs & pre-wall trading firewall"
     },
     "sotaHarnessFoundation": {
       "url": "https://github.com/native-agent-stack/sota-harness-foundation",
       "visibility": "PUBLIC",
-      "baselineCommit": "d1e5048073341e9446ea09e51115990a16299c5e",
-      "role": "Open-core multi-model harness foundation, 20 MADR 4.0 ADRs, dual-machine workstation lane & Hypothesis RuleBasedStateMachine fuzzing"
+      "baselineCommit": "6336424d410fa03e63fa21e5acd6ad4b2d5ab745",
+      "role": "Open-core multi-model harness foundation, MADR 4.0 ADRs, dual-machine workstation lane & Hypothesis RuleBasedStateMachine fuzzing"
     },
     "sotaMultiModelWorkflows": {
       "url": "https://github.com/native-agent-stack/sota-multi-model-workflows",
       "visibility": "PUBLIC",
-      "baselineCommit": "82f31a4ce67da77f6c243f8b0c2e61f643bd44f5",
-      "role": "Portable sota-peer-bus, 11 schema-typed REGISTRY.json workflows, 6 MADR 4.0 ADRs & reusable CI"
+      "baselineCommit": "cdcd78ef5f483b2eff75078d9dd14fd83f76b67c",
+      "role": "Portable sota-peer-bus, v3.3.1 13 schema-typed REGISTRY.json workflows, 7-feed Research-Convergence Turn-0 kit, 11 MADR 4.0 ADRs & reusable CI"
     },
     "sotaCompoundingLab": {
       "url": "https://github.com/native-agent-stack/sota-compounding-lab",
       "visibility": "PUBLIC",
-      "baselineCommit": "7cc1010d41cda4bfca7f74949df30b6b591fb166",
-      "role": "5-stage Sim->PreWall->Paper->EB->Alpaca/IBKR lifecycle engine, 5 MADR 4.0 ADRs & 4-invariant sota-org-doctor"
+      "baselineCommit": "d791f8adb4b4b5b0384e4ffbdeab1e7de4015ba3",
+      "role": "5-stage Sim->PreWall->Paper->EB->Alpaca/IBKR lifecycle engine, converged strategy + Pine v6 templates, 6 MADR 4.0 ADRs & 4-invariant sota-org-doctor"
     },
     "sotaUpstreamShelfLock": {
       "url": "https://github.com/native-agent-stack/sota-upstream-shelf-lock",
       "visibility": "PUBLIC",
-      "baselineCommit": "1be9b36918761b50dff65c0b50605bdf8639f84a",
+      "baselineCommit": "075e66b5423001fcb919b4dc690cf9f6f8cd4b24",
       "role": "Immutable 40-char SHA lock & drift auditor for 18 upstream trading clones (3 MADR 4.0 ADRs)"
     },
     "astrolabe": {
       "url": "https://github.com/native-agent-stack/astrolabe",
       "visibility": "PUBLIC",
-      "baselineCommit": "9c654ea565da3f152f4577b372b87f411a68e326",
-      "role": "IBKR Paper-Trading Lane (:4002 DU... only) on NautilusTrader (3 MADR 4.0 ADRs, 281/281 pytest)"
+      "baselineCommit": "6016e0798b9c8cd9f3bf72b17336f8a87007e848",
+      "role": "IBKR Paper-Trading Lane (:4002 DU... only) on NautilusTrader, research_convergence SIP/BOATS/tick-stop contract (4 MADR 4.0 ADRs, 2,467/2,467 CI pytest)"
     },
     "sotaMoverRanker": {
       "url": "https://github.com/native-agent-stack/sota-mover-ranker",
       "visibility": "PRIVATE",
-      "baselineCommit": "6af53795b5ddd74df4ec3fba06ce9ea1301800dc",
-      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca + 3,000/min IBKR Paper, 20:00 ET BOATS hot-swap & 9 MADR 4.0 ADRs"
+      "baselineCommit": "3639663a7866ce127caf1875e22437e443d94c8b",
+      "role": "Whole-market live mover ranker (:8787), 16-tool MCP (research_feeds + first_hand_incentives + strategy_templates), <=200/min Alpaca + 3,000/min IBKR Paper & 10 MADR 4.0 ADRs"
     },
     "sotaDynamicTrailC": {
       "url": "https://github.com/native-agent-stack/sota-dynamic-trail-c",
       "visibility": "PRIVATE",
-      "baselineTag": "v0.7.1",
-      "baselineCommit": "ecba6b3b19df78d0db52725c0ff07a386752bfe3",
-      "role": "24/5 Per-Symbol Empirical-Bayes Near-Lossless Dynamic Trailing Guardian (:8799, TCC-safe ~/sota-dynamic-trail-c, 5 MADR 4.0 ADRs)"
+      "baselineTag": "v0.9.0",
+      "baselineCommit": "4b87d23e7869c0683981751c136cc92c2bea9204",
+      "role": "24/5 Per-Symbol Empirical-Bayes Near-Lossless Dynamic Trailing Guardian (:8799, TCC-safe ~/sota-dynamic-trail-c, 6+ MADR 4.0 ADRs)"
     },
     "ccSotaHarness": {
       "url": "https://github.com/native-agent-stack/cc-sota-harness",
       "visibility": "PRIVATE",
       "localWorkspace": "~/Documents/cc-sota-harness",
-      "baselineCommit": "252693348f3c464db4b26752e5142b3ddbaba114",
-      "role": "Claude Code + OMC + 24-runtime frontier sibling harness, 47-repo legacy harvest, paired Noesis lane & 20 MADR 4.0 ADRs"
+      "baselineCommit": "3e77a33381e130c75214995fd149786d3bfc9558",
+      "role": "Claude Code + OMC + 24-runtime frontier sibling harness, 47-repo legacy harvest, paired Noesis lane & MADR 4.0 ADRs"
     },
     "meridian": {
       "url": "https://github.com/native-agent-stack/meridian",
@@ -92,8 +105,8 @@
     "tradingSota": {
       "url": "https://github.com/native-agent-stack/trading-sota",
       "visibility": "PRIVATE",
-      "baselineCommit": "b1922662f4f9561f061eab0dda55b4c62f9fedd9",
-      "role": "Sim -> Paper -> Live research convergence archive & 10 MADR 4.0 ADRs"
+      "baselineCommit": "a75a5f72daa27cd43ad7672be7380ccc6fe883e3",
+      "role": "Sim -> Paper -> Live research convergence archive, 7-feed PIT alpaca_feed.py, <=2.0% PIT strategy template & 11 MADR 4.0 ADRs"
     },
     "canon": {
       "url": "https://github.com/native-agent-stack/canon",
@@ -152,7 +165,7 @@
     "L2_lean_mcp_mesh": [
       "agy-sota-core (7 tools, AGY+Claude+Codex)",
       "sota-peer-bus (7 tools, AGY+Claude+Codex)",
-      "sota-mover-ranker-stdio (13 tools, AGY+Claude+Codex)",
+      "sota-mover-ranker-stdio (16 tools incl. research_feeds + first_hand_incentives + strategy_templates, AGY+Claude+Codex)",
       "alpaca-sota-watchlists (paper-only, AGY)"
     ],
     "L3_code_graph_and_shelf_fts5": [
@@ -166,12 +179,12 @@
     "L4_skills_and_spec_governance": [
       "16 canonical ~/.agents/skills mounted across AGY + Claude + Codex",
       "8 pinned vendored scientific & security-audit skills",
-      "10 bridged repos (~/Documents/* + ~/canon)",
-      "14 GitHub-evidenced MADR 4.0 ADRs (docs/adr/CATALOG.md)"
+      "17 bridged repos (~/Documents/* + ~/sota-dynamic-trail-c + ~/canon)",
+      "16 GitHub-evidenced MADR 4.0 ADRs (docs/adr/CATALOG.md)"
     ],
     "L5_typed_workflows_and_swarm": [
-      "4 repo-local schema-typed run_workflow DAGs",
-      "9 self-bootstrapping REGISTRY.json workflows (_sota_kit.py, /sota-workflow)",
+      "5 repo-local schema-typed run_workflow DAGs (AST + __file__ guarded)",
+      "13 self-bootstrapping v3.3.1 REGISTRY.json workflows (_sota_kit.py, /sota-workflow)",
       "AGY Native Swarm (workspace:share + 1:3 verifiers)",
       "aannoo/hcom@0.7.31 real-time cross-terminal push"
     ],
@@ -188,7 +201,7 @@
       "~/.agents/wiki/{ACTIVE_PEERS,HANDOVER,LESSONS,HYPOTHESIS_LEDGER}.md"
     ],
     "L8_formal_invariants_and_ast_rules": [
-      "agy_sota.invariants (ADR-0022 stop quantization, dimensional bps/pct/ratio, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)",
+      "agy_sota.invariants & agy_sota.research_convergence (ADR-0022 stop quantization, ADR-0004/ADR-0016 3-tier SHA provenance, 7-feed PIT session routing, <=2026-10-15 pre-wall, HLZ t-hurdle, Pandera Polars OHLCV)",
       "agy_sota.prewall_study, agy_sota.intraday_prewall_study & agy_sota.tick_orb_prewall_study (DuckDB 1m + nanosecond SIP, native DSR, 5-path CPCV, clustered SE, PIT SEC dilution asof join)",
       "Hypothesis@6.170.15 property tests",
       "rules/ast-grep/sgconfig.yml (4 rules)"
@@ -200,7 +213,7 @@
     ],
     "L10_observability_and_sidecars": [
       "com.sota.24x5-deadman-watch (60s launchd ~/.agents/bin/sota-deadman-check + caffeinate -dimsu)",
-      "sota-doctor (10/10 cross-peer health gate)",
+      "sota-doctor (11/11 cross-peer + dual-workstation health gate)",
       "sota-early-mover-paper-goal scheduled sidecar (35 scoped access_grants)",
       "kenn-io/agentsview@0.47.0"
     ],

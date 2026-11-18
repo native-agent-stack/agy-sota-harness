@@ -265,12 +265,16 @@ def probe_l4() -> str:
 
 def probe_l5() -> str:
     wf_files = sorted((HARNESS_ROOT / "src" / "agy_sota" / "workflows").glob("*.py"))
-    assert len(wf_files) >= 4, "Expected >=4 full-landscape run_workflow DAGs"
+    assert len(wf_files) >= 5, "Expected >=5 full-landscape run_workflow DAGs"
     for wf in wf_files:
         src = wf.read_text(encoding="utf-8")
         ast.parse(src, filename=str(wf))
         assert "phase(" in src and "SCHEMA" in src, f"{wf.name} missing phase/typed schema"
         assert not HOME_LEAK_RE.search(src), f"Hardcoded home path leak in {wf}"
+        if "__file__" in src:
+            assert '"__file__" in globals()' in src or "'__file__' in globals()" in src, (
+                f"{wf.name} uses unguarded __file__ (fails inside <workflow> globals)"
+            )
     return f"{len(wf_files)} schema-typed AGY run_workflow pipelines AST-verified"
 
 
