@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 30,
+    "adrCount": 31,
     "records": [
       {
         "id": "ADR-0001",
@@ -897,6 +897,22 @@
           "https://github.com/native-agent-stack/sota-mover-ranker",
           "https://github.com/tradingview/lightweight-charts",
           "https://github.com/vercel-labs/agent-desktop"
+        ]
+      },
+      {
+        "id": "ADR-0031",
+        "layer": "Antigravity `L0\u2013L13` Harness, Schema-Typed `run_workflow` DAGs (`L5`), 8-Stage SOTA Convergence & 12-Feed Symbol Ranking (`T1\u2013T8`)",
+        "title": "`v3.10.0` Orca Lead (`cc-lead`) E2E SOTA Research Convergence, Finalized `DF1..DF12` Ranking & 10th AGY `run_workflow` DAG",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`31` GitHub-Evidenced ADRs, `10/10` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `pytest` & `merge_gate.py` `0` Leaks Verified)",
+        "file": "docs/adr/ADR-0031-v3100-orca-lead-e2e-research-convergence-12feed-ranking-and-10dag-parity.md",
+        "githubUrls": [
+          "https://github.com/databento/databento-python",
+          "https://github.com/microsoft/RD-Agent",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows",
+          "https://github.com/stablyai/orca"
         ]
       }
     ]

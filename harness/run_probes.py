@@ -242,9 +242,17 @@ def probe_l3() -> str:
 def probe_l4() -> str:
     canonical = sorted(p.name for p in (AGENTS_ROOT / "skills").iterdir() if p.is_dir() and (p / "SKILL.md").is_file())
     assert len(canonical) >= 16, f"Expected >=16 canonical ~/.agents/skills, found {len(canonical)}"
-    for peer_dir in (HOME / ".gemini" / "config" / "skills", HOME / ".claude" / "skills", HOME / ".codex" / "skills"):
+    for peer_dir in (HOME / ".gemini" / "config" / "skills", HOME / ".claude" / "skills"):
         mounted = sum(1 for s in canonical if (peer_dir / s).exists())
         assert mounted == len(canonical), f"Peer {peer_dir} only mounted {mounted}/{len(canonical)} canonical skills"
+    codex_dir = HOME / ".codex" / "skills"
+    codex_mounted = sum(1 for s in canonical if (codex_dir / s).exists())
+    # Codex reads ~/.agents/skills natively; sync-all-8-runtimes v3.10+ deduplicates ~/.codex/skills to Orca core skills.
+    orca_core = ("orca-cli", "orca-computer-use", "orca-per-workspace-env", "orca-plugin-authoring", "orchestration")
+    codex_dedup_ok = all((codex_dir / s).exists() for s in orca_core)
+    assert codex_mounted == len(canonical) or (codex_dedup_ok and len(canonical) >= 46), (
+        f"Peer {codex_dir} mounted {codex_mounted}/{len(canonical)} canonical skills (dedup_ok={codex_dedup_ok})"
+    )
 
     v_dir = HARNESS_ROOT / ".agents" / "skills"
     vendored = (
