@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "3.9.1",
+  "manifestVersion": "3.9.3",
   "verifiedAt": "2026-11-18",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 23,
+    "adrCount": 24,
     "records": [
       {
         "id": "ADR-0001",
@@ -782,7 +782,69 @@
           "https://github.com/native-agent-stack/sota-multi-model-workflows",
           "https://github.com/stablyai/orca"
         ]
+      },
+      {
+        "id": "ADR-0024",
+        "layer": "Antigravity `L0\u2013L13` Harness, Institutional Visual/Diagram Craft (`L6`/`L8`/`L9`) & 3-Surface Convergence (`H0\u2013H7` \u00d7 `T1\u2013T5`)",
+        "title": "v3.9.3 Starred Visual, Editorial Diagramming, Knowledge-Graph & Illustration Craft Atlas, Probation EB Throttle & Dual-TV Coexistence",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`24` Curated Starred Craft Repos from `404` Stars, `17` Canonical Multi-Peer Skills, `24` ADRs & `21/21` Pytest Verified)",
+        "file": "docs/adr/ADR-0024-v393-starred-visual-diagram-graph-illustration-craft-and-dual-tv-convergence.md",
+        "githubUrls": [
+          "https://github.com/Egonex-AI/Understand-Anything",
+          "https://github.com/Graphify-Labs/graphify",
+          "https://github.com/Leonxlnx/taste-skill",
+          "https://github.com/ZSeven-W/openpencil",
+          "https://github.com/backnotprop/plannotator",
+          "https://github.com/cathrynlavery/diagram-design",
+          "https://github.com/likec4/likec4",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/pbakaus/impeccable",
+          "https://github.com/tt-a1i/archify"
+        ]
       }
     ]
+  },
+  "starredVisualCraftAtlas": {
+    "schema": "sota-starred-visual-craft.v1",
+    "curatedCount": 24,
+    "ownerTotalStarsAudited": 404,
+    "pillars": {
+      "editorialDiagrammingAndC4": [
+        "tt-a1i/archify",
+        "cathrynlavery/diagram-design",
+        "likec4/likec4",
+        "obsidianmd/obsidian-skills",
+        "architecture-decision-record/architecture-decision-record",
+        "BuilderIO/agent-native"
+      ],
+      "codebaseAndSchemaKnowledgeGraphs": [
+        "Graphify-Labs/graphify",
+        "Egonex-AI/Understand-Anything",
+        "colbymchenry/codegraph",
+        "DeusData/codebase-memory-mcp",
+        "tirth8205/code-review-graph"
+      ],
+      "antiSlopDesignAndUiSystems": [
+        "nextlevelbuilder/ui-ux-pro-max-skill",
+        "Leonxlnx/taste-skill",
+        "pbakaus/impeccable",
+        "Nutlope/hallmark",
+        "meta/astryx",
+        "VoltAgent/awesome-claude-design"
+      ],
+      "vectorIllustrationAndQuantCockpits": [
+        "ZSeven-W/openpencil",
+        "storytold/artcraft",
+        "nexu-io/openmotion",
+        "Fincept-Corporation/FinceptTerminal"
+      ],
+      "visualPlanReviewAndBlufClarity": [
+        "backnotprop/plannotator",
+        "blader/humanizer",
+        "ayghri/i-have-adhd"
+      ]
+    }
   }
 }

@@ -33,7 +33,10 @@ Every tool, library, skill, AST rule, sandbox policy, and orchestrator pattern i
 | `gitleaks` | **L9** | https://github.com/gitleaks/gitleaks | `8.30.1` | MIT | Staged secret, `PA...`/`DU...` account ID, and API-key blocker |
 | `agentsview-skillopt` | **L10/L12** | https://github.com/microsoft/SkillOpt · `kenn-io/agentsview` · `NousResearch/hermes-agent-self-evolution` | `0.47.0` | MIT | Redacted `transcript.jsonl` friction mining & validation-gated `SKILL.md` evolution |
 | `agent-desktop-browser` | **L11** | https://github.com/vercel-labs/agent-desktop · `vercel-labs/agent-browser` | `1.3.1` / `0.43.0` | Apache-2.0 | On-demand macOS `AXUIElement` (`TradingView.app`) & browser verification CLIs |
-| `impeccable-taste` | **L6/L12** | https://github.com/pbakaus/impeccable · `Leonxlnx/taste-skill` · `Nutlope/hallmark` | `2026-SOTA` | MIT | Anti-AI-slop institutional UI typography, `tabular-nums`, and editorial diagrams |
+| `impeccable-taste` | **L6/L12** | https://github.com/pbakaus/impeccable · `Leonxlnx/taste-skill` · `Nutlope/hallmark` · `nextlevelbuilder/ui-ux-pro-max-skill` | `2026-SOTA` | MIT | Anti-AI-slop institutional UI typography, `tabular-nums`, `meta/astryx` tokens & browser visual critique |
+| `editorial-diagrams-c4` | **L6/L9** | https://github.com/tt-a1i/archify · `cathrynlavery/diagram-design` · `likec4/likec4` · `obsidianmd/obsidian-skills` | `2026-SOTA` | MIT / Apache-2.0 | Self-contained HTML/SVG/Mermaid/C4 architecture-as-code & spatial JSON Canvas maps |
+| `pedagogical-code-graphs` | **L4/L8** | https://github.com/Graphify-Labs/graphify · `Egonex-AI/Understand-Anything` · `tirth8205/code-review-graph` | `2026-SOTA` | MIT | Leiden/Tree-sitter codebase + DuckDB schema knowledge graphs & differential PR blast-radius graphs |
+| `vector-illustration-craft` | **L6/L9** | https://github.com/ZSeven-W/openpencil · `storytold/artcraft` · `nexu-io/openmotion` · `backnotprop/plannotator` | `2026-SOTA` | MIT / Apache-2.0 | Concurrent agent vector illustration (`Design-as-Code`), programmable motion & visual plan review |
 
 ---
 
