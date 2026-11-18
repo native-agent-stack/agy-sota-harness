@@ -388,6 +388,24 @@ def probe_l9() -> str:
                     timeout=15,
                 )
                 subprocess.run(["git", "-C", tmp_rk, "init", "-q"], check=True, timeout=10)
+                subprocess.run(["git", "-C", tmp_rk, "add", "-A"], check=True, timeout=10)
+                subprocess.run(
+                    [
+                        "git",
+                        "-C",
+                        tmp_rk,
+                        "-c",
+                        "user.name=sota-probe",
+                        "-c",
+                        "user.email=sota-probe@users.noreply.github.com",
+                        "commit",
+                        "-q",
+                        "-m",
+                        "head-archive",
+                    ],
+                    check=True,
+                    timeout=10,
+                )
                 p_head = subprocess.run(
                     [sys.executable, str(Path(tmp_rk) / "scripts" / "merge_gate.py")],
                     cwd=tmp_rk,
