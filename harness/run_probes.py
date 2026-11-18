@@ -259,7 +259,7 @@ def probe_l4() -> str:
     assert "0 drift" in cat_p.stdout, f"ADR catalog drift: {cat_p.stdout}"
     return (
         f"{len(canonical)} canonical skills converged across AGY+Claude+Codex + "
-        f"{len(vendored)} vendored skills + 14 GitHub-evidenced MADR 4.0 ADRs"
+        f"{len(vendored)} vendored skills + 15 GitHub-evidenced MADR 4.0 ADRs"
     )
 
 
@@ -510,7 +510,7 @@ PROBES: tuple[tuple[str, str, Callable[[], str]], ...] = (
     ("L1", "Lifecycle Hooks & Peer-Lease Collision Guard", probe_l1),
     ("L2", "Lean 7-Tool Core MCP & 4-Server Mesh", probe_l2),
     ("L3", "AST Symbol Graph & 18-Repo Shelf FTS5", probe_l3),
-    ("L4", "16 Cross-Peer Skills, 8 Vendored Skills & 14 ADRs", probe_l4),
+    ("L4", "16 Cross-Peer Skills, 8 Vendored Skills & 15 ADRs", probe_l4),
     ("L5", "Schema-Typed run_workflow Python DAGs", probe_l5),
     ("L6", "Anti-Slop Taste & Chrome DevTools", probe_l6),
     ("L7", "FTS5 Output Compression & Peer Bus CLIs", probe_l7),

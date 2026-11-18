@@ -167,7 +167,7 @@ def main() -> int:
             print(f"[AGY-MERGE-GATE FAIL] {p}", file=sys.stderr)
         return 1
     print(
-        "[AGY-MERGE-GATE PASS] UPSTREAM.md map, 14/14 GitHub-evidenced ADRs, 18/18 shelf pins, noreply commits, and zero-leak privacy verified."
+        "[AGY-MERGE-GATE PASS] UPSTREAM.md map, 15/15 GitHub-evidenced ADRs, 18/18 shelf pins, noreply commits, and zero-leak privacy verified."
     )
     return 0
 

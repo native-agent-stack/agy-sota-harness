@@ -251,7 +251,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "14 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "15 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -268,8 +268,8 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 14
-    assert len(adr_gov["records"]) == 14
+    assert adr_gov["adrCount"] == 15
+    assert len(adr_gov["records"]) == 15
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])

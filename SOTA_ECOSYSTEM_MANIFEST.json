@@ -19,7 +19,7 @@
     "nativeAgentStack": {
       "url": "https://github.com/native-agent-stack/native-agent-stack",
       "visibility": "PUBLIC",
-      "baselineCommit": "113c695601e8d6fd43d98eaa6c7cfa00d0175b6b",
+      "baselineCommit": "5a9d93f5a8bc0c5730e99acf96130f965202bbf5",
       "role": "v3.0.0 Umbrella Hub, ECOSYSTEM_CONVERGENCE_LOCK.json & 5 MADR 4.0 ADRs"
     },
     "agySotaHarness": {
@@ -36,7 +36,7 @@
     "sotaHarnessFoundation": {
       "url": "https://github.com/native-agent-stack/sota-harness-foundation",
       "visibility": "PUBLIC",
-      "baselineCommit": "1394175b7fd77c4abb4005fc6ec3834c4fc0a7a6",
+      "baselineCommit": "d1e5048073341e9446ea09e51115990a16299c5e",
       "role": "Open-core multi-model harness foundation, 20 MADR 4.0 ADRs, dual-machine workstation lane & Hypothesis RuleBasedStateMachine fuzzing"
     },
     "sotaMultiModelWorkflows": {
@@ -80,13 +80,13 @@
       "url": "https://github.com/native-agent-stack/cc-sota-harness",
       "visibility": "PRIVATE",
       "localWorkspace": "~/Documents/cc-sota-harness",
-      "baselineCommit": "be14a83a3dcadf74c27001c592c74fcc82135168",
+      "baselineCommit": "252693348f3c464db4b26752e5142b3ddbaba114",
       "role": "Claude Code + OMC + 24-runtime frontier sibling harness, 47-repo legacy harvest, paired Noesis lane & 20 MADR 4.0 ADRs"
     },
     "meridian": {
       "url": "https://github.com/native-agent-stack/meridian",
       "visibility": "PRIVATE",
-      "baselineCommit": "a739e599224ee5795d22330c99accf2111719d18",
+      "baselineCommit": "85def3e7a099b596057fb2b03313cd4f35731b3c",
       "role": "Stage-1 NautilusTrader v2.0.0rc9 event-driven simulation & queue-fill parity engine (CATALOG.md, 211/211 pytest)"
     },
     "tradingSota": {
@@ -104,7 +104,7 @@
     "tsl": {
       "url": "https://github.com/native-agent-stack/tsl",
       "visibility": "PRIVATE",
-      "baselineCommit": "ca2cc9c779085c302c9a0ab0a26f33ed480730d0",
+      "baselineCommit": "aa1ae0d1a395cb6e72f9e99b41c385ee8f9ac789",
       "role": "Trading Strategy Lab (TSL) pre-wall research archive (16 MADR 4.0 ADRs + CATALOG.md)"
     },
     "dshPluginLandscape": {
@@ -116,7 +116,7 @@
     "sotaPrivateVault": {
       "url": "https://github.com/native-agent-stack/sota-private-vault",
       "visibility": "PRIVATE",
-      "baselineCommit": "baf630a49d2ff311e0550450231991df8c1bc4a9",
+      "baselineCommit": "77f229f9c8f4cfb880d2abe26f73bb6abdacc92a",
       "role": "Scrubbed 82-trial HLZ ledger, E1-E4 lessons, pre-wall priors, promotion manifest & 6 MADR 4.0 ADRs"
     }
   },
@@ -299,7 +299,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 14,
+    "adrCount": 15,
     "records": [
       {
         "id": "ADR-0001",
@@ -524,6 +524,22 @@
           "https://github.com/nkaz001/hftbacktest",
           "https://github.com/skfolio/skfolio",
           "https://github.com/statsmodels/statsmodels"
+        ]
+      },
+      {
+        "id": "ADR-0015",
+        "layer": "`L0\u2013L12` \u00d7 `T0\u2013T8` Dual-Machine Orca Mesh & Organization Convergence",
+        "title": "Workstation WSL-Reset Handoff, Shared-VM Isolation & 22-Repository Ecosystem ADR Convergence",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`sota-doctor` `11/11`, `sota-org-doctor --live` `22/22`, `run_probes.py` `13/13`, `pytest` `16/16` Verified)",
+        "file": "docs/adr/ADR-0015-workstation-wsl-reset-handoff-and-ecosystem-convergence.md",
+        "githubUrls": [
+          "https://github.com/gitleaks/gitleaks",
+          "https://github.com/native-agent-stack/meridian",
+          "https://github.com/native-agent-stack/native-agent-stack",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/stablyai/orca"
         ]
       }
     ]
