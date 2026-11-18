@@ -66,8 +66,8 @@
     "sotaMoverRanker": {
       "url": "https://github.com/native-agent-stack/sota-mover-ranker",
       "visibility": "PRIVATE",
-      "baselineCommit": "c430de56b6612e1bbb6d78e635ec059f37378042",
-      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca + 3,000/min IBKR Paper, PIT first-hand feeds & 8+ MADR 4.0 ADRs"
+      "baselineCommit": "6af53795b5ddd74df4ec3fba06ce9ea1301800dc",
+      "role": "Whole-market live mover ranker (:8787), <=200/min Alpaca + 3,000/min IBKR Paper, 20:00 ET BOATS hot-swap & 9 MADR 4.0 ADRs"
     },
     "sotaDynamicTrailC": {
       "url": "https://github.com/native-agent-stack/sota-dynamic-trail-c",
