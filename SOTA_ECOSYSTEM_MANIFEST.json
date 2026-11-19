@@ -1,12 +1,12 @@
 {
-  "manifestVersion": "3.10.0",
-  "verifiedAt": "2026-11-18",
+  "manifestVersion": "3.10.8",
+  "verifiedAt": "2026-11-19",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
   "dualMachineOrcaLanes": {
     "topology": "Mac M5 Max (100.93.211.101, macOS) <-> Stationary Noesis (100.110.115.22, Windows + WSL2 Noesis-Carbon)",
     "orcaPort": 6770,
-    "orcaYamlFleetRepositories": 11,
+    "orcaYamlFleetRepositories": 18,
     "splitBrainFirewall": "single-active-broker-host (:8787 Alpaca Paper, :8799 Dynamic Trail Guardian, :4002 IBKR Paper never duplicated across worktrees or hosts)",
     "tradingLanes": [
       {
@@ -51,7 +51,7 @@
       },
       {
         "laneId": "H2_AGY_AND_MULTI_MODEL_WORKFLOWS",
-        "role": "Antigravity L0-L12 Harness (6 Local DAGs + Native Swarm) & 14 Canonical REGISTRY.json Workflows",
+        "role": "Antigravity L0-L12 Harness (10 Local DAGs + Native Swarm) & 21 Canonical REGISTRY.json Workflows",
         "repositories": [
           "agy-sota-harness",
           "sota-multi-model-workflows"
@@ -223,11 +223,11 @@
     }
   },
   "peerHarnessesConverged": {
-    "P0_antigravity_app_and_cli": "agy@1.5.3 + Antigravity 2.0 + google-antigravity SDK",
+    "P0_antigravity_app_and_cli": "agy@1.5.10 + Antigravity 2.0 + google-antigravity SDK (gemini-4-neon-xhigh flagship)",
     "P1_claude_code": "claude@2.1.327 + ~/Documents/cc-sota-harness + global user MCPs & peer_hook_adapter",
     "P2_openai_codex": "codex@0.169.0 + oh-my-codex@0.22.10 + global MCPs & peer_hook_adapter",
-    "P3_deepseek_harness": "dsh@0.2.2-rc.2 + ~/Documents/dsh-sota-harness",
-    "P4_orca_fleet_cockpit": "stablyai/orca@1.4.255 + orca.yaml",
+    "P3_deepseek_harness": "dsh@0.2.2-rc.2 + ~/Documents/dsh-sota-harness (deepseek-v4.1-flash / deepseek-flash)",
+    "P4_orca_fleet_cockpit": "stablyai/orca@1.4.263 + orca.yaml",
     "P5_shared_peer_bus_and_hcom": "~/.agents/bus/peer_bus.db (SQLite WAL) + ~/.agents/wiki/*.md + aannoo/hcom@0.7.31"
   },
   "layers": {
@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 33,
+    "adrCount": 34,
     "records": [
       {
         "id": "ADR-0001",
@@ -948,8 +948,34 @@
           "https://github.com/trycua/cua",
           "https://github.com/vercel-labs/agent-browser"
         ]
+      },
+      {
+        "id": "ADR-0034",
+        "layer": "Antigravity `L0\u2013L13` Harness, Canonical Skill Corpus (`60`), Red-Team Security & 4-Tier SkillEvaluator (`ADR-0043`), Dual-Machine Orca Fleet (`15` Automations) & `415+8` Starred Convergence (`H1\u2013H3`)",
+        "title": "`v3.10.8` 60-Skill, Red-Team, SkillEvaluator, 21-Workflow & 415-Starred Convergence",
+        "status": "Accepted",
+        "date": "2026-11-19",
+        "evidenceGrade": "E4 (`34` GitHub-Evidenced ADRs, `10/10` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `60/60` SkillEvaluator Pass, `pytest` & `merge_gate.py` `0` Leaks Verified)",
+        "file": "docs/adr/ADR-0034-v3108-60skill-redteam-skilleval-21workflow-and-415-starred-convergence.md",
+        "githubUrls": [
+          "https://github.com/NVIDIA/SkillEvaluator",
+          "https://github.com/Tencent/LoopForge",
+          "https://github.com/elementalsouls/Claude-BugHunter",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/native-agent-stack/sota-multi-model-workflows"
+        ]
       }
     ]
+  },
+  "v3108ConvergenceSummary": {
+    "canonicalSkills": 60,
+    "canonicalWorkflows": 21,
+    "orcaAutomations": 15,
+    "ownerStarredAudited": 415,
+    "beyondStarredAnchors": 8,
+    "redteamSkillEvalAdr": "sota-harness-foundation/ADR-0043",
+    "flagshipAgyModel": "gemini-4-neon-xhigh"
   },
   "starredVisualCraftAtlas": {
     "schema": "sota-starred-visual-craft.v1",
