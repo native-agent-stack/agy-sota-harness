@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 32,
+    "adrCount": 33,
     "records": [
       {
         "id": "ADR-0001",
@@ -927,6 +927,26 @@
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/native-agent-stack/sota-compounding-lab",
           "https://github.com/native-agent-stack/sota-multi-model-workflows"
+        ]
+      },
+      {
+        "id": "ADR-0033",
+        "layer": "Antigravity `L0\u2013L13` Harness, Hybrid Computer-Use Routing (`L1\u2013L4`), & Tiered Gated-Action Governance (`H1\u2013H3`)",
+        "title": "`v3.10.7` Antigravity Hybrid 5-Layer Computer-Use Escalation & Zero-Friction Permission Tiering",
+        "status": "Accepted",
+        "date": "2026-11-18",
+        "evidenceGrade": "E4 (`33` GitHub-Evidenced ADRs, `10/10` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `sota-harness-foundation@e3e8d9cf` `ADR-0042` Contract, `pytest` & `merge_gate.py` `0` Leaks Verified)",
+        "file": "docs/adr/ADR-0033-v3107-agy-hybrid-computer-use-escalation-and-zero-friction-permission-tiering.md",
+        "githubUrls": [
+          "https://github.com/HKUDS/CLI-Anything",
+          "https://github.com/mediar-ai/terminator",
+          "https://github.com/microsoft/UFO",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/simular-ai/Agent-S",
+          "https://github.com/steipete/peekaboo",
+          "https://github.com/trycua/cua",
+          "https://github.com/vercel-labs/agent-browser"
         ]
       }
     ]
