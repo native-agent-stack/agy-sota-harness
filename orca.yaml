@@ -1,14 +1,12 @@
 # Orca (https://github.com/stablyai/orca) workspace recipe for agy-sota-harness
-# Ensures every new worktree installs pinned L0 CLI tools + locked Python quant stack before the agent starts.
+# Ensures every new worktree installs locked Python quant stack across Win32 PowerShell, macOS zsh, and Linux bash.
 scripts:
   setup: |
-    mise trust
-    mise install --yes
-    mise exec -- uv sync --locked
+    uv sync --locked
 setupAgentStartupPolicy: wait-for-setup
 defaultTabs:
   - title: Agent
   - title: AGY L0-L12 Probes
-    command: mise exec -- uv run python harness/run_probes.py
+    command: uv run python harness/run_probes.py
   - title: SOTA Property & Merge Suite
-    command: mise exec -- uv run pytest
+    command: uv run pytest

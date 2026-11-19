@@ -108,30 +108,21 @@ def probe_l1() -> str:
     post = PLUGIN_DIR / "hooks" / "post_tool_lint.py"
     stop = PLUGIN_DIR / "hooks" / "stop_quality_gate.py"
 
-    assert (
-        run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "~/.claude/bin/live status"}}})[
-            "decision"
-        ]
-        in ("ask", "deny")
-    )
-    assert (
-        run_hook(
-            pre,
-            {
-                "toolCall": {
-                    "name": "run_command",
-                    "args": {"CommandLine": "curl https://api.alpaca.markets/v2/account"},
-                }
-            },
-        )["decision"]
-        in ("ask", "deny")
-    )
-    assert (
-        run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "nc -z 127.0.0.1 4001"}}})[
-            "decision"
-        ]
-        in ("ask", "deny")
-    )
+    assert run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "~/.claude/bin/live status"}}})[
+        "decision"
+    ] in ("ask", "deny")
+    assert run_hook(
+        pre,
+        {
+            "toolCall": {
+                "name": "run_command",
+                "args": {"CommandLine": "curl https://api.alpaca.markets/v2/account"},
+            }
+        },
+    )["decision"] in ("ask", "deny")
+    assert run_hook(pre, {"toolCall": {"name": "run_command", "args": {"CommandLine": "nc -z 127.0.0.1 4001"}}})[
+        "decision"
+    ] in ("ask", "deny")
     assert (
         run_hook(
             pre,
@@ -389,12 +380,17 @@ def probe_l9() -> str:
             if not has_peer_lease:
                 raise subprocess.CalledProcessError(p_rk.returncode, p_rk.args, output=p_rk.stdout, stderr=p_rk.stderr)
             with tempfile.TemporaryDirectory() as tmp_rk:
-                subprocess.run(
-                    f"git -C '{DOCS / 'sota-mover-ranker'}' archive HEAD | tar -x -C '{tmp_rk}'",
-                    shell=True,
+                import io
+                import tarfile
+
+                p_arc = subprocess.run(
+                    ["git", "-C", str(DOCS / "sota-mover-ranker"), "archive", "--format=tar", "HEAD"],
+                    capture_output=True,
                     check=True,
                     timeout=15,
                 )
+                with tarfile.open(fileobj=io.BytesIO(p_arc.stdout), mode="r:") as tf:
+                    tf.extractall(tmp_rk, filter="data")
                 subprocess.run(["git", "-C", tmp_rk, "init", "-q"], check=True, timeout=10)
                 subprocess.run(["git", "-C", tmp_rk, "add", "-A"], check=True, timeout=10)
                 subprocess.run(
