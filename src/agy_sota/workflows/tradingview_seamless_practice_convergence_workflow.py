@@ -75,7 +75,7 @@ rc_envelope = kit.verify_workflow_research_convergence(
     repo=target_repo,
 )
 
-tv_sp_live: dict[str, object] = {"reachable": False}
+tv_sp_live: dict[str, object] = {"reachable": False, "probe_errors": []}
 for _u in (
     "http://127.0.0.1:8787/api/tv/seamless_practice?probe=0",
     "http://100.93.211.101:8787/api/tv/seamless_practice?probe=0",
@@ -96,23 +96,26 @@ for _u in (
                 "display2_policy": (_obj.get("dual_workstation_ergonomics") or {}).get("primary_work_monitor_policy"),
             }
             break
-    except Exception:
+    except Exception as _exc:
+        tv_sp_live["probe_errors"].append(f"{_u}:{type(_exc).__name__}")
         continue
 
 noesis_push_8792 = False
+noesis_push_errors: list[str] = []
 for _pu in ("http://127.0.0.1:8792/healthz", "http://100.110.115.22:8792/healthz"):
     try:
         with urllib.request.urlopen(_pu, timeout=1.2) as _pr:
             noesis_push_8792 = _pr.status == 200
         if noesis_push_8792:
             break
-    except Exception:
+    except Exception as _exc:
+        noesis_push_errors.append(f"{_pu}:{type(_exc).__name__}")
         continue
 
 header = (
     f"[v3.10.0 AGY DAG #9 TradingView Seamless Practice | surface={rc_ctx.get('workstation_surface')} | "
     f"rc={rc_ctx.get('schema_version', 'sota-research-feeds.v2')} ({rc_ctx.get('sibling_repo_authority', 'PHILOSOPHY_ONLY')}, "
-    f"valid={rc_envelope.get('valid', True)}) | push_8792={noesis_push_8792}]\n"
+    f"valid={rc_envelope.get('valid', False)}) | push_8792={noesis_push_8792}]\n"
     f"Live TV Practice Summary: {json.dumps(tv_sp_live)}\n{peer_brief}"
 )
 log(header)
@@ -138,21 +141,26 @@ TV_PRACTICE_AUDIT_SCHEMA = {
 }
 
 if fast_deterministic_only or "agent" not in globals():
+    _rc_ok = bool(rc_envelope.get("valid", False))
+    _fast_ok = _rc_ok and (
+        bool(tv_sp_live.get("reachable")) or bool(noesis_push_8792) or rc_ctx.get("workstation_surface") == "ci"
+    )
     final_receipt = {
         "workflow_id": "tradingview-seamless-practice-convergence",
         "mode": "fast_deterministic_only",
         "surface": rc_ctx.get("workstation_surface"),
-        "rc_valid": bool(rc_envelope.get("valid", True)),
+        "rc_valid": _rc_ok,
         "tv_seamless_practice_live": tv_sp_live,
         "noesis_push_8792_healthy": noesis_push_8792,
-        "all_gates_passed": bool(rc_envelope.get("valid", True)),
+        "noesis_push_8792_errors": noesis_push_errors,
+        "all_gates_passed": _fast_ok,
     }
     kit.record_workflow_run(
         repo=target_repo,
         workflow_id="tradingview-seamless-practice-convergence-fast",
-        done_summary=f"Fast TV Seamless Practice PASS on {rc_ctx.get('workstation_surface')} (push_8792={noesis_push_8792})",
+        done_summary=f"Fast TV Seamless Practice {'PASS' if _fast_ok else 'FAIL'} on {rc_ctx.get('workstation_surface')} (push_8792={noesis_push_8792})",
         verified_by="verify_workflow_research_convergence + live :8787/:8792 telemetry",
-        open_risks="none",
+        open_risks="none" if _fast_ok else f"probe_errors={noesis_push_errors}",
         next_priority="Operate 24/5 Dual-Workstation TradingView Seamless Practice & Wave-2 Re-Entry",
     )
     print(json.dumps(final_receipt, indent=2))
@@ -191,7 +199,7 @@ else:
     )
 
     all_ok = bool(
-        rc_envelope.get("valid", True)
+        rc_envelope.get("valid", False)
         and scouts[0]["passed"]
         and scouts[1]["passed"]
         and verifier["passed"]
@@ -201,7 +209,7 @@ else:
     final_receipt = {
         "workflow_id": "tradingview-seamless-practice-convergence",
         "surface": rc_ctx.get("workstation_surface"),
-        "rc_valid": bool(rc_envelope.get("valid", True)),
+        "rc_valid": bool(rc_envelope.get("valid", False)),
         "tv_seamless_practice_live": tv_sp_live,
         "noesis_push_8792_healthy": noesis_push_8792,
         "synthesizer": scouts[0],

@@ -55,6 +55,7 @@ except ImportError:  # CI/clean-checkout offline fallback without ~/.agents/work
 
     kit = _OfflineKit()
 
+_MMW_IMPORT_DEGRADED = False
 try:
     from sota_mmw.cc_lead_hub import build_orca_lead_e2e_convergence_assignment
     from sota_mmw.research_convergence_contract import verify_advanced_sota_convergence_practice
@@ -62,13 +63,24 @@ try:
         build_symbol_ranking_foundation_manifest,
         evaluate_symbol_ranking_to_strategy_handoff,
     )
-except ImportError:  # CI/clean-checkout fallback when sota-multi-model-workflows is not adjacent
+except ImportError:  # Fail closed when sota-multi-model-workflows is not installed or adjacent
+    _MMW_IMPORT_DEGRADED = True
 
     def verify_advanced_sota_convergence_practice() -> dict[str, object]:
-        return {"valid": True, "stages_count": 8, "schema_version": "sota-advanced-research-convergence.v3.10"}
+        return {
+            "valid": False,
+            "degraded_offline_fallback": True,
+            "stages_count": 8,
+            "schema_version": "sota-advanced-research-convergence.v3.10",
+        }
 
     def build_symbol_ranking_foundation_manifest() -> dict[str, object]:
-        return {"feed_count": 12, "strategy_route_count": 6, "schema_version": "sota-symbol-ranking-datafeeds.v3.10"}
+        return {
+            "feed_count": 12,
+            "strategy_route_count": 6,
+            "degraded_offline_fallback": True,
+            "schema_version": "sota-symbol-ranking-datafeeds.v3.10",
+        }
 
     def evaluate_symbol_ranking_to_strategy_handoff(**kw: object) -> dict[str, object]:
         import datetime as _dt
@@ -124,12 +136,11 @@ except ImportError:  # CI/clean-checkout fallback when sota-multi-model-workflow
     def build_orca_lead_e2e_convergence_assignment(
         *, repo: str = "cc-sota-harness", goal: str = ""
     ) -> dict[str, object]:
-        import hashlib
-
         return {
             "repo": repo,
             "target_lead": "cc-lead",
-            "assign_sha256": hashlib.sha256(f"{repo}:{goal}".encode()).hexdigest(),
+            "degraded_offline_fallback": True,
+            "assign_sha256": "",
         }
 
 
@@ -188,12 +199,21 @@ E2E_CONVERGENCE_SCHEMA = {
 }
 
 if fast_deterministic_only or "agent" not in globals():
+    _det_math_ok = bool(rc_envelope.get("valid", False) and handoff.get("approved", False))
+    _full_e2e_ok = bool(
+        not _MMW_IMPORT_DEGRADED and _det_math_ok and adv.get("valid", False) and assign_env.get("assign_sha256")
+    )
     verdict = {
-        "passed": bool(rc_envelope.get("valid", True) and adv["valid"] and handoff["approved"]),
-        "evidence_grade": "E4",
-        "df12_bitemporal_ok": bool(handoff["approved"]),
-        "orca_lead_e2e_ok": bool(assign_env["assign_sha256"]),
-        "summary": "Deterministic Turn-0 DF1..DF12 + 8-stage convergence + Orca Lead E2E verified.",
+        "passed": _det_math_ok,
+        "evidence_grade": "E4" if _full_e2e_ok else "E1",
+        "degraded_offline_fallback": _MMW_IMPORT_DEGRADED,
+        "df12_bitemporal_ok": bool(handoff.get("approved", False)),
+        "orca_lead_e2e_ok": bool(not _MMW_IMPORT_DEGRADED and assign_env.get("assign_sha256")),
+        "summary": (
+            "Deterministic Turn-0 DF1..DF12 + 8-stage convergence + Orca Lead E2E verified."
+            if _full_e2e_ok
+            else "Offline CI degraded fallback: deterministic math verified (E1 only; sota_mmw not loaded)."
+        ),
     }
 else:
     phase("Phase 1: Parallel Cross-Vendor Synthesis & Falsification")

@@ -13,13 +13,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SHELF_DIR = Path.home() / "Documents" / "upstream"
+CREATE_NO_WINDOW = 0x08000000 if sys.platform == "win32" else 0
 
 SECRET_OR_PATH_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("Alpaca Paper Account ID (PA...)", re.compile(r"\bPA[0-9A-Z]{10}\b")),
+    ("Alpaca Paper Account ID (PA...)", re.compile(r"\bPA(?=[0-9A-Z]*[0-9])[0-9A-Z]{8,14}\b")),
     ("IBKR Paper Account ID (DU...)", re.compile(r"\bDU[0-9]{7,9}\b")),
     ("Alpaca API Key Prefix", re.compile(r"\b(?:AK|PK)[0-9A-Z]{18,24}\b")),
     ("Private PEM Key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
-    ("Hardcoded Local Home Path", re.compile(r"/" + r"Users/[A-Za-z0-9._-]+/")),
+    ("Hardcoded macOS Home Path", re.compile(r"(?<![A-Za-z0-9_*])/" + r"Users/[A-Za-z0-9._-]+/")),
+    ("Hardcoded Linux Home Path", re.compile(r"(?<![A-Za-z0-9_*])/home/[A-Za-z0-9._-]+/")),
+    ("Hardcoded Windows Home Path", re.compile(r"[A-Za-z]:[/\\]Users[/\\][A-Za-z0-9._-]+[/\\]")),
 )
 
 COVERED_PREFIXES = (

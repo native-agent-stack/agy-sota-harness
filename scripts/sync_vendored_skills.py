@@ -10,7 +10,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PINS_FILE = ROOT / ".agents" / "skills" / "UPSTREAM_SKILL_PINS.json"
-SIBLING_CACHE = Path.home() / "Documents" / "cc-sota-harness" / ".agents" / "skills"
+SIBLING_CACHE = next(
+    (
+        cand
+        for cand in (
+            Path("C:/sota-workstation/cc-sota-harness/.agents/skills"),
+            Path.home() / "sota-workstation" / "cc-sota-harness" / ".agents" / "skills",
+            Path.home() / "Documents" / "cc-sota-harness" / ".agents" / "skills",
+        )
+        if cand.is_dir()
+    ),
+    Path.home() / "Documents" / "cc-sota-harness" / ".agents" / "skills",
+)
 
 
 def main() -> int:
@@ -48,7 +59,10 @@ def main() -> int:
                 proot.mkdir(parents=True, exist_ok=True)
                 link = proot / sdir.name
                 if not link.exists() and not link.is_symlink():
-                    link.symlink_to(sdir)
+                    try:
+                        link.symlink_to(sdir)
+                    except OSError:
+                        shutil.copytree(sdir, link, dirs_exist_ok=True)
                     peer_synced += 1
 
     print(

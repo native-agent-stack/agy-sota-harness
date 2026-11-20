@@ -17,13 +17,24 @@ from pathlib import Path
 from typing import Any
 
 HOME = Path.home()
-DOCS = HOME / "Documents"
+DOCS = next(
+    (
+        cand
+        for cand in (
+            Path("C:/sota-workstation"),
+            HOME / "sota-workstation",
+            HOME / "Documents",
+        )
+        if (cand / "cc-sota-harness").is_dir()
+    ),
+    HOME / "Documents",
+)
 CANON = HOME / "canon"
 HARNESS_ROOT = Path(__file__).resolve().parents[1]
 CORE_HUB = DOCS / ".agents-core"
 AGENTS_ROOT = HOME / ".agents"
 PLUGIN_DIR = HOME / ".gemini" / "config" / "plugins" / "agy-sota-core"
-SHELF_DIR = DOCS / "upstream"
+SHELF_DIR = HOME / "Documents" / "upstream"
 
 BRIDGED_DOCS_REPOS = (
     "astrolabe",
@@ -44,8 +55,13 @@ BRIDGED_DOCS_REPOS = (
     "tsl",
 )
 
-HOME_LEAK_RE = re.compile(r"/" + r"Users/[A-Za-z0-9._-]+/")
-SECRET_LEAK_RE = re.compile(r"(?:\bPA[0-9A-Z]{10}\b|\bDU[0-9]{7,9}\b|\b(?:AK|PK)[0-9A-Z]{20}\b)")
+HOME_LEAK_RE = re.compile(
+    r"(?:(?<![A-Za-z0-9_*])/"
+    + r"Users/[A-Za-z0-9._-]+/"
+    + r"|(?<![A-Za-z0-9_*])/home/[A-Za-z0-9._-]+/"
+    + r"|[A-Za-z]:[/\\]Users[/\\][A-Za-z0-9._-]+[/\\])"
+)
+SECRET_LEAK_RE = re.compile(r"(?:\bPA(?=[0-9A-Z]*[0-9])[0-9A-Z]{8,14}\b|\bDU[0-9]{7,9}\b|\b(?:AK|PK)[0-9A-Z]{20}\b)")
 
 
 def run_hook(script: Path, payload: dict[str, Any], env_extra: dict[str, str] | None = None) -> dict[str, Any]:
@@ -88,18 +104,21 @@ def probe_l0() -> str:
         "SOTA_ECOSYSTEM_MANIFEST.json",
     ):
         assert (HARNESS_ROOT / req).is_file(), f"Missing {req}"
+    bridged_checked = 0
     for r in BRIDGED_DOCS_REPOS:
+        if not (DOCS / r).is_dir():
+            continue
         sj = DOCS / r / ".agents" / "skills.json"
         assert sj.is_file(), f"Missing bridge {sj}"
+        bridged_checked += 1
+    assert bridged_checked >= 11, f"Expected >=11 bridged repos in {DOCS}, found {bridged_checked}"
     if CANON.is_dir():
         assert (CANON / ".agents" / "skills.json").is_file(), "Missing ~/canon/.agents/skills.json bridge"
     orca_repos = sorted(p.name for p in DOCS.iterdir() if p.is_dir() and (p / "orca.yaml").is_file())
-    assert len(orca_repos) >= 11, (
-        f"Expected >=11 ~/Documents repos with orca.yaml, found {len(orca_repos)}: {orca_repos}"
-    )
+    assert len(orca_repos) >= 11, f"Expected >=11 {DOCS} repos with orca.yaml, found {len(orca_repos)}: {orca_repos}"
     return (
         f"lockfiles + {len(orca_repos)} orca.yaml workspace recipes + "
-        f"{len(BRIDGED_DOCS_REPOS) + (1 if CANON.is_dir() else 0)} bridged repos verified"
+        f"{bridged_checked + (1 if CANON.is_dir() else 0)} bridged repos verified"
     )
 
 
@@ -191,11 +210,13 @@ def probe_l2() -> str:
     assert len(tools) == 7, f"Expected 7 tools in agy-sota-core MCP, found {len(tools)}"
 
     global_mcp = HOME / ".gemini" / "config" / "mcp_config.json"
-    g_count = (
-        len(json.loads(global_mcp.read_text(encoding="utf-8")).get("mcpServers") or {}) if global_mcp.is_file() else 0
+    g_servers = (
+        set((json.loads(global_mcp.read_text(encoding="utf-8")).get("mcpServers") or {}).keys())
+        if global_mcp.is_file()
+        else set()
     )
-    # 2 in mcp_config.json + agy-sota-core + sota-peer-bus = 4 active MCP servers (<= 6 Lean budget)
-    total_active = g_count + 2
+    active_servers = g_servers | {"agy-sota-core", "sota-peer-bus"}
+    total_active = len(active_servers)
     assert total_active <= 6, f"Lean MCP violation: {total_active} > 6"
     return f"MCP 2025-03-26 online (7 core tools; total active MCP servers={total_active} <= 6 Lean budget)"
 
