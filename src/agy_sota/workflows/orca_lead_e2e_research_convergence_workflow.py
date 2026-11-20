@@ -204,7 +204,8 @@ if fast_deterministic_only or "agent" not in globals():
         not _MMW_IMPORT_DEGRADED and _det_math_ok and adv.get("valid", False) and assign_env.get("assign_sha256")
     )
     verdict = {
-        "passed": _det_math_ok,
+        "passed": _full_e2e_ok,
+        "deterministic_math_passed": _det_math_ok,
         "evidence_grade": "E4" if _full_e2e_ok else "E1",
         "degraded_offline_fallback": _MMW_IMPORT_DEGRADED,
         "df12_bitemporal_ok": bool(handoff.get("approved", False)),
@@ -212,7 +213,7 @@ if fast_deterministic_only or "agent" not in globals():
         "summary": (
             "Deterministic Turn-0 DF1..DF12 + 8-stage convergence + Orca Lead E2E verified."
             if _full_e2e_ok
-            else "Offline CI degraded fallback: deterministic math verified (E1 only; sota_mmw not loaded)."
+            else "Offline CI degraded fallback: deterministic math verified (E1 only; sota_mmw not loaded; full E2E not certified)."
         ),
     }
 else:
@@ -253,6 +254,7 @@ final_receipt = {
     "strategy_routes": ranking["strategy_route_count"],
     "assign_sha256": assign_env["assign_sha256"],
     "verdict": verdict,
+    "deterministic_math_passed": bool(verdict.get("deterministic_math_passed", verdict["passed"])),
     "all_gates_passed": bool(verdict["passed"]),
 }
 print(json.dumps(final_receipt, indent=2))

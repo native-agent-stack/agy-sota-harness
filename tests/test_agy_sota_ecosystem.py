@@ -300,7 +300,7 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
         timeout=15,
         check=True,
     )
-    assert "34 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
+    assert "35 GitHub-evidenced ADRs valid, 0 drift" in p_cat.stdout
 
     p_gate = subprocess.run(
         [sys.executable, str(HARNESS_ROOT / "scripts" / "merge_gate.py")],
@@ -312,9 +312,21 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert "AGY-MERGE-GATE PASS" in p_gate.stdout
 
     manifest = json.loads((HARNESS_ROOT / "SOTA_ECOSYSTEM_MANIFEST.json").read_text(encoding="utf-8"))
-    assert manifest["manifestVersion"] == "3.10.8"
+    assert manifest["manifestVersion"] == "3.10.10"
     assert manifest["v3108ConvergenceSummary"]["canonicalSkills"] == 60
     assert manifest["v3108ConvergenceSummary"]["canonicalWorkflows"] == 21
+    assert manifest["v31010LandscapeAuditSummary"]["adr"] == "ADR-0035"
+    assert manifest["v31010LandscapeAuditSummary"]["dag10OfflineFallbackGradedE1"] is True
+    assert set(manifest["v31010LandscapeAuditSummary"]["eightRuntimeNativeFirewalls"]) == {
+        "antigravity",
+        "claude",
+        "codex",
+        "gemini",
+        "opencode",
+        "dsh",
+        "pi",
+        "omp",
+    }
     assert manifest["researchConvergenceContract"]["canonicalDataFeeds"] == 7
     assert "dualMachineOrcaLanes" in manifest
     assert len(manifest["dualMachineOrcaLanes"]["tradingLanes"]) == 3
@@ -324,8 +336,8 @@ def test_github_evidenced_madr_catalog_and_manifest_parity() -> None:
     assert len(manifest["githubFleetRepositories"]) == 18
     assert len(manifest["tradingUpstreamShelf"]) == 18
     adr_gov = manifest["adrGovernance"]
-    assert adr_gov["adrCount"] == 34
-    assert len(adr_gov["records"]) == 34
+    assert adr_gov["adrCount"] == 35
+    assert len(adr_gov["records"]) == 35
     for idx, rec in enumerate(adr_gov["records"], start=1):
         assert rec["id"] == f"ADR-{idx:04d}"
         assert any(u.startswith("https://github.com/") for u in rec["githubUrls"])
@@ -399,7 +411,11 @@ def test_dag10_orca_lead_fallback_is_fail_closed_and_2026_aligned() -> None:
 
     out = json.loads(buf.getvalue())
     assert out["workflow"] == "orca-lead-e2e-research-convergence"
-    assert out["all_gates_passed"] is True
+    assert out["deterministic_math_passed"] is True
+    assert out["all_gates_passed"] is False
+    assert out["verdict"]["degraded_offline_fallback"] is True
+    assert out["verdict"]["evidence_grade"] == "E1"
+    assert out["verdict"]["orca_lead_e2e_ok"] is False
 
     fallback_fn = ns["evaluate_symbol_ranking_to_strategy_handoff"]
     assert callable(fallback_fn)

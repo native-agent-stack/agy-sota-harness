@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "3.10.8",
+  "manifestVersion": "3.10.10",
   "verifiedAt": "2026-11-19",
   "harnessFamily": "antigravity-multi-peer-converged",
   "studyWallDate": "2026-10-15",
@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 34,
+    "adrCount": 35,
     "records": [
       {
         "id": "ADR-0001",
@@ -965,6 +965,23 @@
           "https://github.com/native-agent-stack/sota-harness-foundation",
           "https://github.com/native-agent-stack/sota-multi-model-workflows"
         ]
+      },
+      {
+        "id": "ADR-0035",
+        "layer": "Antigravity `L0\u2013L13` Harness, MCP AST Security Gate (`L2`/`L8`), Cross-OS Privacy Merge Gate (`L9`), Schema-Typed `run_workflow` DAGs (`L5`), & 8-Runtime PreToolUse Parity (`H1\u2013H3`)",
+        "title": "`v3.10.10` Fail-Closed MCP AST Audit, Cross-OS 3-Surface Merge Gate & DAG #10 Offline Fallback Honesty",
+        "status": "Accepted",
+        "date": "2026-11-19",
+        "evidenceGrade": "E4 (`35` GitHub-Evidenced ADRs, `10/10` Schema-Typed AGY `run_workflow` DAGs, `13/13` Live Harness Probes, `60/60` SkillEvaluator Tier-3 Mount Parity PASS across `8/8` runtimes, `sota-doctor` `18/18` Win32 & WSL2, `pytest` + `merge_gate.py` + `gitleaks` `0` Leaks Verified)",
+        "file": "docs/adr/ADR-0035-v31010-fail-closed-mcp-ast-audit-cross-os-merge-gate-and-workflow-honesty.md",
+        "githubUrls": [
+          "https://github.com/K-Dense-AI/scientific-agent-skills",
+          "https://github.com/NVIDIA/SkillEvaluator",
+          "https://github.com/ast-grep/ast-grep",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/stablyai/orca"
+        ]
       }
     ]
   },
@@ -976,6 +993,23 @@
     "beyondStarredAnchors": 8,
     "redteamSkillEvalAdr": "sota-harness-foundation/ADR-0043",
     "flagshipAgyModel": "gemini-4-neon-xhigh"
+  },
+  "v31010LandscapeAuditSummary": {
+    "adr": "ADR-0035",
+    "eightRuntimeNativeFirewalls": [
+      "antigravity",
+      "claude",
+      "codex",
+      "gemini",
+      "opencode",
+      "dsh",
+      "pi",
+      "omp"
+    ],
+    "tier3MountParityAdr": "sota-harness-foundation/ADR-0044",
+    "dag10OfflineFallbackGradedE1": true,
+    "threeOsHomePathMergeGate": true,
+    "sotaDoctorChecksPassed": 18
   },
   "starredVisualCraftAtlas": {
     "schema": "sota-starred-visual-craft.v1",
