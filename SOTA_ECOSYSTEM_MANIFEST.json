@@ -401,7 +401,7 @@
     "catalogPath": "docs/adr/CATALOG.md",
     "generatorScript": "scripts/architecture_catalog.py",
     "revisitThresholdDays": 45,
-    "adrCount": 35,
+    "adrCount": 36,
     "records": [
       {
         "id": "ADR-0001",
@@ -981,6 +981,27 @@
           "https://github.com/native-agent-stack/agy-sota-harness",
           "https://github.com/native-agent-stack/sota-harness-foundation",
           "https://github.com/stablyai/orca"
+        ]
+      },
+      {
+        "id": "ADR-0036",
+        "layer": "Antigravity `L0\u2013L13` Harness, TradingView Ecosystem Firewall (`L2`/`L6`/`L8`/`L9`), Dual-Workstation Orca Multi-Layout Coordination (`L10`/`L12`) & Adversarial Red-Team Probing",
+        "title": "`v3.11.1` TradingView 14-Library Stack, 5-Layout Multi-Surface Coordination, Large-Cap `6\u201314 bps` Micro-Trail, `1,000 req/min` Exit Reserve & Orca Ecosystem Red-Team Convergence",
+        "status": "Accepted",
+        "date": "2026-11-20",
+        "evidenceGrade": "E4 (`36` GitHub-Evidenced ADRs, `src/agy_sota/tv_ecosystem_redteam_convergence.py`, `tests/test_tv_ecosystem_redteam_convergence.py` with `500` Hypothesis property examples + `8/8` adversarial red-team firewall probes, `13/13` live harness probes, `merge_gate.py` PASS, `ruff` + `ty` + `gitleaks` `0` leaks)",
+        "file": "docs/adr/ADR-0036-v3111-tv-library-landscape-multilayout-1000rpm-and-orca-redteam-convergence.md",
+        "githubUrls": [
+          "https://github.com/LuxAlgo/PineTS",
+          "https://github.com/OpenBB-finance/backends-for-openbb",
+          "https://github.com/PyneSys/pynecore",
+          "https://github.com/cloudflare/security-audit-skill",
+          "https://github.com/deepentropy/tvscreener",
+          "https://github.com/finos/perspective",
+          "https://github.com/native-agent-stack/agy-sota-harness",
+          "https://github.com/native-agent-stack/sota-harness-foundation",
+          "https://github.com/native-agent-stack/sota-mover-ranker",
+          "https://github.com/tradingview/lightweight-charts"
         ]
       }
     ]
