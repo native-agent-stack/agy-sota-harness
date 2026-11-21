@@ -10,3 +10,5 @@ defaultTabs:
     command: uv run python harness/run_probes.py
   - title: SOTA Property & Merge Suite
     command: uv run pytest
+  - title: Tier-0 Merge Gate
+    command: uv run python scripts/merge_gate.py
